@@ -70,7 +70,7 @@ import { defineComponent } from 'vue'
 import { useMainStore } from '@/store'
 import PageLayout from '@/components/navigation/PageLayout.vue'
 import vibrates from '@/assets/vibrates.png'
-import ImgUtil from '@/helpers/img-util'
+import ImgUtil from '@/filters/img-util'
 
 export default defineComponent({
 	name: 'Profile',

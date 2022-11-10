@@ -25,7 +25,7 @@ import type { FeedItem } from '@/models/feedItem'
 import FeedItemDisplay from '@/components/FeedItemDisplay.vue'
 
 export default defineComponent({
-	name: 'Feed',
+	name: 'Collection',
 	components: { PageLayout, FeedItemDisplay },
 	computed: {
 		feed(): FeedItem[] {

@@ -1,11 +1,11 @@
 <template>
 	<PageLayout>
+
 		<div class="app-title">
-			<h1>Welcome to the Cowpoke Lounge</h1>
+			<h1>UpNext</h1>
+			<p class="lead">Delivering sanity in a world of too many f&#38;#%ing choices</p>
 		</div>
-		<div>
-			The world's foremost virtual resource for aficionados of all things cattle-tending related
-		</div>
+
 		<HomeItem title="Get Started" text="Create an account for a personalized experience">
 			<v-btn class="ma-2 color--bold" color="info" icon="mdi-arrow-right-circle" size="x-large"
 				@click="handleSignup">
@@ -13,7 +13,7 @@
 		</HomeItem>
 		<HomeItem title="Stay Connected" text="Check out The Feed to stay up to date on all things cowpoke-related!">
 			<v-btn class="ma-2 color--bold" color="warning" icon="mdi-newspaper-variant-multiple" size="x-large"
-				to="/feed">
+				to="/collection">
 			</v-btn>
 		</HomeItem>
 		<HomeItem title="Why Cowpoke Lounge?" text="Because it's silly fun! Find more silliness over on GitHub">

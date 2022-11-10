@@ -4,13 +4,15 @@ import router from '@/router'
 import { createPinia } from 'pinia';
 import { loadFonts } from './plugins/webfontloader'
 import vuetify from '@/plugins/vuetify'
-import '@/assets/main.scss'
 import { createAuth0 } from '@auth0/auth0-vue';
+import { formatYear } from '@/filters/format';
+import '@/assets/main.scss'
 
 loadFonts()
 
-createApp(App)
-	.use(createPinia())
+const app = createApp(App)
+
+app.use(createPinia())
 	.use(vuetify)
 	.use(router)
 	.use(createAuth0({
@@ -21,3 +23,7 @@ createApp(App)
 		audience: import.meta.env.VITE_AUTH0_AUDIENCE
 	}))
 	.mount('#app')
+
+app.config.globalProperties.$filters = {
+	formatYear
+}

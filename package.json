@@ -2,17 +2,18 @@
   "name": "movieApp",
   "version": "0.0.0",
   "scripts": {
-    "serve": "vite preview",
+    "serve": "vite preview --port 4445",
     "build": "vite build",
     "test:unit": "vitest --environment jsdom --root src/",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "build-only": "vite build",
-    "dev": "vite --host 0.0.0.0 --port 4040",
-    "preview": "vite preview",
+    "dev": "vite --host 0.0.0.0 --port 4444",
+    "preview": "vite preview --port 4445",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false"
   },
   "dependencies": {
     "@auth0/auth0-vue": "^1.0.2",
+    "moment": "^2.29.4",
     "pinia": "^2.0.23",
     "roboto-fontface": "*",
     "vue": "^3.2.41",

@@ -1,25 +1,28 @@
 <template>
+	<template v-if="isAuthenticated">
+		<v-btn to="/collection" variant="text">
+			Collection
+		</v-btn>
+		<v-menu open-on-hover :open-delay="0" location="bottom" transition="slide-x-transition">
+			<template v-slot:activator="{ props }">
+				<v-avatar class="mr-10 ml-4" size="52" v-bind="props">
+					<v-img alt="Avatar" :src="avatar"></v-img>
+				</v-avatar>
+			</template>
 
-	<v-menu v-if="isAuthenticated" open-on-hover :open-delay="0" location="bottom" transition="slide-x-transition">
-		<template v-slot:activator="{ props }">
-			<v-avatar class="mr-10 ml-4" size="52" v-bind="props">
-				<v-img alt="Avatar" :src="avatar"></v-img>
-			</v-avatar>
-		</template>
-
-		<v-list>
-			<v-list-item v-for="(item, index) in profileItems" :key="index" :to="item.route" @click=item.click>
-				<template v-slot:prepend>
-					<v-icon :icon="item.icon"></v-icon>
-				</template>
-				<v-list-item-title>
-					{{ item.text }}
-				</v-list-item-title>
-			</v-list-item>
-		</v-list>
-	</v-menu>
-
-	<template v-if="!isAuthenticated">
+			<v-list>
+				<v-list-item v-for="(item, index) in profileItems" :key="index" :to="item.route" @click=item.click>
+					<template v-slot:prepend>
+						<!-- <v-icon :icon="item.icon"></v-icon> -->
+					</template>
+					<v-list-item-title>
+						{{ item.text }}
+					</v-list-item-title>
+				</v-list-item>
+			</v-list>
+		</v-menu>
+	</template>
+	<template v-else>
 		<SignupButton />
 		<LoginButton />
 	</template>
@@ -33,7 +36,7 @@ import { useMainStore } from '@/store'
 import LoginButton from '@/components/buttons/LoginButton.vue'
 import SignupButton from '@/components/buttons/SignupButton.vue'
 import vibrates from '@/assets/vibrates.png'
-import ImgUtil from '@/helpers/img-util'
+import ImgUtil from '@/filters/img-util'
 
 export default defineComponent({
 	name: 'UserMenu',

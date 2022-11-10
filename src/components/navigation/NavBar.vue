@@ -1,13 +1,7 @@
 <template>
 	<v-app-bar flat>
 
-		<!-- make this the site logo and link to home -->
-		<!-- <v-avatar class="mr-10 ml-4" size="52" to="/">
-				<v-img v-if="isLoggedIn" alt="Avatar" src="src/assets/profile.jpg"></v-img>
-				<v-icon v-else icon="mdi-account-circle"></v-icon>
-			</v-avatar> -->
-
-		<v-btn prepend-icon="mdi-home" to="/" class="ml-5">Home</v-btn>
+		<v-btn to="/" class="ml-5" variant="text">UpNext</v-btn>
 
 		<v-spacer></v-spacer>
 

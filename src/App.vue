@@ -3,6 +3,7 @@
 		<div v-if="isLoading" class="page-layout">
 			<PageLoader />
 		</div>
+		<!-- ADD ERROR STATE -->
 		<router-view v-else />
 	</v-app>
 </template>

@@ -51,6 +51,7 @@ npm run lint
 
 
 ## To-do
+* add alert banner warning that data is persistent but subject to change
 * auth and store: investigate using a plugin for auth0-vue sdk
 * do something with LogIn view, or remove it
 * lazy-loading in router/index.ts

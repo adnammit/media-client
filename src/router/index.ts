@@ -2,9 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 import About from '@/views/About.vue'
 import Login from '@/views/Login.vue'
-import Admin from '@/views/Admin.vue'
 import Settings from '@/views/Settings.vue'
-import Feed from '@/views/Feed.vue'
+import Collection from '@/views/Collection.vue'
 import Profile from '@/views/Profile.vue'
 import Callback from '@/views/Callback.vue'
 import NotFound from '@/views/NotFound.vue'
@@ -29,9 +28,9 @@ const router = createRouter({
 			component: Login
 		},
 		{
-			path: '/feed',
-			name: 'feed',
-			component: Feed,
+			path: '/collection',
+			name: 'collection',
+			component: Collection,
 		},
 		{
 			path: "/profile",
@@ -43,12 +42,6 @@ const router = createRouter({
 			path: '/settings',
 			name: 'settings',
 			component: Settings,
-			beforeEnter: authGuard,
-		},
-		{
-			path: "/admin",
-			name: "admin",
-			component: Admin,
 			beforeEnter: authGuard,
 		},
 		{
