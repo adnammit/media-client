@@ -4,9 +4,9 @@
 		<v-container fluid>
 			<v-row justify="center">
 				<v-col cols="12">
-					<v-sheet min-height="70vh" rounded="lg" class="pa-6">
+					<!-- <v-sheet min-height="70vh" rounded="lg" class="pa-6"> -->
 						<slot></slot>
-					</v-sheet>
+					<!-- </v-sheet> -->
 				</v-col>
 			</v-row>
 		</v-container>

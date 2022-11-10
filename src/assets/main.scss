@@ -1,16 +1,32 @@
 @import '@/assets/colors';
 
+@mixin hypertext {
+	text-decoration: none;
+	color: $curious-blue;
+	transition: 0.4s;
+}
+
 #app {
 	margin: 0 auto;
 	font-weight: normal;
 	letter-spacing: 1px;
 }
 
+a {
+	@include hypertext()
+}
+
+.subtitle--emphasis {
+	letter-spacing: 2px;
+	font-weight: 600;
+}
+
 .v-theme--light {
 
 	span,
 	div,
-	strong {
+	strong,
+	.v-icon {
 		color: $tundora
 	}
 
@@ -28,7 +44,8 @@
 
 	span,
 	div,
-	strong {
+	strong,
+	.v-icon {
 		color: $silver
 	}
 
@@ -47,13 +64,23 @@
 	opacity: 0;
 }
 
-a {
-	text-decoration: none;
-	color: $curious-blue;
-	transition: 0.4s;
+.v-theme--light .footer--link {
+	span {
+		color: $tundora;
+
+		strong {
+			@include hypertext()
+		}
+	}
 }
 
-.subtitle--emphasis {
-	letter-spacing: 2px;
-	font-weight: 600;
+.v-theme--dark .footer--link {
+	span {
+		color: $silver;
+
+		strong {
+			@include hypertext()
+		}
+	}
 }
+

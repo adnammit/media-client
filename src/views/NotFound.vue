@@ -1,7 +1,8 @@
 <template>
 	<PageLayout>
-		<div class="content-layout">
-			<h1 id="page-title" class="content__title">Not Found</h1>
+		<div class="text-center">
+			<div class="text-h1">Not Found :(</div>
+			<div class="font-weight-light text-uppercase">Better luck next time</div>
 		</div>
 	</PageLayout>
 </template>

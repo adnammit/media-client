@@ -11,7 +11,7 @@ const handleLogin = () => {
 	loginWithRedirect({
 		prompt: 'login',
 		appState: {
-			target: '/profile',
+			target: '/collection',
 		},
 	})
 }

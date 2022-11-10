@@ -1,9 +1,13 @@
 <template>
 	<v-footer class="grey-darken-1">
-		<strong>Made by <a href="https://github.com/adnammit">@adnammit</a></strong>
+		<a href="https://github.com/adnammit" target="_blank" class="footer--link">
+			<v-icon icon="mdi-github" class="mx-2"></v-icon>
+			<span>Made by <strong>@adnammit</strong></span>
+		</a>
 		<v-spacer></v-spacer>
-		<v-btn flat icon="mdi-github" href="https://github.com/adnammit/vue3boilerplate-auth0"></v-btn>
-		<v-btn flat icon="mdi-home" href="https://amandaryman.com"></v-btn>
+		<v-btn flat to="/about">About</v-btn>
+		<!-- <v-btn flat icon="mdi-github" href="https://github.com/adnammit/vue3boilerplate-auth0"></v-btn> -->
+		<v-btn flat icon="mdi-home" href="https://amandaryman.com" target="_blank"></v-btn>
 	</v-footer>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
 	<v-app-bar flat>
 
-		<v-btn to="/" class="ml-5" variant="text">UpNext</v-btn>
+		<v-btn prepend-icon="mdi-chevron-triple-left" to="/" class="ml-5" variant="text">UpNext</v-btn>
 
 		<v-spacer></v-spacer>
 
