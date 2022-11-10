@@ -1,7 +1,7 @@
 <template>
 	<PageLayout>
 
-		<div class="text-center">
+		<div class="text-center my-8">
 			<div class="text-h1">
 				<v-icon icon="mdi-chevron-triple-left" size="small"></v-icon>
 				UpNext

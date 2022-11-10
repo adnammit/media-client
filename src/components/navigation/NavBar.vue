@@ -1,13 +1,13 @@
 <template>
 	<v-app-bar flat>
 
-		<v-btn prepend-icon="mdi-chevron-triple-left" to="/" class="ml-5" variant="text">UpNext</v-btn>
+		<v-btn prepend-icon="mdi-chevron-triple-left" to="/" class="px-7" variant="text">UpNext</v-btn>
 
 		<v-spacer></v-spacer>
 
 		<UserMenu />
 
-		<v-btn icon="mdi-brightness-6" @click="toggleTheme"></v-btn>
+		<v-btn icon="mdi-brightness-6" @click="toggleTheme" class="mx-3 px-3"></v-btn>
 
 	</v-app-bar>
 </template>

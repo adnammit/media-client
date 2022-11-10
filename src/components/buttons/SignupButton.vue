@@ -1,5 +1,5 @@
 <template>
-	<v-btn @click="handleSignup" variant="text">Sign Up</v-btn>
+	<v-btn @click="handleSignup" variant="text" class="mx-3 px-3">Sign Up</v-btn>
 </template>
 
 <script setup lang="ts">

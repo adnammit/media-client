@@ -5,7 +5,7 @@
 		</v-btn>
 		<v-menu open-on-hover :open-delay="0" location="bottom" transition="slide-x-transition">
 			<template v-slot:activator="{ props }">
-				<v-avatar class="mr-10 ml-4" size="52" v-bind="props">
+				<v-avatar class="" size="52" v-bind="props">
 					<v-img alt="Avatar" :src="avatar"></v-img>
 				</v-avatar>
 			</template>
