@@ -1,0 +1,59 @@
+@import '@/assets/colors';
+
+#app {
+	margin: 0 auto;
+	font-weight: normal;
+	letter-spacing: 1px;
+}
+
+.v-theme--light {
+
+	span,
+	div,
+	strong {
+		color: $tundora
+	}
+
+	.color--bold i.v-icon.v-icon,
+	.v-btn.color--bold .v-btn__content {
+		color: $white
+	}
+
+	.v-main.main-body {
+		background-color: $gallery;
+	}
+}
+
+.v-theme--dark {
+
+	span,
+	div,
+	strong {
+		color: $silver
+	}
+
+	.color--bold i.v-icon.v-icon,
+	.v-btn.color--bold .v-btn__content {
+		color: $mine-shaft
+	}
+
+	.v-main.main-body {
+		background-color: $cod-gray;
+	}
+}
+
+.v-theme--light .v-list-item__overlay,
+.v-theme--dark .v-list-item__overlay {
+	opacity: 0;
+}
+
+a {
+	text-decoration: none;
+	color: $curious-blue;
+	transition: 0.4s;
+}
+
+.subtitle--emphasis {
+	letter-spacing: 2px;
+	font-weight: 600;
+}
