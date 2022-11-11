@@ -1,7 +1,6 @@
 <template>
 	<PageLayout>
-		<v-card variant="tonal" class="pa-6">
-			<div class="d-flex flex-no-wrap justify-space-between">
+			<v-card variant="tonal" class="pa-6" max-width="400">
 				<div>
 					<v-card-title>
 						Settings
@@ -15,8 +14,7 @@
 						<!-- <v-btn>Click me</v-btn> -->
 					</v-card-actions>
 				</div>
-			</div>
-		</v-card>
+			</v-card>
 	</PageLayout>
 </template>
 

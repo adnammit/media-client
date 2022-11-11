@@ -5,6 +5,7 @@ import Login from '@/views/Login.vue'
 import Settings from '@/views/Settings.vue'
 import Collection from '@/views/Collection.vue'
 import Profile from '@/views/Profile.vue'
+import ProfileForm from '@/components/forms/ProfileForm.vue'
 import Callback from '@/views/Callback.vue'
 import NotFound from '@/views/NotFound.vue'
 import { authGuard } from "@auth0/auth0-vue";
@@ -31,11 +32,18 @@ const router = createRouter({
 			path: '/collection',
 			name: 'collection',
 			component: Collection,
+			beforeEnter: authGuard,
 		},
 		{
 			path: "/profile",
 			name: "profile",
 			component: Profile,
+			beforeEnter: authGuard,
+		},
+		{
+			path: '/profileForm',
+			name: 'profileForm',
+			component: ProfileForm,
 			beforeEnter: authGuard,
 		},
 		{
