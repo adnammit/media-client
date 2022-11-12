@@ -6,9 +6,8 @@ import Settings from '@/views/Settings.vue'
 import Collection from '@/views/Collection.vue'
 import Profile from '@/views/Profile.vue'
 import ProfileForm from '@/components/forms/ProfileForm.vue'
-import Callback from '@/views/Callback.vue'
 import NotFound from '@/views/NotFound.vue'
-import { authGuard } from "@auth0/auth0-vue";
+import { useMainStore } from '@/store'
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,34 +27,43 @@ const router = createRouter({
 			name: 'login',
 			component: Login
 		},
+		// TODO distinguish in login and signup buttons
+		// {
+		// 	path: '/signup',
+		// 	name: 'signup',
+		// 	component: Signup
+		// },
 		{
 			path: '/collection',
 			name: 'collection',
 			component: Collection,
-			beforeEnter: authGuard,
+			meta: {
+				requiresAuth: true
+			}
 		},
 		{
 			path: "/profile",
 			name: "profile",
 			component: Profile,
-			beforeEnter: authGuard,
+			meta: {
+				requiresAuth: true
+			}
 		},
 		{
 			path: '/profileForm',
 			name: 'profileForm',
 			component: ProfileForm,
-			beforeEnter: authGuard,
+			meta: {
+				requiresAuth: true
+			}
 		},
 		{
 			path: '/settings',
 			name: 'settings',
 			component: Settings,
-			beforeEnter: authGuard,
-		},
-		{
-			path: "/callback",
-			name: "callback",
-			component: Callback,
+			meta: {
+				requiresAuth: true
+			}
 		},
 		{
 			path: "/:catchAll(.*)",
@@ -72,5 +80,14 @@ const router = createRouter({
 		// },
 	]
 })
+
+router.beforeEach(async (to) => {
+	const authRequired = to.matched.some(record => record.meta.requiresAuth)
+	const store = useMainStore();
+	if (authRequired && !store.user?.username) {
+		return { name: 'login' };
+	}
+});
+
 
 export default router

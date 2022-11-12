@@ -6,7 +6,6 @@
 		</a>
 		<v-spacer></v-spacer>
 		<v-btn flat to="/about">About</v-btn>
-		<!-- <v-btn flat icon="mdi-github" href="https://github.com/adnammit/vue3boilerplate-auth0"></v-btn> -->
 		<v-btn flat icon="mdi-home" href="https://amandaryman.com" target="_blank"></v-btn>
 	</v-footer>
 </template>

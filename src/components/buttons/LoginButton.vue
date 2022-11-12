@@ -3,17 +3,11 @@
 </template>
 
 <script setup lang="ts">
-import { useAuth0 } from '@auth0/auth0-vue';
+import { useRouter } from 'vue-router'
 
-const { loginWithRedirect } = useAuth0();
-
-const handleLogin = () => {
-	loginWithRedirect({
-		prompt: 'login',
-		appState: {
-			target: '/collection',
-		},
-	})
+const router = useRouter()
+function handleLogin () {
+	router.push({ path: '/login' })
 }
 </script>
 

@@ -8,7 +8,6 @@
 // import Collection from '@/models/collection'
 // import MovieDbApi from '@/services/MovieDbApi'
 import type IUser from '@/models/user'
-import User from '@/models/user'
 import type IMediaService from '@/services/IMediaService'
 import MediaService from '@/services/MediaService'
 import MockMediaService from '@/services/MockMediaService'

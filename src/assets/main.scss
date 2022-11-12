@@ -23,14 +23,15 @@ a {
 
 .v-theme--light {
 
-	span,
-	div,
+	span:not(.v-alert__underlay),
+	div:not(.v-alert__content),
 	strong,
 	.v-icon {
 		color: $tundora
 	}
 
 	.color--bold i.v-icon.v-icon,
+	.v-alert .v-icon,
 	.v-btn.color--bold .v-btn__content {
 		color: $white
 	}
@@ -42,7 +43,7 @@ a {
 
 .v-theme--dark {
 
-	span,
+	span:not(.v-alert__underlay),
 	div,
 	strong,
 	.v-icon {
@@ -50,6 +51,8 @@ a {
 	}
 
 	.color--bold i.v-icon.v-icon,
+	.v-alert .v-icon,
+	.v-alert__content,
 	.v-btn.color--bold .v-btn__content {
 		color: $mine-shaft
 	}
@@ -83,4 +86,3 @@ a {
 		}
 	}
 }
-

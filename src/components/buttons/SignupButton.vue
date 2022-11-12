@@ -3,19 +3,13 @@
 </template>
 
 <script setup lang="ts">
-import { useAuth0 } from '@auth0/auth0-vue'
+import { useRouter } from 'vue-router'
 
-const { loginWithRedirect } = useAuth0()
-
-const handleSignup = () => {
-	loginWithRedirect({
-		prompt: "login",
-		appState: {
-			target: "/profile",
-		},
-		screen_hint: "signup",
-	});
-};
+const router = useRouter()
+function handleSignup() {
+	// TODO: signin page or send props to login page to indicate signup status
+	router.push({ path: '/login' })
+}
 </script>
 
 

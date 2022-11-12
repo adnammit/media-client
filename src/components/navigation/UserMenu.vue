@@ -30,7 +30,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useAuth0 } from '@auth0/auth0-vue'
 import { useMainStore } from '@/store'
 import LoginButton from '@/components/buttons/LoginButton.vue'
 import SignupButton from '@/components/buttons/SignupButton.vue'
@@ -62,15 +61,16 @@ export default defineComponent({
 	},
 	methods: {
 		handleLogout() {
-			this.logout({
-				returnTo: window.location.origin,
-			})
+			this.mainStore.logout()
+
+			// this.logout({
+			// 	returnTo: window.location.origin,
+			// })
 		}
 	},
 	setup() {
 		const mainStore = useMainStore()
-		const { logout } = useAuth0()
-		return { mainStore, logout }
+		return { mainStore }
 	}
 })
 </script>

@@ -32,7 +32,7 @@ export default {
 			items: [
 				{
 					title: 'Client',
-					text: 'Single-Page Client Application that sits on top of the service. Uses Vue3, Vite, Pinia, Vuetify 3, Typescript and Auth0',
+					text: 'Single-Page Client Application that sits on top of the service. Uses Vue3, Vite, Pinia, Vuetify 3, Typescript and Auth',
 					icon: 'mdi-vuejs',
 					href: 'https://github.com/adnammit/media-client'
 				},

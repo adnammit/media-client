@@ -30,25 +30,19 @@
 <script lang="ts">
 import HomeItem from '@/components/HomeItem.vue'
 import PageLayout from '@/components/navigation/PageLayout.vue'
-import { useAuth0 } from '@auth0/auth0-vue'
+// import { useRouter } from 'vue-router'
 
 export default {
 	name: "Home",
 	components: { HomeItem, PageLayout },
-	setup() {
-		const { loginWithRedirect } = useAuth0()
+	// setup() {
 
-		const handleSignup = () => {
-			loginWithRedirect({
-				prompt: "login",
-				appState: {
-					target: "/profile",
-				},
-				screen_hint: "signup",
-			});
-		};
+	// 	const router = useRouter()
+	// 	function handleSignup() {
+	// 		router.push({ path: '/login' })
+	// 	}
 
-		return { handleSignup }
-	}
+	// 	return { handleSignup }
+	// }
 }
 </script>
