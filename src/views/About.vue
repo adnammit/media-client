@@ -7,8 +7,9 @@
 					UpNext is a multi-tiered application made by a full-stack dev named Amanda 👋
 				</div>
 				<div class="text-subtitle-1">
-					UpNext has primarily been a way for me to practice and learn. If you try it and like it, let me
-					know!
+					UpNext has primarily been a way for me to practice and learn.
+					<br/>
+					If you try it and like it, let me know!
 				</div>
 			</div>
 			<div>

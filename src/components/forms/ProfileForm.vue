@@ -28,7 +28,7 @@
 
 					<v-row justify="space-around">
 						<v-col>
-							<v-btn flat color="secondary" :disabled="!valid" class="mr-4 color--bold" @click="validate"
+							<v-btn flat color="secondary" :disabled="!valid" class="mr-4 text-color--contrast" @click="validate"
 								type="submit">Sign Up</v-btn>
 							<v-btn variant="tonal" class="mr-4" @click="reset">Reset Form</v-btn>
 						</v-col>

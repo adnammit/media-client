@@ -23,13 +23,9 @@
 							<v-text-field v-model="email" label="E-mail" required variant="outlined" @click="clearError">
 							</v-text-field>
 
-							<!-- <v-text-field v-model="password" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" :rules="passwordRules"
-						:type="show ? 'text' : 'password'" name="input-10-1" label="Normal with hint text" hint="At least 8 characters"
-						counter @click:append="show = !show"></v-text-field> -->
-
 							<v-row justify="space-between" class="my-5">
 								<v-col xs="12" sm="6">
-									<v-btn block flat color="secondary" :disabled="!canSubmit" class="color--bold"
+									<v-btn block flat color="secondary" :disabled="!canSubmit" class="text-color--contrast"
 										@click="validate" type="submit">Log In</v-btn>
 								</v-col>
 								<v-col xs="12" sm="6">
@@ -62,12 +58,9 @@ export default defineComponent({
 	name: 'LogIn',
 	components: { PageLayout },
 	data: () => ({
-		show: false,
-		// valid: true,
 		username: '',
 		email: '',
 		errorMessage: '',
-		// password: '',
 	}),
 	methods: {
 		validate() {
@@ -85,7 +78,7 @@ export default defineComponent({
 
 			if (!!user && user.username) {
 				this.mainStore.login(user)
-				this.$router.push({ path: '/profile' })
+				this.$router.push({ path: '/collection' })
 			} else {
 				this.errorMessage = 'Login failed'
 			}

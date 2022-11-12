@@ -30,9 +30,11 @@ a {
 		color: $tundora
 	}
 
-	.color--bold i.v-icon.v-icon,
+	.text-color--contrast,
+	div.text-color--contrast,
+	.text-color--contrast i.v-icon.v-icon,
 	.v-alert .v-icon,
-	.v-btn.color--bold .v-btn__content {
+	.v-btn.text-color--contrast .v-btn__content {
 		color: $white
 	}
 
@@ -50,10 +52,10 @@ a {
 		color: $silver
 	}
 
-	.color--bold i.v-icon.v-icon,
+	.text-color--contrast i.v-icon.v-icon,
 	.v-alert .v-icon,
 	.v-alert__content,
-	.v-btn.color--bold .v-btn__content {
+	.v-btn.text-color--contrast .v-btn__content {
 		color: $mine-shaft
 	}
 

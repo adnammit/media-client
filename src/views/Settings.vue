@@ -2,11 +2,11 @@
 	<PageLayout>
 		<v-card variant="tonal" class="pa-6" max-width="400">
 			<div>
-				<v-card-title>
+				<v-card-title class="text-h3">
 					Settings
 				</v-card-title>
 				<v-card-text>
-					<div class="text--primary">
+					<div class="text-body-1">
 						Secret settings that only authenticated users can see
 					</div>
 				</v-card-text>

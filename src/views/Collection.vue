@@ -1,18 +1,40 @@
 <template>
 	<PageLayout>
-		<div class="app-title">
-			<h1>{{ feedTitle }}</h1>
+		<div class="text-h2 mt-6">
+			{{ title }}
 		</div>
-		<div class="text--primary">
-			{{ feedSubtitle }}
+		<div class="text-body-1">
+			{{ subtitle }}
 		</div>
 
-		<!-- if no content, display 'no content' -->
-		<template v-for="(item, index) in filteredFeed" :key="item.id">
-			<!-- <span>{{item.title}}</span> -->
-			<FeedItemDisplay  :title="item.title" :text="item.text"
-				:author="item.author" :imgUrl="item.imgUrl" />
-		</template>
+		<v-container fluid v-if="hasContent">
+			<v-row dense>
+				<v-col v-for="(item, index) in filteredContent" :key="item.id" xs="12" sm="6" md="3" xl="2">
+					<CollectionItemDisplay :title="item.title" :text="item.text" :author="item.author"
+						:imgUrl="item.imgUrl" />
+				</v-col>
+			</v-row>
+		</v-container>
+
+		<div v-else class="text-center py-7 my-9">
+			<div class="font-weight-light text-h5">
+				You don't have anything saved yet
+			</div>
+			<div class="font-weight-light text-h3">
+				<br />
+				<v-icon icon="mdi-sail-boat" size="x-large" class="mb-5"></v-icon>
+
+				<!-- idk just messin -->
+				<!-- <v-icon icon="mdi-moon-waning-crescent" size="medium"></v-icon>
+					<v-icon icon="mdi-moon-last-quarter" size="medium"></v-icon>
+					<v-icon icon="mdi-moon-waning-gibbous" size="medium"></v-icon>
+					<v-icon icon="mdi-moon-full" size="medium"></v-icon>
+					<v-icon icon="mdi-moon-waxing-gibbous" size="medium"></v-icon>
+					<v-icon icon="mdi-moon-first-quarter" size="medium"></v-icon>
+					<v-icon icon="mdi-moon-waxing-crescent" size="medium"></v-icon> -->
+			</div>
+			<div class="text-overline">Search for a title to start</div>
+		</div>
 
 	</PageLayout>
 </template>
@@ -22,22 +44,26 @@ import { defineComponent } from 'vue'
 import { useMainStore } from '@/store'
 import PageLayout from '@/components/navigation/PageLayout.vue'
 import type { FeedItem } from '@/models/feedItem'
-import FeedItemDisplay from '@/components/FeedItemDisplay.vue'
+import CollectionItemDisplay from '@/components/CollectionItemDisplay.vue'
 
 export default defineComponent({
 	name: 'Collection',
-	components: { PageLayout, FeedItemDisplay },
+	components: { PageLayout, CollectionItemDisplay },
 	computed: {
-		feed(): FeedItem[] {
-			return this.mainStore.feed
+		title(): string {
+			return 'My Collection'
+			// return `${this.mainStore.filterSubject == '' ? 'The' : this.mainStore.filterSubject} Feed`;
 		},
-		feedTitle(): string {
-			return `${this.mainStore.filterSubject == '' ? 'The' : this.mainStore.filterSubject} Feed`;
+		subtitle(): string {
+			return `Browse what's up next`
+			// return `All the latest in ${this.mainStore.filterSubject == '' ? 'Cowpoke' : this.mainStore.filterSubject} news!`
 		},
-		feedSubtitle(): string {
-			return `All the latest in ${this.mainStore.filterSubject == '' ? 'Cowpoke' : this.mainStore.filterSubject} news!`
+		hasContent(): boolean {
+			return this.filteredContent.length > 0
 		},
-		filteredFeed(): FeedItem[] {
+		filteredContent(): FeedItem[] {
+
+			// return [] // test 'no-content'
 			let feed = this.mainStore.feed.filter(f => f.text != '')
 			feed = this.mainStore.filterSubject == '' ? feed : feed.filter(f => f.subject == this.mainStore.filterSubject)
 			return feed

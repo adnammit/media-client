@@ -38,7 +38,7 @@
 
 							<v-row justify="space-between" class="my-5">
 								<v-col xs="12" sm="6">
-									<v-btn block flat color="secondary" :disabled="!canSubmit" class="color--bold"
+									<v-btn block flat color="secondary" :disabled="!canSubmit" class="text-color--contrast"
 										@click="validate" type="submit">Sign Up</v-btn>
 								</v-col>
 								<v-col xs="12" sm="6">
@@ -66,13 +66,12 @@ import PageLayout from '@/components/navigation/PageLayout.vue'
 import { defineComponent } from 'vue'
 import { useMainStore } from '@/store'
 import MediaProvider from '@/services/MediaProvider';
-import type User from '@/models/user';
 
 export default defineComponent({
 	name: 'SignUp',
 	components: { PageLayout },
 	data: () => ({
-		show: false,
+		// show: false,
 		valid: true,
 		usernameExists: false,
 		emailExists: false,
@@ -131,7 +130,7 @@ export default defineComponent({
 
 			if (!!user && user.username) {
 				this.mainStore.login(user)
-				this.$router.push({ path: '/profile' })
+				this.$router.push({ path: '/collection' })
 			} else {
 				this.signUpFailed = true
 			}
