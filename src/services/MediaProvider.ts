@@ -8,6 +8,7 @@
 // import Collection from '@/models/collection'
 // import MovieDbApi from '@/services/MovieDbApi'
 import type IUser from '@/models/user'
+import User from '@/models/user'
 import type IMediaService from '@/services/IMediaService'
 import MediaService from '@/services/MediaService'
 import MockMediaService from '@/services/MockMediaService'
@@ -22,7 +23,6 @@ class MediaProvider {
 
 	public async addUser(user: IUser): Promise<IUser> {
 		return await this.service.addUser(user)
-		// return new User(res)
 	}
 
 	public async getUser(username?: string, email?: string): Promise<IUser | null> {

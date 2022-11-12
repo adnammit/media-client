@@ -81,10 +81,9 @@ export default defineComponent({
 		},
 		async tryLogin() {
 
-			// MAKE SURE EMAIL AND USERNAM HAVE VALUE
 			const user = await MediaProvider.getUser(this.username, this.email)
 
-			if (user) {
+			if (!!user && user.username) {
 				this.mainStore.login(user)
 				this.$router.push({ path: '/profile' })
 			} else {

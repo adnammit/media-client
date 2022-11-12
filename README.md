@@ -51,6 +51,7 @@ npm run lint
 
 
 ## To-do
+* here's the thing about simple user login -- when you refresh, you lose your user. fix it
 * when it's done-ish, pull to-do list from v1.0 and work on that
 * add alert banner warning that data is persistent but subject to change
 * auth and store: investigate using a plugin for auth0-vue sdk

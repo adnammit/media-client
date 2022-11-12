@@ -17,10 +17,10 @@ class MediaService implements IMediaService {
 		return requestMgr
 			.put('users/', user)
 			.then(res => {
-				return res.data
+				return res.data.data
 			})
 			.catch(error => {
-				// TODO: use 409 to tell user "you already exist"
+				// TODO: use 409 to tell user "you already exist" maybe, or don't -- seems bad security wise to do that
 				// if (error.response.status == 409) {
 				// 	return null
 				// } else {
@@ -34,7 +34,7 @@ class MediaService implements IMediaService {
 
 		return requestMgr.get('users/', { params: { username: username, email: email } })
 			.then(res => {
-				return res?.data ? new User(res.data) : null
+				return !!res?.data?.data && res.data.data.length > 0 ? new User(res.data.data[0]) : null
 			})
 			.catch(error => {
 				if (error.response.status == 404) {
@@ -44,7 +44,6 @@ class MediaService implements IMediaService {
 					throw error
 				}
 			})
-		// return new User({ username: username ?? 'foo', email: email ?? 'foo@test.com' })
 	}
 
 

@@ -1,6 +1,6 @@
 <template>
 	<PageLayout>
-		<v-card variant="tonal" class="pa-6" max-width="60%">
+		<v-card class="pa-6" max-width="80%" min-width="500px">
 			<div class="d-flex flex-no-wrap justify-space-between">
 				<div>
 					<v-container>

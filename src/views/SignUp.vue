@@ -1,7 +1,7 @@
 <template>
 	<PageLayout>
 		<v-card class="pa-6" max-width="80%" min-width="500px">
-			<v-form ref="form" v-model="valid" lazy-validation @submit.prevent="confirm">
+			<v-form ref="form" v-model="valid" lazy-validation @submit.prevent="trySignup">
 
 				<v-container fluid>
 					<v-row justify="center">
@@ -17,11 +17,11 @@
 							</v-alert>
 
 							<v-text-field v-model="username" :counter="50" :rules="defaultRules" label="Username"
-								required variant="outlined" @blur="checkUsernameExists">
+								required variant="outlined" @blur="checkUsernameExists" @focus="clearSignupFailed">
 							</v-text-field>
 
 							<v-text-field v-model="email" :rules="emailRules" label="E-mail" required variant="outlined"
-								@blur="checkEmailExists">
+								@blur="checkEmailExists" @focus="clearSignupFailed">
 							</v-text-field>
 
 							<v-text-field v-model="firstName" :counter="50" :rules="defaultRules" label="First Name"
@@ -66,6 +66,7 @@ import PageLayout from '@/components/navigation/PageLayout.vue'
 import { defineComponent } from 'vue'
 import { useMainStore } from '@/store'
 import MediaProvider from '@/services/MediaProvider';
+import type User from '@/models/user';
 
 export default defineComponent({
 	name: 'SignUp',
@@ -75,6 +76,7 @@ export default defineComponent({
 		valid: true,
 		usernameExists: false,
 		emailExists: false,
+		signUpFailed: false,
 		firstName: '',
 		lastName: '',
 		username: '',
@@ -113,17 +115,27 @@ export default defineComponent({
 			const existingUser = await MediaProvider.getUser(undefined, this.email)
 			this.emailExists = !!existingUser
 		},
-		confirm() {
+		clearSignupFailed() {
+			this.signUpFailed = false
+		},
+		async trySignup() {
 
-			if (!this.errorMessage) {
-				this.mainStore.login({
-					email: this.email,
-					username: this.username,
-					firstName: this.firstName,
-					lastName: this.lastName
-				})
-				this.$router.push({ path: '/profile' })
+			const request = {
+				username: this.username,
+				email: this.email,
+				firstName: this.firstName,
+				lastName: this.lastName
 			}
+
+			const user = await MediaProvider.addUser(request)
+
+			if (!!user && user.username) {
+				this.mainStore.login(user)
+				this.$router.push({ path: '/profile' })
+			} else {
+				this.signUpFailed = true
+			}
+
 		},
 		login() {
 			this.$router.push({ path: '/login' })
@@ -137,13 +149,15 @@ export default defineComponent({
 			return this.valid && !this.errorMessage
 		},
 		errorMessage(): string {
-			return (this.usernameExists && this.emailExists)
-				? 'Username and email already exist'
-				: (this.usernameExists)
-					? 'Username already exists'
-					: (this.emailExists)
-						? 'Email already exists'
-						: ''
+			return (this.signUpFailed)
+				? 'Signup failed'
+				: (this.usernameExists && this.emailExists)
+					? 'Username and email already exist'
+					: (this.usernameExists)
+						? 'Username already exists'
+						: (this.emailExists)
+							? 'Email already exists'
+							: ''
 		}
 	},
 	setup() {
