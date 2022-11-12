@@ -15,17 +15,22 @@ class MediaService implements IMediaService {
 	public async addUser(user: IUser): Promise<IUser> {
 
 		return requestMgr
-			.put('users/', user)
+			.put('users/', {
+				username: user.username,
+				email: user.email,
+				firstname: user.firstName,
+				lastname: user.lastName
+			})
 			.then(res => {
-				return res.data.data
+				return this.rawToUser(res.data.data) as IUser
 			})
 			.catch(error => {
 				// TODO: use 409 to tell user "you already exist" maybe, or don't -- seems bad security wise to do that
 				// if (error.response.status == 409) {
 				// 	return null
 				// } else {
-					this.logError(error)
-					throw error
+				this.logError(error)
+				throw error
 				// }
 			})
 	}
@@ -34,7 +39,8 @@ class MediaService implements IMediaService {
 
 		return requestMgr.get('users/', { params: { username: username, email: email } })
 			.then(res => {
-				return !!res?.data?.data && res.data.data.length > 0 ? new User(res.data.data[0]) : null
+				const raw = res?.data?.data[0]
+				return this.rawToUser(raw)
 			})
 			.catch(error => {
 				if (error.response.status == 404) {
@@ -44,6 +50,11 @@ class MediaService implements IMediaService {
 					throw error
 				}
 			})
+	}
+
+	private rawToUser(raw: any): IUser | null {
+		if (!raw || !raw.username || !raw.email) return null
+		return new User({ username: raw.username, email: raw.email, firstName: raw.firstname, lastName: raw.lastname })
 	}
 
 
@@ -66,23 +77,23 @@ class MediaService implements IMediaService {
 	// }
 
 	// public async addUserMovie(userid: number, movie: Movie): Promise<boolean> {
-		// const request: any = {
-		// 	movieDbId: movie.movieDbId,
-		// 	imdbId: movie.imdbId,
-		// 	rating: movie.rating,
-		// 	watched: movie.watched,
-		// 	favorite: movie.favorite,
-		// 	queued: movie.queued,
-		// }
-		// return requestMgr
-		// 	.post('user/' + userid + '/movies', request)
-		// 	.then(res => {
-		// 		return res.status === 200
-		// 	})
-		// 	.catch(error => {
-		// 		this.logError(error)
-		// 		throw error
-		// 	})
+	// const request: any = {
+	// 	movieDbId: movie.movieDbId,
+	// 	imdbId: movie.imdbId,
+	// 	rating: movie.rating,
+	// 	watched: movie.watched,
+	// 	favorite: movie.favorite,
+	// 	queued: movie.queued,
+	// }
+	// return requestMgr
+	// 	.post('user/' + userid + '/movies', request)
+	// 	.then(res => {
+	// 		return res.status === 200
+	// 	})
+	// 	.catch(error => {
+	// 		this.logError(error)
+	// 		throw error
+	// 	})
 	// }
 
 	// public async updateUserMovie(userid: number, movie: Movie): Promise<boolean> {
