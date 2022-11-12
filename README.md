@@ -51,6 +51,7 @@ npm run lint
 
 
 ## To-do
+* login is case sensitive -- make it not so
 * here's the thing about simple user login -- when you refresh, you lose your user. fix it -- maybe
 * wrap service stuff in try/catch -- cors errors etc are not getting caught
 * when it's done-ish, pull to-do list from v1.0 and work on that

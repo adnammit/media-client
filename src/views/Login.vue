@@ -17,10 +17,10 @@
 							</v-alert>
 
 							<v-text-field v-model="username" :counter="50" label="Username"
-								required variant="outlined" @click="clearError">
+								required clearable variant="outlined" @click="clearError">
 							</v-text-field>
 
-							<v-text-field v-model="email" label="E-mail" required variant="outlined" @click="clearError">
+							<v-text-field v-model="email" label="E-mail" required clearable variant="outlined" @click="clearError">
 							</v-text-field>
 
 							<v-row justify="space-between" class="my-5">

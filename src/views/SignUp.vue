@@ -17,19 +17,19 @@
 							</v-alert>
 
 							<v-text-field v-model="username" :counter="50" :rules="defaultRules" label="Username"
-								required variant="outlined" @blur="checkUsernameExists" @focus="clearSignupFailed">
+								required clearable variant="outlined" @blur="checkUsernameExists" @focus="clearSignupFailed">
 							</v-text-field>
 
-							<v-text-field v-model="email" :rules="emailRules" label="E-mail" required variant="outlined"
+							<v-text-field v-model="email" :rules="emailRules" label="E-mail" required clearable variant="outlined"
 								@blur="checkEmailExists" @focus="clearSignupFailed">
 							</v-text-field>
 
 							<v-text-field v-model="firstName" :counter="50" :rules="defaultRules" label="First Name"
-								required variant="outlined">
+								required clearable variant="outlined">
 							</v-text-field>
 
 							<v-text-field v-model="lastName" :counter="50" :rules="defaultRules" label="Last Name"
-								required variant="outlined">
+								required clearable variant="outlined">
 							</v-text-field>
 
 							<!-- <v-text-field v-model="password" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" :rules="passwordRules"
