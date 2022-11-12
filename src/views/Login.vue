@@ -1,7 +1,7 @@
 <template>
 	<PageLayout>
 		<v-card class="pa-6" :width="width">
-			<v-form ref="form" lazy-validation @submit.prevent="tryLogin">
+			<v-form ref="form" lazy-validation @submit.prevent="tryLogin" :disabled="loading">
 
 				<v-container fluid>
 					<v-row justify="center">
@@ -25,7 +25,7 @@
 
 							<v-row justify="space-between" class="my-5">
 								<v-col xs="12" sm="6">
-									<v-btn block flat color="secondary" :disabled="!canSubmit" class="text-color--contrast"
+									<v-btn block flat color="secondary" :loading="loading" :disabled="!canSubmit" class="text-color--contrast"
 										@click="validate" type="submit">Log In</v-btn>
 								</v-col>
 								<v-col xs="12" sm="6">
@@ -62,6 +62,7 @@ export default defineComponent({
 		username: '',
 		email: '',
 		errorMessage: '',
+		loading: false,
 	}),
 	methods: {
 		validate() {
@@ -75,6 +76,14 @@ export default defineComponent({
 		},
 		async tryLogin() {
 
+			this.loading = true
+
+			// // test loading
+			// function timeout(ms: any) {
+			// 	return new Promise(resolve => setTimeout(resolve, ms));
+			// }
+			// await timeout(5000)
+
 			const user = await MediaProvider.getUser(this.username, this.email)
 
 			if (!!user && user.username) {
@@ -83,6 +92,8 @@ export default defineComponent({
 			} else {
 				this.errorMessage = 'Login failed'
 			}
+
+			this.loading = false
 		},
 		signup() {
 			this.$router.push({ path: '/signup' })
@@ -93,7 +104,7 @@ export default defineComponent({
 			return this.$refs.form as InstanceType<typeof FormData>;
 		},
 		canSubmit(): boolean {
-			return !!this.username && !!this.email
+			return !!this.username && !!this.email && !this.loading
 		},
 		width(): string {
 			return this.name == 'xs' ? '95vw' : '500px'

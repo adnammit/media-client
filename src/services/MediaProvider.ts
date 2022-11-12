@@ -21,6 +21,8 @@ class MediaProvider {
 		this.service = process.env.NODE_ENV === 'testing' ? MockMediaService : MediaService
 	}
 
+
+
 	public async addUser(user: IUser): Promise<IUser> {
 		return await this.service.addUser(user)
 	}

@@ -1,7 +1,7 @@
 <template>
 	<PageLayout>
 		<v-card class="pa-6" :width="width">
-			<v-form ref="form" v-model="valid" lazy-validation @submit.prevent="trySignup">
+			<v-form ref="form" v-model="valid" lazy-validation @submit.prevent="trySignup" :disabled="loading">
 
 				<v-container fluid>
 					<v-row justify="center">
@@ -38,8 +38,8 @@
 
 							<v-row justify="space-between" class="my-5">
 								<v-col xs="12" sm="6">
-									<v-btn block flat color="secondary" :disabled="!canSubmit" class="text-color--contrast"
-										@click="validate" type="submit">Sign Up</v-btn>
+									<v-btn block flat color="secondary" :loading="loading" :disabled="!canSubmit"
+										class="text-color--contrast" @click="validate" type="submit">Sign Up</v-btn>
 								</v-col>
 								<v-col xs="12" sm="6">
 									<v-btn block variant="tonal" @click="reset">Reset Form</v-btn>
@@ -98,7 +98,7 @@ export default defineComponent({
 		// passwordConfirmRules: [
 		// 	(v: string) => (v && v == this.password) || 'Passwords must match',
 		// ]
-
+		loading: false,
 	}),
 	methods: {
 		validate() {
@@ -120,6 +120,14 @@ export default defineComponent({
 		},
 		async trySignup() {
 
+			this.loading = true
+
+			// // test loading
+			// function timeout(ms: any) {
+			// 	return new Promise(resolve => setTimeout(resolve, ms));
+			// }
+			// await timeout(5000)
+
 			const request = {
 				username: this.username,
 				email: this.email,
@@ -135,6 +143,8 @@ export default defineComponent({
 			} else {
 				this.signUpFailed = true
 			}
+
+			this.loading = false
 
 		},
 		login() {

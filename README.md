@@ -65,6 +65,7 @@ npm run lint
 ## Done
 * mobile-friendly navBar
 * scratch auth0 for simplicity's sake
+* on login/signup, show loading bc prod db is slow
 
 
 ## Type Support for `.vue` Imports in TS
