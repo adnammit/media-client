@@ -1,31 +1,33 @@
 <template>
-	<template v-if="isAuthenticated">
-		<v-btn to="/collection" variant="text">
-			Collection
-		</v-btn>
-		<v-menu open-on-hover :open-delay="0" location="bottom" transition="slide-x-transition">
-			<template v-slot:activator="{ props }">
-				<v-avatar class="ml-2" size="52" v-bind="props">
-					<v-img alt="Avatar" :src="avatar"></v-img>
-				</v-avatar>
-			</template>
+	<div>
+		<template v-if="isAuthenticated">
+			<v-btn to="/collection" variant="text" :class="classes">
+				Collection
+			</v-btn>
+			<v-menu open-on-hover :open-delay="0" location="bottom" transition="slide-x-transition">
+				<template v-slot:activator="{ props }">
+					<v-avatar class="ml-2" size="52" v-bind="props">
+						<v-img alt="Avatar" :src="avatar"></v-img>
+					</v-avatar>
+				</template>
 
-			<v-list>
-				<v-list-item v-for="(item, index) in profileItems" :key="index" :to="item.route" @click=item.click>
-					<template v-slot:prepend>
-						<!-- <v-icon :icon="item.icon"></v-icon> -->
-					</template>
-					<v-list-item-title>
-						{{ item.text }}
-					</v-list-item-title>
-				</v-list-item>
-			</v-list>
-		</v-menu>
-	</template>
-	<template v-else>
-		<SignupButton />
-		<LoginButton />
-	</template>
+				<v-list>
+					<v-list-item v-for="(item, index) in profileItems" :key="index" :to="item.route" @click=item.click>
+						<template v-slot:prepend>
+							<!-- <v-icon :icon="item.icon"></v-icon> -->
+						</template>
+						<v-list-item-title>
+							{{ item.text }}
+						</v-list-item-title>
+					</v-list-item>
+				</v-list>
+			</v-menu>
+		</template>
+		<template v-else>
+			<SignupButton :classes="classes" />
+			<LoginButton :classes="classes" />
+		</template>
+	</div>
 </template>
 
 <script lang="ts">
@@ -42,11 +44,17 @@ export default defineComponent({
 		LoginButton,
 		SignupButton
 	},
+	props: {
+		classes: String,
+	},
 	computed: {
 		isAuthenticated(): boolean { return this.mainStore.isAuthenticated },
 		avatar(): string {
 			const imgUrl = this.mainStore.user?.imgUrl as string
 			return (ImgUtil.isValidImage(imgUrl)) ? imgUrl : vibrates
+		},
+		buttonClasses(): string | undefined {
+			return this.classes
 		}
 	},
 	data() {

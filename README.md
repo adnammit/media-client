@@ -55,14 +55,16 @@ npm run lint
 * wrap service stuff in try/catch -- cors errors etc are not getting caught
 * when it's done-ish, pull to-do list from v1.0 and work on that
 * add alert banner warning that data is persistent but subject to change
-* auth and store: investigate using a plugin for auth0-vue sdk
-* do something with LogIn view, or remove it
 * lazy-loading in router/index.ts
 * fonts, my dude
 * contact form?
-* improve or remove page loader -- combine with other app loading state (isLoading = auth.isLoading || appState.isLoading)
+* improve or remove page loader
 * get knowing about CompositionAPI and OptionsAPI -- check that you're using best practices
 * scss -- maybe? css may be preferred
+
+## Done
+* mobile-friendly navBar
+* scratch auth0 for simplicity's sake
 
 
 ## Type Support for `.vue` Imports in TS

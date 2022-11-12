@@ -1,6 +1,6 @@
 <template>
 	<PageLayout>
-		<v-card class="pa-6" max-width="80%" min-width="500px">
+		<v-card class="pa-6" :width="width">
 			<v-form ref="form" v-model="valid" lazy-validation @submit.prevent="trySignup">
 
 				<v-container fluid>
@@ -62,9 +62,10 @@
 </template>
 
 <script lang="ts">
-import PageLayout from '@/components/navigation/PageLayout.vue'
 import { defineComponent } from 'vue'
+import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store'
+import PageLayout from '@/components/navigation/PageLayout.vue'
 import MediaProvider from '@/services/MediaProvider';
 
 export default defineComponent({
@@ -157,11 +158,15 @@ export default defineComponent({
 						: (this.emailExists)
 							? 'Email already exists'
 							: ''
-		}
+		},
+		width(): string {
+			return this.name == 'xs' ? '95vw' : '500px'
+		},
 	},
 	setup() {
 		const mainStore = useMainStore()
-		return { mainStore }
+		const { name } = useDisplay()
+		return { mainStore, name }
 	}
 })
 </script>
