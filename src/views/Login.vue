@@ -1,16 +1,14 @@
 <template>
 	<PageLayout>
-		<v-card class="pa-6" max-width="80%">
-			<v-form ref="form" v-model="valid" lazy-validation @submit.prevent="confirm">
-
-				<!-- show login vs sign up -->
+		<v-card class="pa-6" max-width="80%" min-width="500px">
+			<v-form ref="form" lazy-validation @submit.prevent="tryLogin">
 
 				<v-container fluid>
 					<v-row justify="center">
 						<v-col cols="12">
 
 							<div class="my-5 text-h5">
-								Sign up to start tracking your watch list!
+								Welcome back! 👋
 							</div>
 
 							<v-alert :style="{ visibility: errorMessage ? 'visible' : 'hidden' }" type="error"
@@ -18,33 +16,30 @@
 								{{ errorMessage }}
 							</v-alert>
 
-							<v-text-field v-model="username" :counter="50" :rules="defaultRules" label="Username"
-								required variant="outlined" @focus="clearError" @blur="checkUsernameExists">
+							<v-text-field v-model="username" :counter="50" label="Username"
+								required variant="outlined" @click="clearError">
 							</v-text-field>
 
-							<v-text-field v-model="email" :rules="emailRules" label="E-mail" required
-								variant="outlined">
-							</v-text-field>
-
-							<v-text-field v-model="firstName" :counter="50" :rules="defaultRules" label="First Name"
-								required variant="outlined">
-							</v-text-field>
-
-							<v-text-field v-model="lastName" :counter="50" :rules="defaultRules" label="Last Name"
-								required variant="outlined">
+							<v-text-field v-model="email" label="E-mail" required variant="outlined" @click="clearError">
 							</v-text-field>
 
 							<!-- <v-text-field v-model="password" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" :rules="passwordRules"
 						:type="show ? 'text' : 'password'" name="input-10-1" label="Normal with hint text" hint="At least 8 characters"
 						counter @click:append="show = !show"></v-text-field> -->
 
-							<v-row justify="space-between">
+							<v-row justify="space-between" class="my-5">
 								<v-col xs="12" sm="6">
 									<v-btn block flat color="secondary" :disabled="!canSubmit" class="color--bold"
-										@click="validate" type="submit">Sign Up</v-btn>
+										@click="validate" type="submit">Log In</v-btn>
 								</v-col>
 								<v-col xs="12" sm="6">
 									<v-btn block variant="tonal" @click="reset">Reset Form</v-btn>
+								</v-col>
+							</v-row>
+
+							<v-row justify="space-between" class="text-center text-overline my-5">
+								<v-col xs="12">
+									Don't have an account? <a @click="signup">Sign up</a>
 								</v-col>
 							</v-row>
 
@@ -61,36 +56,18 @@
 import PageLayout from '@/components/navigation/PageLayout.vue'
 import { defineComponent } from 'vue'
 import { useMainStore } from '@/store'
+import MediaProvider from '@/services/MediaProvider';
 
 export default defineComponent({
-	name: 'Settings',
+	name: 'LogIn',
 	components: { PageLayout },
 	data: () => ({
-		valid: true,
 		show: false,
-		errorMessage: '', // IMPLEMENT
-		firstName: '',
-		lastName: '',
+		// valid: true,
 		username: '',
-		defaultRules: [
-			(v: string) => !!v || 'Required',
-			(v: string) => (v && v.length <= 50) || 'Must be less than 50 characters',
-		],
 		email: '',
-		emailRules: [
-			(v: string) => !!v || 'E-mail is required',
-			(v: string) => /.+@.+\..+/.test(v) || 'Must be a valid email address',
-		],
+		errorMessage: '',
 		// password: '',
-		// passwordRules: [
-		// 	(v: string) => !!v || 'Password is required',
-		// 	(v: string) => (v && v.length >= 8) || 'Password must be at least 8 characters',
-		// ],
-		// passwordConfirm: '',
-		// passwordConfirmRules: [
-		// 	(v: string) => (v && v == this.password) || 'Passwords must match',
-		// ]
-
 	}),
 	methods: {
 		validate() {
@@ -102,28 +79,20 @@ export default defineComponent({
 		clearError() {
 			this.errorMessage = ''
 		},
-		checkUsernameExists() {
-			// call to load user
-			this.errorMessage = 'User already exists'
-		},
-		confirm() {
+		async tryLogin() {
 
-			// CHECK IF USER EXISTS AND THEN:
-			// const userExists = true
+			// MAKE SURE EMAIL AND USERNAM HAVE VALUE
+			const user = await MediaProvider.getUser(this.username, this.email)
 
-			// if (userExists) {
-			// 	this.errorMessage = 'User already exists'
-			// } else {
-			if (!this.errorMessage) {
-				this.mainStore.login({
-					email: this.email,
-					username: this.username,
-					firstName: this.firstName,
-					lastName: this.lastName
-				})
+			if (user) {
+				this.mainStore.login(user)
 				this.$router.push({ path: '/profile' })
-				// this.$router.push({ path: `/@${this.username}` })
+			} else {
+				this.errorMessage = 'Login failed'
 			}
+		},
+		signup() {
+			this.$router.push({ path: '/signup' })
 		}
 	},
 	computed: {
@@ -131,8 +100,8 @@ export default defineComponent({
 			return this.$refs.form as InstanceType<typeof FormData>;
 		},
 		canSubmit(): boolean {
-			return this.valid && !this.errorMessage
-		}
+			return !!this.username && !!this.email
+		},
 	},
 	setup() {
 		const mainStore = useMainStore()

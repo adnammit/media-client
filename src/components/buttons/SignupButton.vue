@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 function handleSignup() {
 	// TODO: signin page or send props to login page to indicate signup status
-	router.push({ path: '/login' })
+	router.push({ path: '/signup' })
 }
 </script>
 

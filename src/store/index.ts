@@ -30,31 +30,34 @@ export const useMainStore = defineStore('main', {
 
 			this.error = { isError: false, message: '' }
 
-			// // we may want to just correlate auth0 user with our user by email alone, or only use email as unique identifier
-			// let user = await MediaProvider.getUser(payload.nickname, payload.email)
+			// we may want to just correlate auth0 user with our user by email alone, or only use email as unique identifier
+			let user = await MediaProvider.getUser(payload.username, payload.email)
 
-			// if (!user) {
+			if (!user) {
 
-			// 	const req = {
-			// 		email: payload.email,
-			// 		username: payload.nickname,
-			// 		imgUrl: payload.picture
-			// 	} as IUser
+				// DO ERROR
 
-			// 	const res = await MediaProvider.addUser(req)
 
-			// 	if (!res) {
+				// const req = {
+				// 	email: payload.email,
+				// 	username: payload.nickname,
+				// 	imgUrl: payload.picture
+				// } as IUser
 
-			// 		this.error = 'Failed creating user'
+				// const res = await MediaProvider.addUser(req)
 
-			// 	} else {
-			// 		//// add more functionality for the case we just added a user
-			// 		// set newUser flag and prompt them to do stuff?
-			// 		user = res
-			// 	}
-			// }
+				// if (!res) {
 
-			this.user = payload //user
+				// 	this.error = 'Failed creating user'
+
+				// } else {
+				// 	//// add more functionality for the case we just added a user
+				// 	// set newUser flag and prompt them to do stuff?
+				// 	user = res
+				// }
+			}
+
+			this.user = user
 		},
 
 		async logout() {

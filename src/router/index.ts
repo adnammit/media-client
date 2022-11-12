@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 import About from '@/views/About.vue'
 import Login from '@/views/Login.vue'
+import SignUp from '@/views/SignUp.vue'
 import Settings from '@/views/Settings.vue'
 import Collection from '@/views/Collection.vue'
 import Profile from '@/views/Profile.vue'
@@ -27,12 +28,11 @@ const router = createRouter({
 			name: 'login',
 			component: Login
 		},
-		// TODO distinguish in login and signup buttons
-		// {
-		// 	path: '/signup',
-		// 	name: 'signup',
-		// 	component: Signup
-		// },
+		{
+			path: '/signup',
+			name: 'signup',
+			component: SignUp
+		},
 		{
 			path: '/collection',
 			name: 'collection',
