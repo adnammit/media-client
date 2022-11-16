@@ -1,4 +1,5 @@
 export interface IUser {
+	id: number,
 	email: string,
 	username: string,
 	firstName?: string,
@@ -7,6 +8,7 @@ export interface IUser {
 }
 
 export default class User implements IUser {
+	id: number
 	email: string
 	username: string
 	firstName?: string
@@ -14,6 +16,7 @@ export default class User implements IUser {
 	imgUrl?: string
 
 	constructor(user: IUser) {
+		this.id = user.id
 		this.email = user.email
 		this.username = user.username
 		this.firstName = user.firstName

@@ -6,7 +6,7 @@
 	transition: 0.4s;
 }
 
-#app {
+#inspire {
 	margin: 0 auto;
 	font-weight: normal;
 	letter-spacing: 1px;
@@ -20,6 +20,16 @@ a {
 	letter-spacing: 2px;
 	font-weight: 600;
 }
+
+.loader {
+	height: 80vh;
+	margin: 0;
+	position: absolute;
+	top: 25vh;
+}
+
+
+// THE COLORS, DUKE!
 
 .v-theme--light {
 

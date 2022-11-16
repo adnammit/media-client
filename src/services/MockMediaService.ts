@@ -1,11 +1,7 @@
-// import User from '@/models/user'
-// import Movie from '@/models/movie'
-// import Tv from '@/models/tv'
-// import UserMedia from '@/models/dto/userMedia'
+import type UserTitleDto from '@/dto/userTitleDto'
 import type IUser from '@/models/user'
 import User from '@/models/user'
 import type IMediaService from '@/services/IMediaService'
-// import mockData from '@/data.json'
 
 class MockMediaService implements IMediaService {
 
@@ -17,12 +13,12 @@ class MockMediaService implements IMediaService {
 		return new User({ username: username ?? 'foo', email: email ?? 'foo@test.com' })
 	}
 
-	// public async getUserMovies(userid: number): Promise<UserMedia[]> {
-	// 	// const json = require('@/data.json')
-	// 	// const userData = mockData.data.find((d: any) => d.Email === 'amandaryman@gmail.com')
-	// 	// const userData = {}
-	// 	return [] as UserMedia[]
-	// }
+	public async getUserTitles(userId: number): Promise<UserTitleDto[]> {
+		// const json = require('@/data.json')
+		// const userData = mockData.data.find((d: any) => d.Email === 'amandaryman@gmail.com')
+		// const userData = {}
+		return [] as UserTitleDto[]
+	}
 
 	// public async addUserMovie(userid: number, movie: Movie): Promise<boolean> {
 	// 	return true

@@ -1,25 +1,31 @@
 <template>
-	<v-card class="ma-6">
-		<v-card-title>
-			{{ title }}
-		</v-card-title>
-
-		<v-card-text>
-			<v-row align="center" class="px-2" hide-gutters no-gutters>
-				<v-col cols="8">
-					{{ text }}
-				</v-col>
-				<v-col align="right">
-					<slot></slot>
-				</v-col>
-			</v-row>
-		</v-card-text>
-	</v-card>
+	<v-col cols="12" sm="4">
+		<v-card height="300px">
+			<v-card-title>
+				{{ title }}
+			</v-card-title>
+			<v-card-text>
+				{{ text }}
+				<v-spacer></v-spacer>
+				<slot></slot>
+			</v-card-text>
+		</v-card>
+	</v-col>
 </template>
 
-<script setup lang="ts">
-defineProps({
-	title: String,
-	text: String
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+	props: {
+		title: String,
+		text: String
+	},
+	data() {
+		return {
+			show: false
+		}
+	},
 })
+
 </script>

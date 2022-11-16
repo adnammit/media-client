@@ -55,7 +55,7 @@ export default defineComponent({
 			// return `${this.mainStore.filterSubject == '' ? 'The' : this.mainStore.filterSubject} Feed`;
 		},
 		subtitle(): string {
-			return `Browse what's up next`
+			return `Browse what's UpNext`
 			// return `All the latest in ${this.mainStore.filterSubject == '' ? 'Cowpoke' : this.mainStore.filterSubject} news!`
 		},
 		hasContent(): boolean {
@@ -64,9 +64,7 @@ export default defineComponent({
 		filteredContent(): FeedItem[] {
 
 			// return [] // test 'no-content'
-			let feed = this.mainStore.feed.filter(f => f.text != '')
-			feed = this.mainStore.filterSubject == '' ? feed : feed.filter(f => f.subject == this.mainStore.filterSubject)
-			return feed
+			return this.mainStore.collection.filter(f => f.text != '')
 		}
 	},
 	setup() {

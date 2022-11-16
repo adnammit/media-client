@@ -9,21 +9,27 @@
 			<div class="text-h5">Delivering sanity in a world of too many f&#38;#%ing choices</div>
 		</div>
 
-		<!-- <HomeItem title="Get Started" text="Create an account for a personalized experience">
-			<v-btn class="ma-2 text-color--contrast" color="info" icon="mdi-arrow-right-circle" size="x-large"
-				@click="handleSignup">
-			</v-btn>
-		</HomeItem>
-		<HomeItem title="Stay Connected" text="Check out The Feed to stay up to date on all things cowpoke-related!">
-			<v-btn class="ma-2 text-color--contrast" color="warning" icon="mdi-newspaper-variant-multiple" size="x-large"
-				to="/feed">
-			</v-btn>
-		</HomeItem>
-		<HomeItem title="Why Cowpoke Lounge?" text="Because it's silly fun! Find more silliness over on GitHub">
-			<v-btn class="ma-2 text-color--contrast" color="secondary" icon="mdi-github" size="x-large"
-				href="https://github.com/adnammit">
-			</v-btn>
-		</HomeItem> -->
+		<v-container class="mt-8">
+			<v-row justify="center">
+				<HomeItem title="What is UpNext?"
+					text="UpNext allows you to track your watch list across multiple streaming platforms. Search for movies and shows and see what platforms they're available on.">
+					<!-- <v-btn class="ma-2 text-color--contrast" color="info" icon="mdi-arrow-right-circle"
+							size="x-large" @click="handleSignup">
+						</v-btn> -->
+				</HomeItem>
+				<HomeItem title="What is UpNext not?"
+					text="UpNext can't tell you what streaming platforms you're subscribed to. Sorry, you still have to manage those yourself :) ">
+					<!-- <v-btn class="ma-2 text-color--contrast" color="warning" icon="mdi-newspaper-variant-multiple"
+							size="x-large" to="/feed">
+						</v-btn> -->
+				</HomeItem>
+				<HomeItem title="Why is UpNext?" text="Because it's silly fun! Find more silliness over on GitHub">
+					<v-btn absolute bottom left class="ma-2 text-color--contrast" color="secondary" icon="mdi-github"
+						size="x-large" href="https://github.com/adnammit">
+					</v-btn>
+				</HomeItem>
+			</v-row>
+		</v-container>
 	</PageLayout>
 </template>
 

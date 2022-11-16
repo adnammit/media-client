@@ -5,7 +5,7 @@
 
 		<v-spacer></v-spacer>
 
-		<UserMenu :classes="buttonSpacingClasses"/>
+		<UserMenu :classes="buttonSpacingClasses" />
 
 		<v-btn icon="mdi-brightness-6" @click="toggleTheme" :class="buttonSpacingClasses"></v-btn>
 
@@ -33,7 +33,7 @@ export default defineComponent({
 		const { name } = useDisplay()
 		return {
 			toggleTheme: () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark',
-			name
+			name,
 		}
 	}
 })

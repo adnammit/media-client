@@ -1,6 +1,6 @@
 <template>
 
-	<v-card class="mx-1 my-3 py-3" @click="dialog = true" max-height="300px">
+	<v-card class="mx-1 my-3 py-3" @click="dialog = true" max-height="200px">
 		<v-img :src="imgUrl" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px"
 			cover>
 

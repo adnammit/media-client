@@ -3,18 +3,7 @@
 Client that sits on the Media Service and Media Database. Uses Vue3, Vite, Pinia, Vuetify 3 beta, TS and Auth0
 
 ## Quickstart
-* First setup Auth0 by going to [the dashboard](https://manage.auth0.com/dashboard/) and configure your SPA app authorization. update values in `.env` to match
-    - [see here](https://developer.auth0.com/resources/guides/spa/vue/basic-authentication) for more info about Auth0
-    - sample `.env` file:
-        ```
-        VITE_API_SERVER_URL=YOUR_SERVER_URL
-        VITE_AUTH0_DOMAIN=YOUR_AUTH0_DOMAIN
-        VITE_AUTH0_CLIENT_ID=YOUR_AUTH0_CLIENT_ID
-        VITE_AUTH0_AUDIENCE=YOUR_AUTH0_AUDIENCE
-        VITE_AUTH0_CALLBACK_URL=YOUR_APP_URL/callback
-        ```
 
-* then you can get building:
 ```sh
 # Project setup
 npm i
@@ -49,11 +38,20 @@ npm run lint
 * [Vue app with express backend and Auth0](https://auth0.com/blog/how-to-make-secure-http-requests-with-vue-and-express/)
 * [guide to Auth0 in Vue3](https://developer.auth0.com/resources/code-samples/full-stack/hello-world/basic-access-control/spa/vue-javascript-with-composition-api/express-typescript)
 
+## A Note On Authorization
+* it's not great. this is just a demo. we don't even store a password because i don't want to tempt anyone to give me something sensitive (say, a pw that's tied to like 83 other actual websites with actual data)
+* email doesn't even have to be real -- auth is simply based on a username/email string pair that you will (hopefully) remember and use to login
+* I might use localStorage to save user creds (so you can refresh at-will without having to login) but this is susceptible to CSS attacks, so again **PUT NOTHING SACRED INTO THIS WEBSITE** -- not your banking password, maybe not even your real email, not your hopes and dreams
+* ideally look into storing user info in cookies using HttpOnly or going all in and learning about/implementing OAuth
+
 
 ## To-do
-* login is case sensitive -- make it not so
+* can i filter cards like a table? or can i make a table look like cards? -- yeah i think you just... filter the list...?
 * here's the thing about simple user login -- when you refresh, you lose your user. fix it -- maybe
+* option to set your streaming services and highlight titles that are on them
 * wrap service stuff in try/catch -- cors errors etc are not getting caught
+* error display
+* check out [this api](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability) to supply streaming availability
 * when it's done-ish, pull to-do list from v1.0 and work on that
 * add alert banner warning that data is persistent but subject to change
 * lazy-loading in router/index.ts
@@ -62,11 +60,20 @@ npm run lint
 * improve or remove page loader
 * get knowing about CompositionAPI and OptionsAPI -- check that you're using best practices
 * scss -- maybe? css may be preferred
+* see if i can detect dark mode and set to dark automatically:
+    ```js
+    const isDarkMode = () =>
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+    // Testing
+    console.log(isDarkMode());
+    ```
 
 ## Done
 * mobile-friendly navBar
 * scratch auth0 for simplicity's sake
 * on login/signup, show loading bc prod db is slow
+* login is case sensitive -- make it not so
 
 
 ## Type Support for `.vue` Imports in TS

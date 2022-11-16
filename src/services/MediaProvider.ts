@@ -1,18 +1,12 @@
 // // talks to the MovieDbApi and gets info from our third party api
 // // gets our app data from the mediaService depending on whether we're testing/mocking or not
-// import { MediaType } from '@/models/enum'
-// import UserMedia from '@/models/dto/userMedia'
-// import Movie from '@/models/movie'
-// import Media from '@/models/media'
-// import SearchResult from '@/models/searchResult'
-// import Collection from '@/models/collection'
-// import MovieDbApi from '@/services/MovieDbApi'
 import type IUser from '@/models/user'
-import User from '@/models/user'
+import type UserTitleDto from '@/dto/userTitleDto'
+import Title from '@/models/title'
 import type IMediaService from '@/services/IMediaService'
 import MediaService from '@/services/MediaService'
 import MockMediaService from '@/services/MockMediaService'
-// import Tv from '@/models/tv'
+import MovieDbApi from '@/services/MovieDbApi'
 
 class MediaProvider {
 	private service: IMediaService
@@ -20,8 +14,6 @@ class MediaProvider {
 	constructor() {
 		this.service = process.env.NODE_ENV === 'testing' ? MockMediaService : MediaService
 	}
-
-
 
 	public async addUser(user: IUser): Promise<IUser> {
 		return await this.service.addUser(user)
@@ -31,31 +23,24 @@ class MediaProvider {
 		return await this.service.getUser(username, email)
 	}
 
-	// public async getUserCollection(userid: number): Promise<Collection> {
-	// 	const items = await this.getUserMedia(userid)
-	// 	return new Collection(userid, items)
-	// }
+	public async getUserTitles(userId: number): Promise<Title[]> {
+		return await this.service.getUserTitles(userId).then(async (userTitles) => {
+			const titles = await this.populateTitleData(userTitles)
+			return titles
+		})
+	}
 
-	// private async getUserMedia(userid: number): Promise<Media[]> {
-	// 	// this whole thing is kind of gross -- work on doing it better
-	// 	return Promise.all([this.service.getUserMovies(userid), this.service.getUserTv(userid)]).then(async ([userMovies, userTv]) => {
-	// 		const movies = await this.populateMovies(userMovies)
-	// 		const tv = await this.populateTv(userTv)
-	// 		return [...movies, ...tv]
-	// 	})
-	// }
-
-	// private async populateMovies(userData: UserMedia[]): Promise<Movie[]> {
-	// 	const movies = []
-	// 	for (const item of userData) {
-	// 		const id: number = +item.moviedbid
-	// 		const movie: Movie = await MovieDbApi.getMovie(id)
-
-	// 		movie.populateWithUser(item)
-	// 		movies.push(movie)
-	// 	}
-	// 	return movies
-	// }
+	// consider: we could just store all this data in our db to streamline this
+	private async populateTitleData(userData: UserTitleDto[]): Promise<Title[]> {
+		const titles = []
+		for (const userItem of userData) {
+			const id = +userItem.moviedbid
+			const movieDbDto = await MovieDbApi.getMovie(id) // start here -- make sure movie db will be around or do we need to replace it?
+			const title = new Title(movieDbDto, userItem)
+			titles.push(title)
+		}
+		return titles
+	}
 
 	// private async populateTv(userData: UserMedia[]): Promise<Tv[]> {
 	// 	const tvs = []

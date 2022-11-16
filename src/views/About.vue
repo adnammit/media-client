@@ -7,15 +7,18 @@
 					UpNext is a multi-tiered application made by a full-stack dev named Amanda 👋
 				</div>
 				<div class="text-subtitle-1">
-					UpNext has primarily been a way for me to practice and learn.
-					<br/>
-					If you try it and like it, let me know!
+					UpNext has primarily been a way for me to practice and learn. If you try it and like it, let me
+					know!
+
 				</div>
 			</div>
 			<div>
 				<template v-for="(item, index) in items" :key="item.id">
 					<AboutItem :title="item.title" :text="item.text" :icon="item.icon" :href="item.href" />
 				</template>
+			</div>
+			<div class="text-subtitle-1">
+				UpNext is made possible by <a href="https://www.themoviedb.org/" target="_blank">The Movie Database API</a>
 			</div>
 		</div>
 	</PageLayout>

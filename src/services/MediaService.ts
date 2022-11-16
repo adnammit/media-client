@@ -1,9 +1,7 @@
 import axios from 'axios'
 import type IUser from '@/models/user'
 import User from '@/models/user'
-// import UserMedia from '@/models/dto/userMedia'
-// import Movie from '@/models/movie'
-// import Tv from '@/models/tv'
+import type UserTitleDto from '@/dto/userTitleDto'
 import type IMediaService from '@/services/IMediaService'
 
 const requestMgr = axios.create({
@@ -40,6 +38,10 @@ class MediaService implements IMediaService {
 		return requestMgr.get('users/', { params: { username: username, email: email } })
 			.then(res => {
 				const raw = res?.data?.data[0]
+
+				console.log('>> got user ');
+				console.log(raw);
+
 				return this.rawToUser(raw)
 			})
 			.catch(error => {
@@ -52,29 +54,16 @@ class MediaService implements IMediaService {
 			})
 	}
 
-	private rawToUser(raw: any): IUser | null {
-		if (!raw || !raw.username || !raw.email) return null
-		return new User({ username: raw.username, email: raw.email, firstName: raw.firstname, lastName: raw.lastname })
+	public async getUserTitles(userId: number): Promise<UserTitleDto[]> {
+		return requestMgr.get('users/' + userId + '/titles')
+			.then(res => {
+				return res.data.data as UserTitleDto[]
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
 	}
-
-
-	// public async getUsers(): Promise<IUser[]> {
-	// 	return requestMgr.get('user/').then(res => {
-	// 		return res?.data ? res.data : []
-	// 	})
-	// }
-
-	// public async getUserMovies(userid: number): Promise<UserMedia[]> {
-	// 	return requestMgr
-	// 		.get('user/' + userid + '/movies')
-	// 		.then(res => {
-	// 			return res.data as UserMedia[]
-	// 		})
-	// 		.catch(error => {
-	// 			this.logError(error)
-	// 			throw error
-	// 		})
-	// }
 
 	// public async addUserMovie(userid: number, movie: Movie): Promise<boolean> {
 	// const request: any = {
@@ -189,6 +178,11 @@ class MediaService implements IMediaService {
 	// 			throw error
 	// 		})
 	// }
+
+	private rawToUser(raw: any): IUser | null {
+		if (!raw || !raw.username || !raw.email) return null
+		return new User({ id: raw.userid, username: raw.username, email: raw.email, firstName: raw.firstname, lastName: raw.lastname })
+	}
 
 	private logError(error: any) {
 		if (error.response) {

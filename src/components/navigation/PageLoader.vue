@@ -1,10 +1,11 @@
 <template>
-	<div class="loader">
-		<img :src="loadingImg" alt="Loading..." />
-	</div>
+	<PageLayout>
+		<div class="loader">
+			<v-progress-circular indeterminate :size="200"></v-progress-circular>
+		</div>
+	</PageLayout>
 </template>
 
 <script setup lang="ts">
-// TODO: better
-const loadingImg = "https://cdn.auth0.com/blog/hello-auth0/loader.svg"
+import PageLayout from "@/components/navigation/PageLayout.vue"
 </script>
