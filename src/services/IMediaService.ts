@@ -1,7 +1,7 @@
 import type UserTitleDto from '@/dto/userTitleDto'
-import type IUser from '@/models/user'
+import type { IUser, IUserInput } from '@/models/user'
 export default interface IMediaService {
-	addUser(user: IUser): Promise<IUser>
+	addUser(user: IUserInput): Promise<IUser>
 	getUser(username?: string, email?: string): Promise<IUser | null>
 	getUserTitles(userid: number): Promise<UserTitleDto[]>
 	// addUserMovie(userid: number, movie: Movie): Promise<boolean>

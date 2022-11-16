@@ -1,3 +1,10 @@
+export interface IUserInput {
+	email: string,
+	username: string,
+	firstName?: string,
+	lastName?: string,
+}
+
 export interface IUser {
 	id: number,
 	email: string,

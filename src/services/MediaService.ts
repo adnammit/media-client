@@ -1,6 +1,5 @@
 import axios from 'axios'
-import type IUser from '@/models/user'
-import User from '@/models/user'
+import User, { type IUserInput, type IUser } from '@/models/user'
 import type UserTitleDto from '@/dto/userTitleDto'
 import type IMediaService from '@/services/IMediaService'
 
@@ -10,7 +9,7 @@ const requestMgr = axios.create({
 
 class MediaService implements IMediaService {
 
-	public async addUser(user: IUser): Promise<IUser> {
+	public async addUser(user: IUserInput): Promise<IUser> {
 
 		return requestMgr
 			.put('users/', {
@@ -38,10 +37,6 @@ class MediaService implements IMediaService {
 		return requestMgr.get('users/', { params: { username: username, email: email } })
 			.then(res => {
 				const raw = res?.data?.data[0]
-
-				console.log('>> got user ');
-				console.log(raw);
-
 				return this.rawToUser(raw)
 			})
 			.catch(error => {
@@ -195,10 +190,10 @@ class MediaService implements IMediaService {
 			// The request was made but no response was received
 			// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
 			// http.ClientRequest in node.js
-			console.log(error.request)
+			console.error(error.request)
 		} else {
 			// Something happened in setting up the request that triggered an Error
-			console.log('Error', error.message)
+			console.error('Error', error.message)
 		}
 		console.log(error.config)
 	}

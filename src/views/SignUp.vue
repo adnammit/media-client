@@ -11,17 +11,31 @@
 								Sign up to start tracking what's up next!
 							</div>
 
+							<v-alert type="info" class="my-5" variant="tonal">
+								Use demo mode to quickly see what UpNext is all about, or create your own account and
+								start from scratch.
+								<v-row justify="space-between" class="mt-2" hide-gutters no-gutters>
+									<v-col xs="12" sm="6">
+										<v-spacer></v-spacer>
+									</v-col>
+									<v-col xs="12" sm="6" align="right">
+										<v-btn color="info" variant="outlined" @click="demo">Demo Mode!</v-btn>
+									</v-col>
+								</v-row>
+							</v-alert>
+
 							<v-alert :style="{ visibility: errorMessage ? 'visible' : 'hidden' }" type="error"
 								class="my-5" density="compact">
 								{{ errorMessage }}
 							</v-alert>
 
 							<v-text-field v-model="username" :counter="50" :rules="defaultRules" label="Username"
-								required clearable variant="outlined" @blur="checkUsernameExists" @focus="clearSignupFailed">
+								required clearable variant="outlined" @blur="checkUsernameExists"
+								@focus="clearSignupFailed">
 							</v-text-field>
 
-							<v-text-field v-model="email" :rules="emailRules" label="E-mail" required clearable variant="outlined"
-								@blur="checkEmailExists" @focus="clearSignupFailed">
+							<v-text-field v-model="email" :rules="emailRules" label="E-mail" required clearable
+								variant="outlined" @blur="checkEmailExists" @focus="clearSignupFailed">
 							</v-text-field>
 
 							<v-text-field v-model="firstName" :counter="50" :rules="defaultRules" label="First Name"
@@ -149,6 +163,20 @@ export default defineComponent({
 		},
 		login() {
 			this.$router.push({ path: '/login' })
+		},
+		async demo() {
+			this.loading = true
+
+			const user = await MediaProvider.getUser('test', 'test@test.com')
+
+			if (!!user && user.username) {
+				this.mainStore.login(user)
+				this.$router.push({ path: '/collection' })
+			} else {
+				this.errorMessage = 'Demo login failed'
+			}
+
+			this.loading = false
 		}
 	},
 	computed: {

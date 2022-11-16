@@ -1,16 +1,15 @@
 import type UserTitleDto from '@/dto/userTitleDto'
-import type IUser from '@/models/user'
-import User from '@/models/user'
+import User, { type IUserInput, type IUser } from '@/models/user'
 import type IMediaService from '@/services/IMediaService'
 
 class MockMediaService implements IMediaService {
 
-	public async addUser(user: IUser): Promise<IUser> {
-		return new User(user)
+	public async addUser(user: IUserInput): Promise<IUser> {
+		return new User({ id: 1, username: user.username, email: user.email })
 	}
 
 	public async getUser(username?: string, email?: string): Promise<IUser> {
-		return new User({ username: username ?? 'foo', email: email ?? 'foo@test.com' })
+		return new User({ id: 1, username: username ?? 'foo', email: email ?? 'foo@test.com' })
 	}
 
 	public async getUserTitles(userId: number): Promise<UserTitleDto[]> {

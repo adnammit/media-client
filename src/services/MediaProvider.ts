@@ -1,6 +1,6 @@
 // // talks to the MovieDbApi and gets info from our third party api
 // // gets our app data from the mediaService depending on whether we're testing/mocking or not
-import type IUser from '@/models/user'
+import type { IUser, IUserInput } from '@/models/user'
 import type UserTitleDto from '@/dto/userTitleDto'
 import Title from '@/models/title'
 import type IMediaService from '@/services/IMediaService'
@@ -15,7 +15,7 @@ class MediaProvider {
 		this.service = process.env.NODE_ENV === 'testing' ? MockMediaService : MediaService
 	}
 
-	public async addUser(user: IUser): Promise<IUser> {
+	public async addUser(user: IUserInput): Promise<IUser> {
 		return await this.service.addUser(user)
 	}
 
@@ -35,7 +35,7 @@ class MediaProvider {
 		const titles = []
 		for (const userItem of userData) {
 			const id = +userItem.moviedbid
-			const movieDbDto = await MovieDbApi.getMovie(id) // start here -- make sure movie db will be around or do we need to replace it?
+			const movieDbDto = await MovieDbApi.getMovie(id)
 			const title = new Title(movieDbDto, userItem)
 			titles.push(title)
 		}

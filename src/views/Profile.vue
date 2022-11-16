@@ -8,18 +8,19 @@
 						<v-col cols="12">
 
 							<v-row align="center" justify="center">
-								<v-col align="center" xs="12" md="6">
-									<v-card-title class="text-h3">
+								<v-col align="center">
+									<v-card-title class="text-h5">
 										{{ fullName }}
 									</v-card-title>
-									<v-card-subtitle>
-										{{ username }}
+
+									<v-card-subtitle class="text-overline">
+										Username: {{ username }}
 										<br />
-										{{ email }}
+										Email: {{ email }}
 									</v-card-subtitle>
 
 								</v-col>
-								<v-col align="center" xs="12" md="6">
+								<v-col align="center">
 									<v-avatar class="ma-6" size="100">
 										<v-img alt="Avatar" :src="avatar"></v-img>
 									</v-avatar>
@@ -89,7 +90,7 @@ export default defineComponent({
 	data() {
 		return {
 			vibrates: vibrates,
-			bio: 'stuff about me'
+			bio: 'stuff about me, myself and I'
 		}
 	},
 	methods: {
