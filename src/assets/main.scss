@@ -16,6 +16,10 @@ a {
 	@include hypertext()
 }
 
+.text-spaced {
+	letter-spacing: 0.1em !important;
+}
+
 .subtitle--emphasis {
 	letter-spacing: 2px;
 	font-weight: 600;

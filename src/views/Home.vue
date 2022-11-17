@@ -11,23 +11,14 @@
 
 		<v-container class="mt-8">
 			<v-row justify="center">
-				<HomeItem title="What is UpNext?"
-					text="UpNext allows you to track your watch list across multiple streaming platforms. Search for movies and shows and see what platforms they're available on.">
-					<!-- <v-btn class="ma-2 text-color--contrast" color="info" icon="mdi-arrow-right-circle"
-							size="x-large" @click="handleSignup">
-						</v-btn> -->
-				</HomeItem>
-				<HomeItem title="What is UpNext not?"
-					text="UpNext can't tell you what streaming platforms you're subscribed to. Sorry, you still have to manage those yourself :) ">
-					<!-- <v-btn class="ma-2 text-color--contrast" color="warning" icon="mdi-newspaper-variant-multiple"
-							size="x-large" to="/feed">
-						</v-btn> -->
-				</HomeItem>
-				<HomeItem title="Why is UpNext?" text="Because it's silly fun! Find more silliness over on GitHub">
-					<v-btn absolute bottom left class="ma-2 text-color--contrast" color="secondary" icon="mdi-github"
-						size="x-large" href="https://github.com/adnammit">
-					</v-btn>
-				</HomeItem>
+
+				<template v-for="item in homeItems">
+					<HomeItem :title="item.title" :text="item.text">
+						<v-btn class="ma-2 text-color--contrast" :color="item.color" :icon="item.icon" size="x-large"
+							:to="item.route">
+						</v-btn>
+					</HomeItem>
+				</template>
 			</v-row>
 		</v-container>
 	</PageLayout>
@@ -36,19 +27,37 @@
 <script lang="ts">
 import HomeItem from '@/components/HomeItem.vue'
 import PageLayout from '@/components/navigation/PageLayout.vue'
-// import { useRouter } from 'vue-router'
 
 export default {
 	name: "Home",
 	components: { HomeItem, PageLayout },
-	// setup() {
-
-	// 	const router = useRouter()
-	// 	function handleSignup() {
-	// 		router.push({ path: '/login' })
-	// 	}
-
-	// 	return { handleSignup }
-	// }
+	data() {
+		return {
+			homeItems:
+				[
+					{
+						title: 'What is UpNext?',
+						text: ['UpNext allows you to keep a list of items to watch and see what platforms they\'re available on.', 'Sign up to get started!'],
+						icon: 'mdi-arrow-right-circle',
+						color: 'info',
+						route: '/signup'
+					},
+					{
+						title: 'Why is UpNext?',
+						text: ['Because keeping track of what you want to watch across multiple subscription services is terrible!', 'And when you can\'t decide what to watch, let our Randomizer pick for you!'],
+						icon: 'mdi-dice-5',
+						color: 'warning',
+						route: '/collection' // TODO: generate a random movie?
+					},
+					{
+						title: 'How is UpNext?',
+						text: ['It\'s silly fun, made by me!', 'Read more about UpNext below'],
+						icon: 'mdi-help-circle',
+						color: 'secondary',
+						route: '/about'
+					},
+				],
+		}
+	}
 }
 </script>

@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia'
 import type IUser from '@/models/user'
 import type Title from '@/models/title'
-// import type { FeedItem } from '@/models/feedItem'
-// import feedData from '@/store/feed.json'
-import MovieDbApi from '@/services/MovieDbApi'
 import MediaProvider from '@/services/MediaProvider'
 
 type ErrorState = {
@@ -15,7 +12,7 @@ export type RootState = {
 	user: IUser | null,
 	isLoading: boolean,
 	error: ErrorState,
-	collection: Title[] //FeedItem[]
+	collection: Title[]
 }
 
 export const useMainStore = defineStore('main', {
@@ -58,8 +55,8 @@ export const useMainStore = defineStore('main', {
 				.then((res: Title[]) => {
 					this.collection = res
 
-					console.log('>> got this data')
-					console.log(res);
+					// console.log('>> got this data')
+					// console.log(res);
 				})
 				.catch((e: any) => {
 					console.error(e);
@@ -68,19 +65,6 @@ export const useMainStore = defineStore('main', {
 				.finally(() => {
 					this.isLoading = false
 				});
-
-
-			// this.collection = feedData.map((d: any) => {
-			// 	return {
-			// 		id: d.id as number,
-			// 		subject: d.subject,
-			// 		title: d.title,
-			// 		author: d.author,
-			// 		text: d.text,
-			// 		publishDate: d.publishDate,
-			// 		imgUrl: d.imgUrl
-			// 	} as FeedItem
-			// })
 		},
 
 		unloadCollection() {
