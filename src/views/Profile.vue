@@ -1,6 +1,6 @@
 <template>
 	<PageLayout>
-		<v-card class="pa-6">
+		<v-card class="my-5 pa-5">
 		<!-- <v-card class="pa-6" max-width="80%" min-width="500px"> -->
 			<v-form ref="form" lazy-validation @submit.prevent="updateProfile">
 				<v-container fluid>

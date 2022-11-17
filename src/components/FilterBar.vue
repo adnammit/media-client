@@ -1,5 +1,5 @@
 <template>
-	<div class="container-fluid mt-4 filter-bar">
+	<div class="container-fluid filter-bar">
 		<div>
 			<v-toolbar dense short flat>
 				<!-- <v-toolbar-title class="mr-5">As you wish</v-toolbar-title> -->
@@ -111,19 +111,19 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/style/colors';
+@import '@/assets/colors';
 
 .filter-bar .v-toolbar {
-	color: $alto;
-	background-color: $tundora !important;
+	// color: $alto;
+	background-color: red !important;
 
-	.filter-bar__search {
-		padding-top: 4px;
-	}
+	// .filter-bar__search {
+	// 	padding-top: 4px;
+	// }
 
-	.loader--placeholder {
-		height: 20px;
-		width: 1px;
-	}
+	// .loader--placeholder {
+	// 	height: 20px;
+	// 	width: 1px;
+	// }
 }
 </style>

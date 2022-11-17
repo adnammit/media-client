@@ -1,8 +1,8 @@
 <template>
 	<PageLayout>
-		<v-card variant="tonal" class="pa-6" max-width="400">
+		<v-card variant="tonal" class="my-5 pa-5" max-width="400">
 			<div>
-				<v-card-title class="text-h3">
+				<v-card-title class="text-h4">
 					Settings
 				</v-card-title>
 				<v-card-text>

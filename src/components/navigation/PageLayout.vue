@@ -1,7 +1,7 @@
 <template>
 	<NavBar />
 	<v-main class="main-body">
-		<v-container fluid class="fill-height">
+		<v-container fluid class="fill-height pt-0">
 			<v-row justify="center">
 				<v-col cols="12" class="text-xs-center">
 					<div class="d-flex align-center flex-column">

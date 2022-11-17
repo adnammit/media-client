@@ -2,6 +2,9 @@ import { defineStore } from 'pinia'
 import type IUser from '@/models/user'
 import type Title from '@/models/title'
 import MediaProvider from '@/services/MediaProvider'
+import { useFilterStore } from '@/store/filter'
+import { MediaType } from '@/models/enum'
+
 
 type ErrorState = {
 	isError: boolean,
@@ -79,12 +82,20 @@ export const useMainStore = defineStore('main', {
 			this.collection = []
 		},
 	},
-
 	getters: {
+		// filterStore() {
+		// 	return useFilterStore()
+		// },
 		username: (state: RootState): string => state.user?.username ?? '',
 		fullName: (state: RootState): string => `${state.user?.firstName} ${state.user?.lastName}` ?? '',
 		email: (state: RootState): string => state.user?.email ?? '',
 		isAuthenticated: (state: RootState): boolean => (!!state.user?.username),
+		filteredCollection: (state: RootState) => {
+			const filterStore = useFilterStore()
+			return state.collection
+				.filter(m => (filterStore.filterByFavorite ? m.favorite : filterStore.filterByWatched ? !m.watched : filterStore.filterByUpNext ? m.queued : true))
+				.filter(i => (filterStore.filterToMovies ? i.mediaType == MediaType.Movie : filterStore.filterToTv ? i.mediaType == MediaType.TV : true));
+		},
 	}
 })
 

@@ -1,6 +1,6 @@
 <template>
 	<PageLayout>
-		<v-card class="pa-6" :width="width">
+		<v-card class="my-5 pa-5" :width="width">
 			<v-form ref="form" lazy-validation @submit.prevent="tryLogin" :disabled="loading">
 
 				<v-container fluid>

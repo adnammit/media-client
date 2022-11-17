@@ -101,7 +101,7 @@ export const useFilterStore = defineStore('filter', {
 	},
 
 	getters: {
-		mainStore() {
+		mainStore():any {
 			return useMainStore()
 		},
 	}
