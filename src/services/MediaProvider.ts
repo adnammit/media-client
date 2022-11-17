@@ -9,7 +9,6 @@ import MediaService from '@/services/MediaService'
 import MockMediaService from '@/services/MockMediaService'
 import MovieDbApi from '@/services/MovieDbApi'
 
-
 class MediaProvider {
 	private service: IMediaService
 
@@ -32,30 +31,26 @@ class MediaProvider {
 		})
 	}
 
-	// consider: we could just store all this data in our db to streamline this
+	// consider: we could just store all this data in our db and avoid making a bazillion promises but...
 	private async populateTitleData(userData: UserTitleDto[]): Promise<Title[]> {
-		const titles = []
-		// TODO do this asynchronously
+		let titles: Title[] = []
+		let promises: Promise<any>[] = []
+
 		for (const userItem of userData) {
 			const id = +userItem.moviedbid
-			const titleDto = await MovieDbApi.getTitle(id, userItem.mediatype as MediaType)
-			const title = new Title(titleDto, userItem)
-			titles.push(title)
+			promises.push(
+				MovieDbApi.getTitle(id, userItem.mediatype as MediaType)
+				.then((res) => {
+					const title = new Title(res, userItem)
+					console.log('>> pushed ' + JSON.stringify(title));
+					titles.push(title)
+				}))
 		}
+
+		await Promise.all(promises)
 		return titles
 	}
 
-	// private async populateTv(userData: UserMedia[]): Promise<Tv[]> {
-	// 	const tvs = []
-	// 	for (const item of userData) {
-	// 		const id: number = +item.moviedbid
-	// 		const tv: Tv = await MovieDbApi.getTv(id)
-
-	// 		tv.populateWithUser(item)
-	// 		tvs.push(tv)
-	// 	}
-	// 	return tvs
-	// }
 
 	// public async addSearch(userid: number, item: SearchResult): Promise<boolean> {
 	// 	return item.mediaType == MediaType.Movie ? this.addSearchAsMovie(userid, item) : this.addSearchAsTv(userid, item)

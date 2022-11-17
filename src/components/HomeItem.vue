@@ -1,6 +1,6 @@
 <template>
-	<v-col cols="12" sm="4" align="center">
-		<v-card height="300px" class="pa-2">
+	<v-col cols="12" sm="4" lg="3" align="center">
+		<v-card height="400px" class="pa-2">
 			<v-card-title class="text-h5 text-spaced my-5">
 				{{ title }}
 			</v-card-title>
