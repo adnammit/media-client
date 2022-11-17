@@ -31,7 +31,7 @@ class MediaProvider {
 		})
 	}
 
-	// consider: we could just store all this data in our db and avoid making a bazillion promises but...
+	// TODO: this is a performance concern. we could just store all this data in our db and avoid making a bazillion promises but...
 	private async populateTitleData(userData: UserTitleDto[]): Promise<Title[]> {
 		let titles: Title[] = []
 		let promises: Promise<any>[] = []
@@ -40,11 +40,9 @@ class MediaProvider {
 			const id = +userItem.moviedbid
 			promises.push(
 				MovieDbApi.getTitle(id, userItem.mediatype as MediaType)
-				.then((res) => {
-					const title = new Title(res, userItem)
-					console.log('>> pushed ' + JSON.stringify(title));
-					titles.push(title)
-				}))
+					.then((res) => {
+						titles.push(new Title(res, userItem))
+					}))
 		}
 
 		await Promise.all(promises)

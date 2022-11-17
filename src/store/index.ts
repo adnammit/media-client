@@ -26,16 +26,24 @@ export const useMainStore = defineStore('main', {
 
 	actions: {
 
-		async login(user: IUser) {
+		login(user: IUser) {
 			this.error = { isError: false, message: '' }
 			this.user = user
 			this.loadCollection()
 		},
 
-		async logout() {
+		logout() {
 			this.user = null
 			this.unloadCollection()
 			this.$router.push({ path: '/' })
+		},
+
+		setIsLoading(val: boolean) {
+			this.isLoading = val
+		},
+
+		setIsErrored(val: boolean, message?: string) {
+			this.error = { isError: val, message: message ?? '' }
 		},
 
 		async loadCollection() {

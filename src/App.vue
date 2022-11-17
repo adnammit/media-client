@@ -11,15 +11,21 @@
 <script setup lang="ts">
 // import { watch, onMounted, onBeforeMount } from 'vue'
 import { useMainStore } from '@/store'
+// import { useTheme } from 'vuetify'
 import PageLoader from '@/components/navigation/PageLoader.vue'
 
 const store = useMainStore()
+// const theme = useTheme()
 const isLoading = store.isLoading
 
-// onMounted(() => {
-// 	watch(auth, async (authState) => {
-// 		store.syncUser({ ...authState.user }, authState.isAuthenticated)
-// 	})
+// onBeforeMount(() => {
+// 	const isDarkMode = window.matchMedia &&
+// 		window.matchMedia("(prefers-color-scheme: dark)").matches
+// 	// Testing
+// 	console.log(isDarkMode);
+// 	if (isDarkMode) {
+// 		theme.global.name.value = 'dark'
+// 	}
 // })
 
 </script>

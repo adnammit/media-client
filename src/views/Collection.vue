@@ -10,8 +10,8 @@
 		<v-container fluid v-if="hasContent">
 			<v-row dense>
 				<v-col v-for="(item, index) in filteredContent" :key="item.id" xs="12" sm="6" md="3" xl="2">
-					<CollectionItemDisplay :title="item.title" :text="item.summary"
-						:poster="item.poster" />
+					<CollectionItemDisplay :title="item.title" :summary="item.summary"
+						:poster="item.poster" :released="item.released" />
 				</v-col>
 			</v-row>
 		</v-container>

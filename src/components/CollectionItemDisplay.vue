@@ -1,13 +1,15 @@
 <template>
 
-	<v-card class="mx-1 my-3 py-3" @click="dialog = true" max-height="200px">
+	<v-card class="mx-1" @click="dialog = true" max-height="200px">
 		<v-img :src="posterUrl" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px"
 			cover>
 
 			<v-card-title class="text-button text-no-wrap text-color--contrast">
 				{{ title }}
 			</v-card-title>
-			<v-card-subtitle class="pb-3 text-color--contrast">2008</v-card-subtitle>
+			<v-card-subtitle class="pb-3 text-color--contrast">
+				{{ year }}
+			</v-card-subtitle>
 			<v-card-text>
 				<v-container class="px-0">
 					<v-row align="center" no-gutters>
@@ -58,11 +60,13 @@
 import { defineComponent } from 'vue'
 import { useMainStore } from '@/store'
 import { useDisplay } from 'vuetify'
+import { formatYear } from '@/filters/format'
 
 export default defineComponent({
 	props: {
 		title: String,
-		text: String,
+		summary: String,
+		released: Date,
 		poster: String
 	},
 	data() {
@@ -73,15 +77,17 @@ export default defineComponent({
 	},
 	computed: {
 		quickText(): string {
-			let words = this.text?.split(' ') ?? []
+			let words = this.summary?.split(' ') ?? []
 			if (words?.length > this.maxPreviewWordLength) {
 				words = words.slice(0, this.maxPreviewWordLength)
 				words.push('(...)')
 			}
 			return words.join(' ')
 		},
+		year(): string {
+			return formatYear(this.released)
+		},
 		posterUrl(): string {
-			console.log('>> ' + `${import.meta.env.VITE_POSTER_BASE_PATH}${this.poster}`);
 			return `${import.meta.env.VITE_POSTER_BASE_PATH}${this.poster}`
 		},
 		width(): string {
