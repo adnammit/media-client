@@ -2,12 +2,13 @@ import axios from 'axios'
 import User, { type IUserInput, type IUser } from '@/models/user'
 import type UserTitleDto from '@/dto/userTitleDto'
 import type IMediaService from '@/services/IMediaService'
+import ApiBase from '@/services/ApiBase'
 
 const requestMgr = axios.create({
 	baseURL: `${import.meta.env.VITE_API_SERVER_URL}/api/v1/`,
 })
 
-class MediaService implements IMediaService {
+class MediaService extends ApiBase implements IMediaService {
 
 	public async addUser(user: IUserInput): Promise<IUser> {
 
@@ -177,25 +178,6 @@ class MediaService implements IMediaService {
 	private rawToUser(raw: any): IUser | null {
 		if (!raw || !raw.username || !raw.email) return null
 		return new User({ id: raw.userid, username: raw.username, email: raw.email, firstName: raw.firstname, lastName: raw.lastname })
-	}
-
-	private logError(error: any) {
-		if (error.response) {
-			// The request was made and the server responded with a status code
-			// that falls out of the range of 2xx
-			console.log(error.response.data)
-			console.log(error.response.status)
-			console.log(error.response.headers)
-		} else if (error.request) {
-			// The request was made but no response was received
-			// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-			// http.ClientRequest in node.js
-			console.error(error.request)
-		} else {
-			// Something happened in setting up the request that triggered an Error
-			console.error('Error', error.message)
-		}
-		console.log(error.config)
 	}
 }
 

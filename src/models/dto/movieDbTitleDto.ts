@@ -1,9 +1,7 @@
 import type Genre from '@/models/genre'
 
-// directly maps with results from MovieDb get movie/id
-export default interface MovieDbDto {
-	title: string
-	release_date: Date
+// props shared between TvDto and MovieDto
+export default interface TitleDto {
 	id: number
 	imdb_id: string
 	genres: Genre[]
@@ -12,6 +10,5 @@ export default interface MovieDbDto {
 	original_language: string
 	poster_path: string
 	overview: string
-	runtime: number
 	tagline: string
 }

@@ -1,12 +1,14 @@
 // // talks to the MovieDbApi and gets info from our third party api
 // // gets our app data from the mediaService depending on whether we're testing/mocking or not
 import type { IUser, IUserInput } from '@/models/user'
+import type { MediaType } from '@/models/enum'
 import type UserTitleDto from '@/dto/userTitleDto'
 import Title from '@/models/title'
 import type IMediaService from '@/services/IMediaService'
 import MediaService from '@/services/MediaService'
 import MockMediaService from '@/services/MockMediaService'
 import MovieDbApi from '@/services/MovieDbApi'
+
 
 class MediaProvider {
 	private service: IMediaService
@@ -33,10 +35,11 @@ class MediaProvider {
 	// consider: we could just store all this data in our db to streamline this
 	private async populateTitleData(userData: UserTitleDto[]): Promise<Title[]> {
 		const titles = []
+		// TODO do this asynchronously
 		for (const userItem of userData) {
 			const id = +userItem.moviedbid
-			const movieDbDto = await MovieDbApi.getMovie(id)
-			const title = new Title(movieDbDto, userItem)
+			const titleDto = await MovieDbApi.getTitle(id, userItem.mediatype as MediaType)
+			const title = new Title(titleDto, userItem)
 			titles.push(title)
 		}
 		return titles

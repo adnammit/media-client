@@ -10,8 +10,8 @@
 		<v-container fluid v-if="hasContent">
 			<v-row dense>
 				<v-col v-for="(item, index) in filteredContent" :key="item.id" xs="12" sm="6" md="3" xl="2">
-					<CollectionItemDisplay :title="item.title" :text="item.text" :author="item.author"
-						:imgUrl="item.imgUrl" />
+					<CollectionItemDisplay :title="item.title" :text="item.summary"
+						:poster="item.poster" />
 				</v-col>
 			</v-row>
 		</v-container>
@@ -43,7 +43,7 @@
 import { defineComponent } from 'vue'
 import { useMainStore } from '@/store'
 import PageLayout from '@/components/navigation/PageLayout.vue'
-import type { FeedItem } from '@/models/feedItem'
+import type Title from '@/models/title'
 import CollectionItemDisplay from '@/components/CollectionItemDisplay.vue'
 
 export default defineComponent({
@@ -61,15 +61,18 @@ export default defineComponent({
 		hasContent(): boolean {
 			return this.filteredContent.length > 0
 		},
-		filteredContent(): FeedItem[] {
-
+		filteredContent(): Title[] {
 			// return [] // test 'no-content'
-			return this.mainStore.collection.filter(f => f.text != '')
+			return this.mainStore.collection
+			// return this.mainStore.collection.filter(f => f.text != '')
 		}
 	},
 	setup() {
 		const mainStore = useMainStore()
 		return { mainStore }
+	},
+	created() {
+		this.mainStore.loadCollection()
 	}
 })
 </script>

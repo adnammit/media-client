@@ -14,7 +14,6 @@ type ErrorState = {
 export type RootState = {
 	user: IUser | null,
 	isLoading: boolean,
-	noData: boolean,
 	error: ErrorState,
 	collection: Title[] //FeedItem[]
 }
@@ -24,7 +23,6 @@ export const useMainStore = defineStore('main', {
 	state: () => ({
 		user: null,
 		isLoading: false,
-		noData: false,
 		error: { isError: false, message: '' },
 		collection: []
 	} as RootState),
@@ -59,7 +57,6 @@ export const useMainStore = defineStore('main', {
 			MediaProvider.getUserTitles(this.user?.id ?? 0)
 				.then((res: Title[]) => {
 					this.collection = res
-					this.noData = (res.length == 0)
 
 					console.log('>> got this data')
 					console.log(res);

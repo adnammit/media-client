@@ -1,7 +1,7 @@
 <template>
 
 	<v-card class="mx-1 my-3 py-3" @click="dialog = true" max-height="200px">
-		<v-img :src="imgUrl" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px"
+		<v-img :src="posterUrl" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px"
 			cover>
 
 			<v-card-title class="text-button text-no-wrap text-color--contrast">
@@ -63,8 +63,7 @@ export default defineComponent({
 	props: {
 		title: String,
 		text: String,
-		author: String,
-		imgUrl: String
+		poster: String
 	},
 	data() {
 		return {
@@ -80,6 +79,10 @@ export default defineComponent({
 				words.push('(...)')
 			}
 			return words.join(' ')
+		},
+		posterUrl(): string {
+			console.log('>> ' + `${import.meta.env.VITE_POSTER_BASE_PATH}${this.poster}`);
+			return `${import.meta.env.VITE_POSTER_BASE_PATH}${this.poster}`
 		},
 		width(): string {
 			return (this.isSmallScreen) ? '90%' : '60%'

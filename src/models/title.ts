@@ -1,5 +1,6 @@
 import type UserTitleDto from '@/dto/userTitleDto'
-import type MovieDbDto from '@/dto/movieDbDto'
+import type MovieDto from '@/dto/movieDbMovieDto'
+import type TvDto from '@/dto/movieDbTvDto'
 import type { MediaType } from '@/models/enum'
 import type Genre from '@/models/genre'
 
@@ -20,9 +21,9 @@ export default class Title {
 	public watched = false
 	public favorite = false
 	public queued = false
-	// public abstract released: Date
+	public released: Date
 
-	constructor(titleDto: MovieDbDto, userItem: UserTitleDto) {
+	constructor(titleDto: MovieDto | TvDto, userItem: UserTitleDto) {
 		this.id = userItem.titleid
 		this.mediaType = userItem.mediatype as MediaType
 		this.rating = userItem.rating
@@ -39,14 +40,12 @@ export default class Title {
 		this.tagline = titleDto ? titleDto.tagline : ''
 		this.summary = titleDto ? titleDto.overview : ''
 		this.originalLanguage = titleDto ? titleDto.original_language : ''
+
+		this.title = this.instanceOfMovie(titleDto) ? titleDto.title : titleDto.name
+		this.released = this.instanceOfMovie(titleDto) ? titleDto.release_date : titleDto.first_air_date
 	}
 
-	// public populateWithUser(dto: UserTitleDto) {
-	// 	this.id = dto.titleid
-	// 	this.mediaType = dto.mediatype as MediaType
-	// 	this.rating = dto.rating
-	// 	this.watched = dto.watched
-	// 	this.favorite = dto.favorite
-	// 	this.queued = dto.queued
-	// }
+	instanceOfMovie(data: MovieDto | TvDto): data is MovieDto {
+		return 'title' in data;
+	}
 }
