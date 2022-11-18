@@ -46,6 +46,7 @@ npm run lint
 
 
 ## To-do
+* show which filter buttons are selected
 * **START HERE**: add mediaDetail modal to add a search item to collection; make sure you clear search props when opening modal
 * mobile friendly filter
 * can i filter cards like a table? or can i make a table look like cards? -- yeah i think you just... filter the list...?

@@ -43,14 +43,14 @@ export default {
 					},
 					{
 						title: 'Why is UpNext?',
-						text: ['Because keeping track of what you want to watch across multiple subscription services is terrible!', 'And when you can\'t decide what to watch, let our Randomizer pick for you!'],
+						text: ['Because keeping track of what you want to watch across multiple subscription services is a terrible way to live your life.', 'And when you can\'t decide what to watch, let our Randomizer pick for you!'],
 						icon: 'mdi-dice-5',
 						color: 'warning',
 						route: '/collection' // TODO: generate a random movie?
 					},
 					{
 						title: 'How is UpNext?',
-						text: ['It\'s silly fun, made by me!', 'Read more about UpNext below'],
+						text: ['UpNext is a personal portfolio project, not a Real Thing, but feel free to check it out!', 'Read more about UpNext below.'],
 						icon: 'mdi-help-circle',
 						color: 'secondary',
 						route: '/about'

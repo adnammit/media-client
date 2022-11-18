@@ -1,6 +1,6 @@
 <template>
 	<v-row justify="center">
-		<v-dialog :value="dialog" @input="$emit('input', $event)" scrollable max-width="40vw">
+		<v-dialog v-model="dialog" scrollable max-width="40vw">
 			<v-card class="item-details">
 				<!-- <v-card-title>{{ title }}</v-card-title>
 				<v-card-subtitle>{{ subtitle }}</v-card-subtitle>
@@ -67,8 +67,8 @@
 				<v-divider></v-divider>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<!-- <v-btn @click.stop="confirmDiscard">NOPE</v-btn>
-					<v-btn @click.stop="save" class="save">Save</v-btn> -->
+					<v-btn @click.stop="confirmDiscard">Cancel</v-btn>
+					<v-btn @click.stop="save" class="save">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -91,9 +91,9 @@ import { MediaType } from '@/models/enum'
 
 export default defineComponent({
 	components: { Rating, GenreSet, SimpleAlert, Poster },
-	props: {
-		dialog: Boolean,
-	},
+	// props: {
+	// 	dialog: Boolean,
+	// },
 	data() {
 		return {
 			queued: false,
@@ -106,15 +106,27 @@ export default defineComponent({
 		}
 	},
 	computed: {
+		dialog: {
+			get() {
+				return this.filterStore.showSelectedItem
+			},
+			set(value:boolean) {
+				this.filterStore.toggleShowSelectedItem(value)
+				// this.$emit('input', value)
+			}
+		},
+
 		alertMessage(): string {
 			return 'Are you sure you want to discard changes to "' + this.selectedItem.title + '"?'
 		},
+
 		selectedItem(): SearchResult {
 			if (!!this.filterStore.selectedItem) return this.filterStore.selectedItem
 			const msg = 'Could not load selected item'
 			console.error(msg)
 			throw Error()
 		},
+
 		title(): string {
 			return this.selectedItem.title
 		},
@@ -157,13 +169,6 @@ export default defineComponent({
 	},
 	methods: {
 
-		// updateValue(e: any): void {
-		// 	console.log('>> value ' + JSON.stringify(e));
-		// 	// if (e)
-		// 	this.$emit('update:value', e.currentTarget.value)
-		// 	// this.$emit('closeDialog')
-		// },
-
 		toggleQueued(): void {
 			this.queued = !this.queued
 		},
@@ -189,9 +194,11 @@ export default defineComponent({
 		},
 
 		closeDialog() {
-			this.filterStore.clearSelectedItem()
+			this.filterStore.clearSearchData()
+			// this.filterStore.toggleShowAddItem(false)
+
 			// emit closeDialog
-			this.$emit('close-dialog')
+			// this.$emit('close-dialog')
 			// this.$emit('update:value', false)
 			//
 		},

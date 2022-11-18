@@ -14,7 +14,7 @@
 				<v-spacer></v-spacer>
 
 				<v-autocomplete v-model="searchModel" :items="searchItems" :loading="isSearching"
-					v-model:search="search" clearable hide-details hide-selected item-title="title"
+					v-model:search="search" clearable hide-details item-title="title"
 					item-value="movieDbId" label="Add to your collection..." dense variant="underlined">
 					<template v-slot:no-data>
 						<v-list-item>
@@ -25,14 +25,14 @@
 					</template>
 
 					<!-- IF WE WANTED TO SHOW WHAT WE SELECTED: -->
-					<!-- <template v-slot:selection="{ attr, on, item, selected }">
+					<template v-slot:selection="{ attr, on, item, selected }">
 						<v-chip v-bind="attr" :model-value="selected" color="blue-grey" v-on="on">
 							<v-icon start>
 								mdi-magnify
 							</v-icon>
 							<span v-text="item.title"></span>
 						</v-chip>
-					</template> -->
+					</template>
 
 					<template v-slot:item="{ props, item }">
 						<!-- TODO display genre, maybe pic? -->
@@ -80,6 +80,21 @@ export default defineComponent({
 		searchItems(): SearchResult[] {
 			return this.filterStore.results
 		},
+		selectedItem(): SearchResult | undefined {
+			console.log('>> selected item ' + JSON.stringify(this.filterStore.selectedItem));
+			return this.filterStore.selectedItem
+		},
+
+		// selectedItem: {
+		// 	get() {
+		// 		return this.filterStore.selectedItem
+		// 	},
+		// 	set(value: boolean) {
+		// 		this.filterStore.toggleShowSelectedItem(value)
+		// 		// this.$emit('input', value)
+		// 	}
+		// },
+
 		isSearching(): boolean {
 			return this.filterStore.isSearching
 		}
@@ -130,6 +145,29 @@ export default defineComponent({
 					this.filterStore.resetSearch()
 				}
 			}
+			console.log('>> updating seach model ' + JSON.stringify(val));
+
+			// this.search = ''
+			// console.log('>> search is ' + JSON.stringify(this.search));
+
+
+		},
+		selectedItem(val) {
+			console.log('>> selected item changed ' + JSON.stringify(val));
+			// clear our local value when the store updates
+			if (!val) {
+				this.searchModel = null
+			}
+			// if (!!val) {
+			// 	const result = this.searchItems.find(s => s.movieDbId == val)
+
+			// 	if (!!result) {
+			// 		this.filterStore.setSelectedItem(result)
+			// 	} else {
+			// 		console.error(`Error finding search result for movieDbId ${val}`)
+			// 		this.filterStore.resetSearch()
+			// 	}
+			// }
 		}
 	},
 	setup() {

@@ -10,7 +10,7 @@ export type FilterState = {
 	filterToMovies: boolean
 	filterToTv: boolean
 	showSearch: boolean
-	showAddItem: boolean
+	showSelectedItem: boolean
 	results: SearchResult[],
 	selectedItem?: SearchResult,
 	isSearching: boolean
@@ -25,7 +25,7 @@ export const useFilterStore = defineStore('filter', {
 		filterToMovies: false,
 		filterToTv: false,
 		showSearch: false,
-		showAddItem: false,
+		showSelectedItem: false,
 		results: [],
 		isSearching: false
 	} as FilterState),
@@ -81,44 +81,44 @@ export const useFilterStore = defineStore('filter', {
 		setSelectedItem(val: SearchResult) {
 			console.log('>> set selected to ' + JSON.stringify(val));
 			this.selectedItem = val
-			this.showAddItem = true
+			this.showSelectedItem = true
 		},
 
-		clearSelectedItem() {
+		clearSearchData() {
+			console.log('>> clearing data ');
 			this.selectedItem = undefined
-			this.showAddItem = false
+			this.results = []
+			this.showSelectedItem = false
 		},
 
-		toggleShowSearchDetail(val: boolean) {
-			this.showAddItem = val
+		toggleShowSelectedItem(val: boolean) {
+			this.showSelectedItem = val
 		},
 
 		async Search(search: string) {
 
-			this.isSearching = true
+			if (!!search) {
+				this.isSearching = true
 
-			MovieDbApi.search(search)
-				.then((results: any) => {
-					if (results.Error != null) {
-						throw Error('Error contacting movie api ' + JSON.stringify(results.Error))
-					} else {
-						this.results = results
-					}
-				})
-				.catch((e: any) => {
-					console.log(e)
-					// this.mainStore.setIsErrored(true, 'Error while searching')
-				})
-				.finally(() => {
-					this.isSearching = false
-				})
+				MovieDbApi.search(search)
+					.then((results: any) => {
+						if (results.Error != null) {
+							throw Error('Error contacting movie api ' + JSON.stringify(results.Error))
+						} else {
+							this.results = results
+						}
+					})
+					.catch((e: any) => {
+						console.log(e)
+						// this.mainStore.setIsErrored(true, 'Error while searching')
+					})
+					.finally(() => {
+						this.isSearching = false
+					})
+			} else {
+				this.clearSearchData()
+			}
 		},
-
-		async clearSearch() {
-			this.results = []
-		},
-
-
 
 	},
 
@@ -126,8 +126,8 @@ export const useFilterStore = defineStore('filter', {
 		mainStore(): any {
 			return useMainStore()
 		},
-		showSearchDetail(): boolean {
-			return this.showAddItem
-		}
+		// showSearchDetail(): boolean {
+		// 	return this.showAddItem
+		// }
 	}
 })

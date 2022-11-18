@@ -21,15 +21,6 @@
 			<div class="font-weight-light text-h3">
 				<br />
 				<v-icon icon="mdi-sail-boat" size="x-large" class="mb-5"></v-icon>
-
-				<!-- idk just messin -->
-				<!-- <v-icon icon="mdi-moon-waning-crescent" size="medium"></v-icon>
-									<v-icon icon="mdi-moon-last-quarter" size="medium"></v-icon>
-									<v-icon icon="mdi-moon-waning-gibbous" size="medium"></v-icon>
-									<v-icon icon="mdi-moon-full" size="medium"></v-icon>
-									<v-icon icon="mdi-moon-waxing-gibbous" size="medium"></v-icon>
-									<v-icon icon="mdi-moon-first-quarter" size="medium"></v-icon>
-									<v-icon icon="mdi-moon-waxing-crescent" size="medium"></v-icon> -->
 			</div>
 			<div class="text-overline font-weight-light">Search for a title to start</div>
 		</div>
@@ -80,19 +71,6 @@ import SearchDetail from '@/components/SearchDetail.vue'
 export default defineComponent({
 	name: 'Collection',
 	components: { PageLayout, FilterBar, Loader, CollectionItemDisplay, SearchDetail },
-	// data() {
-	// 	return {
-	// 		showSearchDetail: false,
-	// 	}
-	// },
-	// methods: {
-	// 	closeSearchDetail() {
-	// 		console.log('>> emitted close')
-	// 		this.filterStore.toggleShowSearchDetail(false)
-	// 		// console.log('>> closing search detail ' );
-	// 		// this.showSearchDetail = false
-	// 	}
-	// },
 	computed: {
 		title(): string {
 			return 'My Collection'
@@ -116,33 +94,11 @@ export default defineComponent({
 		filteredContent(): Title[] {
 			return this.mainStore.filteredCollection
 		},
-		// ...mapState(useFilterStore, ['showSearchDetail']),
-
-
-		showSearchDetail(): boolean {
-			console.log('>> showadditem ' + this.filterStore.showAddItem);
-			return this.filterStore.showAddItem
-			// return !!this.filterStore.selectedItem && this.filterStore.selectedItem.movieDbId > 0
-		},
-
-		closeDetail() {
-			this.filterStore.toggleShowSearchDetail(false)
-		}
 
 	},
-	// watch: {
-	// 	useMainStore(val: boolean) {
-	// 		console.log('>> showadditem ' + val);
-	// 		this.showSearchDetail = val
-	// 	},
-	// },
 	setup() {
 		const mainStore = useMainStore()
 		const filterStore = useFilterStore()
-
-		// const { selectedItem } = storeToRefs(filterStore)
-		// watch(selectedItem, handleUpdate)
-
 		return { mainStore, filterStore }
 	},
 	created() {
