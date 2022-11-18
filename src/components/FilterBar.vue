@@ -1,9 +1,7 @@
 <template>
-	<div class="container-fluid filter-bar">
+	<div class="container-fluid filter-bar ma-0 py-0 px-2">
 		<div>
-			<v-toolbar dense short flat>
-				<!-- <v-toolbar-title class="mr-5">As you wish</v-toolbar-title> -->
-				<!-- <v-spacer></v-spacer> -->
+			<v-toolbar border>
 				<v-btn @click="resetFilter()" rounded :text="!isUnfiltered">All</v-btn>
 				<v-btn @click="toggleFavorites()" rounded :text="!isFilteredByFavorite">Favorites</v-btn>
 				<v-btn @click="toggleWatched()" rounded :text="!isFilteredByWatched">To Do</v-btn>
@@ -11,22 +9,38 @@
 				<v-btn @click="toggleMovies()" rounded :text="!isFilteredByMovies">Movies</v-btn>
 				<v-btn @click="toggleTv()" rounded :text="!isFilteredByTv">Tv</v-btn>
 				<v-btn @click="surprise()" rounded text>
-					<v-icon>mdi-pizza</v-icon>
+					<v-icon>mdi-dice-5</v-icon>
 				</v-btn>
 				<v-spacer></v-spacer>
-				<v-toolbar-items>
-					<v-text-field class="filter-bar__search" outlined dense clearable label="Search" v-model="search"
-						@keyup.native.enter="doSearch()" prepend-inner-icon="mdi-magnify"></v-text-field>
-				</v-toolbar-items>
+
+				<v-autocomplete v-model="searchModel" :items="searchItems" :loading="isSearching"
+					v-model:search="search" clearable hide-details hide-selected item-title="title"
+					item-value="movieDbId" label="Add to your collection..." dense variant="underlined">
+					<template v-slot:no-data>
+						<v-list-item>
+							<v-list-item-title>
+								Search for movie and show titles
+							</v-list-item-title>
+						</v-list-item>
+					</template>
+
+					<!-- IF WE WANTED TO SHOW WHAT WE SELECTED: -->
+					<!-- <template v-slot:selection="{ attr, on, item, selected }">
+						<v-chip v-bind="attr" :model-value="selected" color="blue-grey" v-on="on">
+							<v-icon start>
+								mdi-magnify
+							</v-icon>
+							<span v-text="item.title"></span>
+						</v-chip>
+					</template> -->
+
+					<template v-slot:item="{ props, item }">
+						<!-- TODO display genre, maybe pic? -->
+						<v-list-item v-bind="props" :title="item.raw.title" :subtitle="item.raw.releaseYear">
+						</v-list-item>
+					</template>
+				</v-autocomplete>
 			</v-toolbar>
-		</div>
-		<div class="text-center loader">
-			<div v-if="isLoading">
-				<v-progress-linear indeterminate color="cyan"></v-progress-linear>
-			</div>
-			<div v-else class="loader--placeholder">
-				<span></span>
-			</div>
 		</div>
 	</div>
 </template>
@@ -35,18 +49,16 @@
 import { defineComponent } from 'vue'
 import { useMainStore } from '@/store'
 import { useFilterStore } from '@/store/filter'
+import type SearchResult from '@/models/searchResult'
 
 export default defineComponent({
 	data() {
 		return {
+			searchModel: null,
 			search: '',
-			maxPreviewWordLength: 75
 		}
 	},
 	computed: {
-		isLoading(): boolean {
-			return this.mainStore.isLoading
-		},
 		isFilteredByFavorite(): boolean {
 			return this.filterStore.filterByFavorite
 		},
@@ -65,11 +77,14 @@ export default defineComponent({
 		isUnfiltered(): boolean {
 			return !this.filterStore.filterByWatched && !this.filterStore.filterByFavorite && !this.filterStore.filterByUpNext && !this.filterStore.filterToTv && !this.filterStore.filterToMovies
 		},
+		searchItems(): SearchResult[] {
+			return this.filterStore.results
+		},
+		isSearching(): boolean {
+			return this.filterStore.isSearching
+		}
 	},
 	methods: {
-		doSearch(): void {
-			this.filterStore.Search(this.search)
-		},
 
 		toggleFavorites(): void {
 			this.filterStore.toggleFavorites()
@@ -96,8 +111,26 @@ export default defineComponent({
 		},
 
 		surprise(): void {
-			window.alert('Surpise!')
+			window.alert('Surprise!')
 		},
+
+	},
+	watch: {
+		search(val) {
+			this.filterStore.Search(val)
+		},
+		searchModel(val) {
+			if (!!val) {
+				const result = this.searchItems.find(s => s.movieDbId == val)
+
+				if (!!result) {
+					this.filterStore.setSelectedItem(result)
+				} else {
+					console.error(`Error finding search result for movieDbId ${val}`)
+					this.filterStore.resetSearch()
+				}
+			}
+		}
 	},
 	setup() {
 		const mainStore = useMainStore()
@@ -113,17 +146,7 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '@/assets/colors';
 
-.filter-bar .v-toolbar {
-	// color: $alto;
-	background-color: red !important;
-
-	// .filter-bar__search {
-	// 	padding-top: 4px;
-	// }
-
-	// .loader--placeholder {
-	// 	height: 20px;
-	// 	width: 1px;
-	// }
+.filter-bar {
+	width: 100%;
 }
 </style>

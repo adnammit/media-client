@@ -1,10 +1,10 @@
 <template>
 	<v-app id="inspire">
-		<template v-if="isLoading">
+		<!-- <template v-if="isLoading">
 			<PageLoader />
-		</template>
+		</template> -->
 		<!-- ADD ERROR STATE -->
-		<router-view v-else />
+		<router-view />
 	</v-app>
 </template>
 
@@ -12,11 +12,11 @@
 // import { watch, onMounted, onBeforeMount } from 'vue'
 import { useMainStore } from '@/store'
 // import { useTheme } from 'vuetify'
-import PageLoader from '@/components/navigation/PageLoader.vue'
+// import PageLoader from '@/components/navigation/PageLoader.vue'
 
 const store = useMainStore()
 // const theme = useTheme()
-const isLoading = store.isLoading
+// const isLoading = store.isLoading
 
 // onBeforeMount(() => {
 // 	const isDarkMode = window.matchMedia &&

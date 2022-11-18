@@ -10,7 +10,10 @@ export type FilterState = {
 	filterToMovies: boolean
 	filterToTv: boolean
 	showSearch: boolean
-	results: SearchResult[]
+	showAddItem: boolean
+	results: SearchResult[],
+	selectedItem?: SearchResult,
+	isSearching: boolean
 }
 
 export const useFilterStore = defineStore('filter', {
@@ -22,7 +25,9 @@ export const useFilterStore = defineStore('filter', {
 		filterToMovies: false,
 		filterToTv: false,
 		showSearch: false,
-		results: []
+		showAddItem: false,
+		results: [],
+		isSearching: false
 	} as FilterState),
 
 	actions: {
@@ -68,13 +73,29 @@ export const useFilterStore = defineStore('filter', {
 			this.filterToTv = false
 		},
 
-		setShowSearch(val: boolean) {
-			this.showSearch = val
+		resetSearch() {
+			this.results = []
+			this.selectedItem = undefined
+		},
+
+		setSelectedItem(val: SearchResult) {
+			console.log('>> set selected to ' + JSON.stringify(val));
+			this.selectedItem = val
+			this.showAddItem = true
+		},
+
+		clearSelectedItem() {
+			this.selectedItem = undefined
+			this.showAddItem = false
+		},
+
+		toggleShowSearchDetail(val: boolean) {
+			this.showAddItem = val
 		},
 
 		async Search(search: string) {
 
-			this.mainStore.setIsLoading(true)
+			this.isSearching = true
 
 			MovieDbApi.search(search)
 				.then((results: any) => {
@@ -82,15 +103,14 @@ export const useFilterStore = defineStore('filter', {
 						throw Error('Error contacting movie api ' + JSON.stringify(results.Error))
 					} else {
 						this.results = results
-						this.showSearch = true
 					}
 				})
 				.catch((e: any) => {
 					console.log(e)
-					this.mainStore.setIsErrored(true, 'Error while searching')
+					// this.mainStore.setIsErrored(true, 'Error while searching')
 				})
 				.finally(() => {
-					this.mainStore.setIsLoading(false)
+					this.isSearching = false
 				})
 		},
 
@@ -98,11 +118,16 @@ export const useFilterStore = defineStore('filter', {
 			this.results = []
 		},
 
+
+
 	},
 
 	getters: {
-		mainStore():any {
+		mainStore(): any {
 			return useMainStore()
 		},
+		showSearchDetail(): boolean {
+			return this.showAddItem
+		}
 	}
 })

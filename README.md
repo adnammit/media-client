@@ -46,7 +46,8 @@ npm run lint
 
 
 ## To-do
-* **START HERE**: filter
+* **START HERE**: add mediaDetail modal to add a search item to collection; make sure you clear search props when opening modal
+* mobile friendly filter
 * can i filter cards like a table? or can i make a table look like cards? -- yeah i think you just... filter the list...?
 * here's the thing about simple user login -- when you refresh, you lose your user. fix it -- maybe
 * option to set your streaming services and highlight titles that are on them

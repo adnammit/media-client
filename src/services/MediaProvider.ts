@@ -8,6 +8,7 @@ import type IMediaService from '@/services/IMediaService'
 import MediaService from '@/services/MediaService'
 import MockMediaService from '@/services/MockMediaService'
 import MovieDbApi from '@/services/MovieDbApi'
+import type SearchResult from '@/models/searchResult'
 
 class MediaProvider {
 	private service: IMediaService
@@ -48,8 +49,11 @@ class MediaProvider {
 	}
 
 
-	// public async addSearch(userid: number, item: SearchResult): Promise<boolean> {
-	// 	return item.mediaType == MediaType.Movie ? this.addSearchAsMovie(userid, item) : this.addSearchAsTv(userid, item)
+	// public async addSearch(userId: number, item: Title): Promise<boolean> {
+	// 	const title = MovieDbApi.getTitle(item.movieDbId, item.mediaType)
+	// 	return this.service.addUserTitle(userId, title, item.mediaType)
+
+	// 	// return item.mediaType == MediaType.Movie ? this.addSearchAsMovie(userid, item) : this.addSearchAsTv(userid, item)
 	// }
 
 	// private async addSearchAsMovie(userid: number, item: SearchResult): Promise<boolean> {

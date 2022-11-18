@@ -4,6 +4,7 @@ import type Title from '@/models/title'
 import MediaProvider from '@/services/MediaProvider'
 import { useFilterStore } from '@/store/filter'
 import { MediaType } from '@/models/enum'
+import type SearchResult from '@/models/searchResult'
 
 
 type ErrorState = {
@@ -54,38 +55,43 @@ export const useMainStore = defineStore('main', {
 
 			// // test loading
 			// function timeout(ms: any) {
-			// 	return new Promise(resolve => setTimeout(resolve, ms));
+			// 	return new Promise(resolve => setTimeout(resolve, ms))
 			// }
 			// await timeout(5000)
-
-			// // test search
-			// await MovieDbApi.search('batman')
-
 
 			MediaProvider.getUserTitles(this.user?.id ?? 0)
 				.then((res: Title[]) => {
 					this.collection = res
-
-					// console.log('>> got this data')
-					// console.log(res);
 				})
 				.catch((e: any) => {
-					console.error(e);
+					console.error(e)
 					this.error = { isError: true, message: 'Error fetching user collection' }
 				})
 				.finally(() => {
 					this.isLoading = false
-				});
+				})
 		},
 
 		unloadCollection() {
 			this.collection = []
 		},
+
+		// async addUserItem(item: SearchResult) {
+		// 	MediaProvider.addSearch(1, item)
+		// 		.then((res: boolean) => {
+		// 			if (res) {
+		// 				this.loadCollection()
+		// 			} else {
+		// 				throw Error('Error saving searched item to user collection ')
+		// 			}
+		// 		})
+		// 		.catch((e: any) => {
+		// 			console.log(e)
+		// 			this.error = { isError: true, message: 'Error adding item' }
+		// 		})
+		// },
 	},
 	getters: {
-		// filterStore() {
-		// 	return useFilterStore()
-		// },
 		username: (state: RootState): string => state.user?.username ?? '',
 		fullName: (state: RootState): string => `${state.user?.firstName} ${state.user?.lastName}` ?? '',
 		email: (state: RootState): string => state.user?.email ?? '',
@@ -94,7 +100,7 @@ export const useMainStore = defineStore('main', {
 			const filterStore = useFilterStore()
 			return state.collection
 				.filter(m => (filterStore.filterByFavorite ? m.favorite : filterStore.filterByWatched ? !m.watched : filterStore.filterByUpNext ? m.queued : true))
-				.filter(i => (filterStore.filterToMovies ? i.mediaType == MediaType.Movie : filterStore.filterToTv ? i.mediaType == MediaType.TV : true));
+				.filter(i => (filterStore.filterToMovies ? i.mediaType == MediaType.Movie : filterStore.filterToTv ? i.mediaType == MediaType.TV : true))
 		},
 	}
 })

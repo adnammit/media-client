@@ -1,0 +1,16 @@
+@import '@/assets/colors';
+
+.modal-contents {
+	padding: 35px 28px;
+
+	.scroll-area {
+		height: 600px;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	.modal-actions .v-btn {
+		width: 150px;
+		margin: 0 15px 15px;
+	}
+}

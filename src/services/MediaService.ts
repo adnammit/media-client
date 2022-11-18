@@ -3,6 +3,7 @@ import User, { type IUserInput, type IUser } from '@/models/user'
 import type UserTitleDto from '@/dto/userTitleDto'
 import type IMediaService from '@/services/IMediaService'
 import ApiBase from '@/services/ApiBase'
+import type Title from '@/models/title'
 
 const requestMgr = axios.create({
 	baseURL: `${import.meta.env.VITE_API_SERVER_URL}/api/v1/`,
@@ -61,25 +62,26 @@ class MediaService extends ApiBase implements IMediaService {
 			})
 	}
 
-	// public async addUserMovie(userid: number, movie: Movie): Promise<boolean> {
-	// const request: any = {
-	// 	movieDbId: movie.movieDbId,
-	// 	imdbId: movie.imdbId,
-	// 	rating: movie.rating,
-	// 	watched: movie.watched,
-	// 	favorite: movie.favorite,
-	// 	queued: movie.queued,
-	// }
-	// return requestMgr
-	// 	.post('user/' + userid + '/movies', request)
-	// 	.then(res => {
-	// 		return res.status === 200
-	// 	})
-	// 	.catch(error => {
-	// 		this.logError(error)
-	// 		throw error
-	// 	})
-	// }
+	public async addUserTitle(userid: number, title: Title): Promise<boolean> {
+		const request: any = {
+			movieDbId: title.movieDbId,
+			imdbId: title.imdbId,
+			mediaType: title.mediaType,
+			rating: title.rating,
+			watched: title.watched,
+			favorite: title.favorite,
+			queued: title.queued,
+		}
+		return requestMgr
+			.put('user/' + userid + '/titles', request)
+			.then(res => {
+				return res.status === 201
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
+	}
 
 	// public async updateUserMovie(userid: number, movie: Movie): Promise<boolean> {
 	// 	const request: any = {

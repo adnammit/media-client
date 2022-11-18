@@ -6,7 +6,7 @@ import type MovieDto from '@/models/dto/movieDbMovieDto'
 import type TvDto from '@/models/dto/movieDbTvDto'
 import Title from '@/models/title'
 import type SearchDto from '@/dto/searchDto'
-import type SearchResult from '@/models/searchResult'
+import SearchResult from '@/models/searchResult'
 import type UserTitleDto from '@/models/dto/userTitleDto'
 
 const url = `${import.meta.env.VITE_MOVIE_DB_URL}`
@@ -59,17 +59,14 @@ class MovieDbApi extends ApiBase {
 				const data = res.data.results
 				let results: SearchResult[] = []
 
-				console.log('>> searched: ');
-				console.log(res.data);
+				data.forEach((d: SearchDto) => {
+					const parsed = this.parseSearchResult(d)
+					if (parsed) results.push(parsed)
+				})
 
-				// data.forEach((d: SearchDto) => {
-				// 	const parsed = this.parseSearchResult(d)
-				// 	if (parsed) results.push(parsed)
-				// })
-
-				// results = results.sort((a, b) => {
-				// 	return a.title.localeCompare(b.title)
-				// })
+				results = results.sort((a, b) => {
+					return a.title.localeCompare(b.title)
+				})
 
 				return results
 			})
@@ -116,20 +113,21 @@ class MovieDbApi extends ApiBase {
 			})
 	}
 
-	// private parseSearchResult(res: SearchDto): SearchResult | undefined {
-	// 	if (res.media_type == 'movie' || res.media_type == 'tv') {
-	// 		const genres = res.media_type == 'movie' ? this.getGenres(MediaType.Movie, res.genre_ids) : this.getGenres(MediaType.Tv, res.genre_ids)
+	private parseSearchResult(res: SearchDto): SearchResult | undefined {
+		if (res.media_type == 'movie' || res.media_type == 'tv') {
+			const genres = res.media_type == 'movie' ? this.getGenres(MediaType.Movie, res.genre_ids) : this.getGenres(MediaType.TV, res.genre_ids)
 
-	// 		// TODO: log unaccounted for genres
+			return new SearchResult(res, genres)
+		} else {
+			// console.error(`MovieDb returned unknown media type ${res.media_type} in search result ${JSON.stringify(res)}`)
+			// apparently media_type includes 'person' and other stuff
+		}
+		return
+	}
 
-	// 		return new SearchResult(res, genres)
-	// 	}
-	// 	return
-	// }
-
-	// private getGenres(type: MediaType, ids: number[]): Genre[] {
-	// 	return type == MediaType.Movie ? this.movieGenres.filter(g => ids.includes(g.id)) : type == MediaType.Tv ? this.tvGenres.filter(g => ids.includes(g.id)) : []
-	// }
+	private getGenres(type: MediaType, ids: number[]): Genre[] {
+		return type == MediaType.Movie ? this.movieGenres.filter(g => ids.includes(g.id)) : type == MediaType.TV ? this.tvGenres.filter(g => ids.includes(g.id)) : []
+	}
 }
 
 export default new MovieDbApi()

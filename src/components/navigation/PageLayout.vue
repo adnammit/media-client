@@ -1,9 +1,9 @@
 <template>
 	<NavBar />
 	<v-main class="main-body">
-		<v-container fluid class="fill-height pt-0">
+		<v-container fluid class="fill-height pt-0 px-0">
 			<v-row justify="center">
-				<v-col cols="12" class="text-xs-center">
+				<v-col cols="12" class="text-xs-center px-0">
 					<div class="d-flex align-center flex-column">
 						<slot></slot>
 					</div>
