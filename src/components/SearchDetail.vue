@@ -14,7 +14,7 @@
 					<!-- <v-btn color="green-darken-1" variant="text" @click="confirmDiscard">
 						Disagree
 					</v-btn> -->
-					<v-btn color="green-darken-1" variant="text" @click="save">
+					<v-btn color="green-darken-1" variant="text" @click.prevent="save">
 						Agree
 					</v-btn>
 				</v-card-actions>
@@ -95,7 +95,6 @@
 			</v-card>
 		</v-dialog> -->
 
-
 		<!-- TODO simple alert won't alert :( -->
 		<!-- <SimpleAlert :value="alert" :titleText="alertTitle" :messageText="alertMessage" @confirm-dialog="closeAlertWithConfirm()" @cancel-dialog="closeAlert()" /> -->
 		<!-- <Poster v-model="poster" :path="posterPath" /> -->
@@ -114,9 +113,6 @@ import Poster from '@/components/title/Poster.vue'
 import type Genre from '@/models/genre'
 import { MediaType } from '@/models/enum'
 import { formatYear } from '@/filters/format'
-
-// const dialog = ref(false)
-
 
 const props = defineProps({
 	// dialog: {
@@ -140,13 +136,10 @@ const save = async () => {
 	// item.watched = this.watched
 	// item.rating = this.rating
 	await store.addUserItem(item)
+	filter.clearSearchData()
 	// closeDialog()
 	emit('update:modelValue')
 }
-
-
-
-
 
 const store = useMainStore()
 const filter = useFilterStore()

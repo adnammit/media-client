@@ -86,6 +86,7 @@ export const useFilterStore = defineStore('filter', {
 		},
 
 		clearSearchData() {
+			console.log('>> clearing data');
 			this.selectedItem = new SearchResult()
 			this.searchResults = []
 			this.showSelectedItem = false
@@ -116,7 +117,7 @@ export const useFilterStore = defineStore('filter', {
 						this.isSearching = false
 					})
 			} else {
-				this.clearSearchData()
+				// this.clearSearchData()
 			}
 		},
 

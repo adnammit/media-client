@@ -51,29 +51,7 @@
 			</v-row>
 		</v-container>
 
-			<!-- <v-row justify="center">
-				<v-dialog v-model="dialog" persistent>
-					<v-card>
-						<v-card-title class="text-h5">
-							Use Google's location service?
-						</v-card-title>
-						<v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google,
-							even when no apps are running.</v-card-text>
-						<v-card-actions>
-							<v-spacer></v-spacer>
-							<v-btn color="green-darken-1" variant="text" @click="confirmDiscard">
-								Disagree
-							</v-btn>
-							<v-btn color="green-darken-1" variant="text" @click="save">
-								Agree
-							</v-btn>
-						</v-card-actions>
-					</v-card>
-				</v-dialog>
-			</v-row> -->
-
-		<!-- <SearchDetail :dialog="dialog" @close-dialog="closeDialog" /> -->
-		<SearchDetail v-model="dialog"/>
+		<SearchDetail v-model="dialog" />
 		<!-- <SearchDetail :dialog.sync="showSelectedItemDetail" @close-dialog="() => closeDetail" /> -->
 
 	</PageLayout>
@@ -97,32 +75,6 @@ const subtitle = `Browse what's UpNext`
 
 const dialog = ref(false)
 
-const closeDialog = () => {
-	console.log('>> emitted close');
-	filter.clearSearchData()
-	dialog.value = false
-}
-const confirmDiscard = () => {
-	console.log('>> activating alert ');
-	// alert.value = true
-}
-const save = async () => {
-	//// DO SAVE
-	console.log('>> SAVING');
-	const item = Object.assign(filter.selectedItem) // start here: this item has nothing in it??
-	// item.queued = this.queued
-	// item.favorite = this.favorite
-	// item.watched = this.watched
-	// item.rating = this.rating
-	await store.addUserItem(item)
-	closeDialog()
-}
-
-
-
-
-
-
 const noData = computed(() => {
 	return store.collection.length == 0
 })
@@ -131,12 +83,9 @@ const noResults = computed(() => {
 	return store.filteredCollection.length == 0
 })
 
-
 onBeforeMount(() => {
 	store.loadCollection()
 })
-
-
 
 watch(() => filter.showSelectedItem, (newValue) => {
 	console.log('>> watching ' + newValue);
