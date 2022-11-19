@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineComponent, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useMainStore } from '@/store'
 import { useFilterStore } from '@/store/filter'
 import type SearchResult from '@/models/searchResult'
@@ -92,11 +92,13 @@ const surprise = () => {
 	window.alert('Surprise!')
 }
 
+// convert to computed get/set
 watch(() => search.value, (newValue) => {
 	// console.log('>> search updated ' + newValue);
 	filter.Search(newValue)
 })
 
+// convert to computed get/set
 watch(() => searchModel.value, (newValue) => {
 	// console.log('>> search model is ');
 	// console.log(newValue);
@@ -114,6 +116,7 @@ watch(() => searchModel.value, (newValue) => {
 	}
 })
 
+// convert to computed get/set
 watch(() => filter.selectedItem, (newValue) => {
 	// clear our local value when the store updates
 	if (!newValue?.title) {

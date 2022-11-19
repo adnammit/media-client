@@ -21,24 +21,14 @@
 </template>
 
 
-<script lang="ts">
+<script setup lang="ts">
 import { defineComponent } from 'vue'
 
-
-
-export default defineComponent({
-	props: {
-		value: Boolean,
-		path: String,
-	},
-	computed: {
-
-
-	},
-	methods: {
-
-	},
+defineProps({
+	value: Boolean,
+	path: String,
 })
+
 
 
 // @Prop(Boolean) readonly value!: boolean;

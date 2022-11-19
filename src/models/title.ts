@@ -42,7 +42,7 @@ export default class Title {
 		this.originalLanguage = titleDto ? titleDto.original_language : ''
 
 		this.title = this.instanceOfMovie(titleDto) ? titleDto.title : titleDto.name
-		this.releaseDate = this.instanceOfMovie(titleDto) ? titleDto.release_date : titleDto.first_air_date
+		this.releaseDate = this.instanceOfMovie(titleDto) ? new Date(titleDto.release_date) : new Date(titleDto.first_air_date)
 	}
 
 	instanceOfMovie(data: MovieDto | TvDto): data is MovieDto {

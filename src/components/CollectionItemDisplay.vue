@@ -56,57 +56,49 @@
 
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { computed, defineComponent, ref } from 'vue'
 import { useMainStore } from '@/store'
 import { useDisplay } from 'vuetify'
 import { formatYear } from '@/filters/format'
 
-export default defineComponent({
-	props: {
-		title: String,
-		summary: String,
-		released: Date,
-		poster: String
-	},
-	data() {
-		return {
-			dialog: false,
-			maxPreviewWordLength: 75
-		}
-	},
-	computed: {
-		quickText(): string {
-			let words = this.summary?.split(' ') ?? []
-			if (words?.length > this.maxPreviewWordLength) {
-				words = words.slice(0, this.maxPreviewWordLength)
-				words.push('(...)')
-			}
-			return words.join(' ')
-		},
-		year(): string {
-			return formatYear(this.released)
-		},
-		posterUrl(): string {
-			return `${import.meta.env.VITE_POSTER_BASE_PATH}${this.poster}`
-		},
-		width(): string {
-			return (this.isSmallScreen) ? '90%' : '60%'
-		},
-		imgSizeThm(): string {
-			return (this.isSmallScreen) ? '100%' : '175'
-		},
-		imgSizeFull(): string {
-			return (this.isSmallScreen) ? '75vw' : '275'
-		},
-		isSmallScreen(): boolean {
-			return this.name == 'xs'
-		}
-	},
-	setup() {
-		const mainStore = useMainStore()
-		const { name } = useDisplay()
-		return { mainStore, name }
-	}
+const itemProps = defineProps({
+	title: String,
+	summary: String,
+	releaseDate: Date,
+	poster: String
 })
+
+const store = useMainStore()
+const dialog = ref(false)
+const maxPreviewWordLength = 75
+const { name } = useDisplay()
+
+const year = formatYear(itemProps.releaseDate)
+const posterUrl = `${import.meta.env.VITE_POSTER_BASE_PATH}${itemProps.poster}`
+const quickText = () => {
+	let words = itemProps.summary?.split(' ') ?? []
+	if (words?.length > maxPreviewWordLength) {
+		words = words.slice(0, maxPreviewWordLength)
+		words.push('(...)')
+	}
+	return words.join(' ')
+}
+
+const isSmallScreen = computed(() => {
+	return name.value == 'xs'
+})
+
+const width = computed(() => {
+	return (isSmallScreen) ? '90%' : '60%'
+})
+
+const imgSizeThm = computed(() => {
+	return (isSmallScreen) ? '100%' : '175'
+})
+
+const imgSizeFull = computed(() => {
+	return (isSmallScreen) ? '75vw' : '275'
+})
+
 </script>

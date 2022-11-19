@@ -46,7 +46,7 @@
 			<v-row class="mx-1">
 				<v-col v-for="(item, index) in store.filteredCollection" :key="item.id" cols="12" sm="6" md="3" xl="2">
 					<CollectionItemDisplay :title="item.title" :summary="item.summary" :poster="item.poster"
-						:released="item.releaseDate" />
+						:releaseDate="item.releaseDate" />
 				</v-col>
 			</v-row>
 		</v-container>

@@ -12,29 +12,21 @@
 	</v-app-bar>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { useTheme } from 'vuetify'
 import { useDisplay } from 'vuetify'
 import UserMenu from '@/components/navigation/UserMenu.vue'
 
-export default defineComponent({
-	name: 'NavBar',
-	components: {
-		UserMenu
-	},
-	computed: {
-		buttonSpacingClasses(): string {
-			return this.name == 'xs' ? 'mx-0' : 'mx-3 px-3'
-		},
-	},
-	setup() {
-		const theme = useTheme()
-		const { name } = useDisplay()
-		return {
-			toggleTheme: () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark',
-			name,
-		}
-	}
+const theme = useTheme()
+const { name } = useDisplay()
+
+const buttonSpacingClasses = computed(() => {
+	return name.value == 'xs' ? 'mx-0' : 'mx-3 px-3'
 })
+
+const toggleTheme = () => {
+	theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+}
+
 </script>

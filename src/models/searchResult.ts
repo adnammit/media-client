@@ -18,7 +18,7 @@ export default class SearchResult {
 		const type = dto.media_type == 'movie' ? MediaType.Movie : dto.media_type == 'tv' ? MediaType.TV : MediaType.Unknown
 
 		this.title = type == MediaType.TV ? dto.name : dto.title
-		this.releaseDate = type == MediaType.TV ? dto.first_air_date : dto.release_date
+		this.releaseDate = type == MediaType.TV ? new Date(dto.first_air_date) : new Date(dto.release_date)
 		this.movieDbId = dto.id
 		this.mediaType = type
 		this.genres = genres

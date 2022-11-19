@@ -6,49 +6,29 @@
 	</v-rating>
 </template>
 
-<!--
 <script setup lang="ts">
-defineProps<{
-	value: number
-}>()
+import { computed } from 'vue';
 
-const emit = defineEmits(['inFocus', 'submit'])
-
-function buttonClick() {
-	emit('submit')
-}
-
-
-</script> -->
-
-
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-
-
-export default defineComponent({
-	props: {
-		value: Number,
-	},
-	computed: {
-		rating(): number {
-			return this.value ?? 0
-		},
-
-		// private set rating(value: number) {
-		// 	this.$emit('input', value);
-
-	},
-	methods: {
-		updateRating(props: any) {
-			const rating = props.index + 1
-			this.rating = rating == this.value ? 0 : rating;
-		}
-	},
+const props = defineProps({
+	value: Number,
 })
 
+// const rating = computed(() => {
+// 	return props.value ?? 0
+
+// })
+
+const rating = computed({
+	get: () => props.value ?? 0,
+	set: (val) => {
+		// emit val
+	}
+})
+
+const updateRating = (props: any) => {
+	const rating = props.index + 1
+	rating.value = rating.value == props.value ? 0 : rating;
+}
 
 </script>
 
