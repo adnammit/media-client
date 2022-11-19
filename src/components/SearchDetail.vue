@@ -1,25 +1,20 @@
 <template>
 	<v-row justify="center">
 
-		<v-dialog v-model="dialog" persistent>
-			<!-- <template v-slot:activator="{ props }">
-				<v-btn color="primary" v-bind="props">
-					Open Dialog
-				</v-btn>
-			</template> -->
+		<v-dialog v-model="modelValue" persistent>
 			<v-card>
 				<v-card-title class="text-h5">
 					Use Google's location service?
 				</v-card-title>
 				<v-card-text>Let Google help apps determine location. This means sending anonymous location data to
-					Google, even
-					when no apps are running.</v-card-text>
+					Google,
+					even when no apps are running.</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="green-darken-1" variant="text" @click="confirmDiscard()">
+					<!-- <v-btn color="green-darken-1" variant="text" @click="confirmDiscard">
 						Disagree
-					</v-btn>
-					<v-btn color="green-darken-1" variant="text" @click="save()">
+					</v-btn> -->
+					<v-btn color="green-darken-1" variant="text" @click="save">
 						Agree
 					</v-btn>
 				</v-card-actions>
@@ -124,13 +119,34 @@ import { formatYear } from '@/filters/format'
 
 
 const props = defineProps({
-	dialog: {
+	// dialog: {
+	// 	type: Boolean,
+	// 	default: false
+	// },
+	modelValue: {
 		type: Boolean,
-		default: false
+		required: true
 	},
 })
 
-const emit = defineEmits(['update:dialog', 'closeDialog'])
+const emit = defineEmits(['update:modelValue', 'closeDialog'])
+
+const save = async () => {
+	//// DO SAVE
+	console.log('>> SAVING');
+	const item = Object.assign(filter.selectedItem)
+	// item.queued = this.queued
+	// item.favorite = this.favorite
+	// item.watched = this.watched
+	// item.rating = this.rating
+	await store.addUserItem(item)
+	// closeDialog()
+	emit('update:modelValue')
+}
+
+
+
+
 
 const store = useMainStore()
 const filter = useFilterStore()
@@ -238,17 +254,7 @@ const confirmDiscard = () => {
 	alert.value = true
 }
 
-const save = async () => {
-	//// DO SAVE
-	console.log('>> SAVING');
-	const item = Object.assign(filter.selectedItem)
-	// item.queued = this.queued
-	// item.favorite = this.favorite
-	// item.watched = this.watched
-	// item.rating = this.rating
-	await store.addUserItem(item)
-	closeDialog()
-}
+
 
 // // reset values when the model closes -- actually this seems unnecessary...?
 // watch(() => props.modelValue, (newValue) => {

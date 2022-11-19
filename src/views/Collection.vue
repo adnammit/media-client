@@ -51,13 +51,8 @@
 			</v-row>
 		</v-container>
 
-			<v-row justify="center">
+			<!-- <v-row justify="center">
 				<v-dialog v-model="dialog" persistent>
-					<!-- <template v-slot:activator="{ props }">
-						<v-btn color="primary" v-bind="props">
-							Open Dialog
-						</v-btn>
-					</template> -->
 					<v-card>
 						<v-card-title class="text-h5">
 							Use Google's location service?
@@ -66,19 +61,19 @@
 							even when no apps are running.</v-card-text>
 						<v-card-actions>
 							<v-spacer></v-spacer>
-							<v-btn color="green-darken-1" variant="text" @click="sayHello()">
+							<v-btn color="green-darken-1" variant="text" @click="confirmDiscard">
 								Disagree
 							</v-btn>
-							<v-btn color="green-darken-1" variant="text" @click="sayHello">
+							<v-btn color="green-darken-1" variant="text" @click="save">
 								Agree
 							</v-btn>
 						</v-card-actions>
 					</v-card>
 				</v-dialog>
-			</v-row>
+			</v-row> -->
 
 		<!-- <SearchDetail :dialog="dialog" @close-dialog="closeDialog" /> -->
-		<!-- <SearchDetail v-model="filter.showSelectedItem"/> -->
+		<SearchDetail v-model="dialog"/>
 		<!-- <SearchDetail :dialog.sync="showSelectedItemDetail" @close-dialog="() => closeDetail" /> -->
 
 	</PageLayout>
@@ -100,24 +95,32 @@ const filter = useFilterStore()
 const title = `My Collection`
 const subtitle = `Browse what's UpNext`
 
-// let dialog = false
 const dialog = ref(false)
 
-// const dialog = computed(() => {
-// 	return filter.showSelectedItem
-// })
-// const dialog = computed({
-// 	get: () => filter.showSelectedItem,
-// 	set: (val) => {
-// 		filter.setShowSelectedItem(val)
-// 	}
-// })
-
-const sayHello = () => {
-	console.log('>> HELLO alert ');
-	// alert.value = true
-	// dialog.value = false
+const closeDialog = () => {
+	console.log('>> emitted close');
+	filter.clearSearchData()
+	dialog.value = false
 }
+const confirmDiscard = () => {
+	console.log('>> activating alert ');
+	// alert.value = true
+}
+const save = async () => {
+	//// DO SAVE
+	console.log('>> SAVING');
+	const item = Object.assign(filter.selectedItem) // start here: this item has nothing in it??
+	// item.queued = this.queued
+	// item.favorite = this.favorite
+	// item.watched = this.watched
+	// item.rating = this.rating
+	await store.addUserItem(item)
+	closeDialog()
+}
+
+
+
+
 
 
 const noData = computed(() => {
@@ -128,10 +131,6 @@ const noResults = computed(() => {
 	return store.filteredCollection.length == 0
 })
 
-const closeDialog = () => {
-	console.log('>> emitted close');
-	filter.clearSearchData()
-}
 
 onBeforeMount(() => {
 	store.loadCollection()
@@ -169,24 +168,7 @@ watch(() => filter.showSelectedItem, (newValue) => {
 // 	closeDialog()
 // }
 
-const confirmDiscard = () => {
-	console.log('>> activating alert ');
-	// alert.value = true
-}
 
-
-
-const save = async () => {
-	//// DO SAVE
-	console.log('>> SAVING');
-	const item = Object.assign(filter.selectedItem)
-	// item.queued = this.queued
-	// item.favorite = this.favorite
-	// item.watched = this.watched
-	// item.rating = this.rating
-	await store.addUserItem(item)
-	closeDialog()
-}
 
 </script>
 
