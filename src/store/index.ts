@@ -76,20 +76,21 @@ export const useMainStore = defineStore('main', {
 			this.collection = []
 		},
 
-		// async addUserItem(item: SearchResult) {
-		// 	MediaProvider.addSearch(1, item)
-		// 		.then((res: boolean) => {
-		// 			if (res) {
-		// 				this.loadCollection()
-		// 			} else {
-		// 				throw Error('Error saving searched item to user collection ')
-		// 			}
-		// 		})
-		// 		.catch((e: any) => {
-		// 			console.log(e)
-		// 			this.error = { isError: true, message: 'Error adding item' }
-		// 		})
-		// },
+		async addUserItem(item: SearchResult) {
+			console.log('>> SAVING ' + JSON.stringify(item));
+			// MediaProvider.addSearch(1, item)
+			// 	.then((res: boolean) => {
+			// 		if (res) {
+			// 			this.loadCollection()
+			// 		} else {
+			// 			throw Error('Error saving searched item to user collection ')
+			// 		}
+			// 	})
+			// 	.catch((e: any) => {
+			// 		console.log(e)
+			// 		this.error = { isError: true, message: 'Error adding item' }
+			// 	})
+		},
 	},
 	getters: {
 		username: (state: RootState): string => state.user?.username ?? '',

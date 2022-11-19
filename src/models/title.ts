@@ -21,7 +21,7 @@ export default class Title {
 	public watched = false
 	public favorite = false
 	public queued = false
-	public released: Date
+	public releaseDate: Date
 
 	constructor(titleDto: MovieDto | TvDto, userItem: UserTitleDto) {
 		this.id = userItem.titleid
@@ -42,7 +42,7 @@ export default class Title {
 		this.originalLanguage = titleDto ? titleDto.original_language : ''
 
 		this.title = this.instanceOfMovie(titleDto) ? titleDto.title : titleDto.name
-		this.released = this.instanceOfMovie(titleDto) ? titleDto.release_date : titleDto.first_air_date
+		this.releaseDate = this.instanceOfMovie(titleDto) ? titleDto.release_date : titleDto.first_air_date
 	}
 
 	instanceOfMovie(data: MovieDto | TvDto): data is MovieDto {

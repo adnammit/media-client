@@ -25,14 +25,14 @@
 					</template>
 
 					<!-- IF WE WANTED TO SHOW WHAT WE SELECTED: -->
-					<template v-slot:selection="{ attr, on, item, selected }">
+					<!-- <template v-slot:selection="{ attr, on, item, selected }">
 						<v-chip v-bind="attr" :model-value="selected" color="blue-grey" v-on="on">
 							<v-icon start>
 								mdi-magnify
 							</v-icon>
 							<span v-text="item.title"></span>
 						</v-chip>
-					</template>
+					</template> -->
 
 					<template v-slot:item="{ props, item }">
 						<!-- TODO display genre, maybe pic? -->
@@ -142,10 +142,9 @@ export default defineComponent({
 					this.filterStore.setSelectedItem(result)
 				} else {
 					console.error(`Error finding search result for movieDbId ${val}`)
-					this.filterStore.resetSearch()
+					this.filterStore.clearSearchData()
 				}
 			}
-			console.log('>> updating seach model ' + JSON.stringify(val));
 
 			// this.search = ''
 			// console.log('>> search is ' + JSON.stringify(this.search));
@@ -153,7 +152,6 @@ export default defineComponent({
 
 		},
 		selectedItem(val) {
-			console.log('>> selected item changed ' + JSON.stringify(val));
 			// clear our local value when the store updates
 			if (!val) {
 				this.searchModel = null

@@ -1,7 +1,7 @@
 <template>
 	<v-dialog v-model="value" max-width="600">
 		<v-card fill>
-			<v-form ref="form" class="modal-contents" @submit.prevent="$emit('closeDialog', true)">
+			<v-form ref="form" class="modal-contents" @submit.prevent="submit">
 				<v-card-title class="headline">{{ titleText }}</v-card-title>
 
 				<v-card-text>
@@ -9,7 +9,7 @@
 				</v-card-text>
 				<v-card-actions class="modal-actions mt-12">
 					<v-spacer></v-spacer>
-					<v-btn @click.stop="$emit('closeDialog', false)">{{ cancelText }}</v-btn>
+					<v-btn @click.stop="cancel">{{ cancelText }}</v-btn>
 					<v-btn class="primary" type="submit">{{ confirmText }}</v-btn>
 				</v-card-actions>
 			</v-form>
@@ -17,42 +17,48 @@
 	</v-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { onBeforeMount } from 'vue';
 
-export default defineComponent({
-	props: {
-		value: Boolean,
-		titleText: String,
-		messageText: String,
-		confirmText: String,
-		cancelText: String,
+
+const props = defineProps({
+	value: {
+		type: Boolean,
+		default: false
 	},
-	computed: {
-		// showDialog(): boolean {
-		// 	return this.value ?? true
-		},
-	methods: {
-
-		// onConfirm(): void {
-		// 	this.onConfirm();
-		// 	$emit('value', false)
-		// 	// this.showDialog = false;
-		// },
-
-		// cancel() {
-		// 	this.showDialog = false;
-		// },
+	titleText: {
+		type: String,
+		default: 'Alert!'
 	},
-	// setup (props, context) {
-	// 	const handleChange = (event: any) => {
-	// 		context.emit("customChange", event.target.value)
-	// 	}
-	// 	return {
-	// 		handleChange
-	// 	}
-	// }
+	messageText: {
+		type: String,
+		default: 'This is an Alert'
+	},
+	confirmText: {
+		type: String,
+		default: 'OK'
+	},
+	cancelText: {
+		type: String,
+		default: 'Cancel'
+	},
 })
+
+const emit = defineEmits(['confirmDialog', 'cancelDialog'])
+
+
+const submit = () => {
+	emit('confirmDialog')
+}
+
+const cancel = () => {
+	emit('cancelDialog')
+}
+
+onBeforeMount(() => {
+	console.log('>> alerting!');
+})
+
 </script>
 
 

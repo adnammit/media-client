@@ -117,7 +117,9 @@ class MovieDbApi extends ApiBase {
 		if (res.media_type == 'movie' || res.media_type == 'tv') {
 			const genres = res.media_type == 'movie' ? this.getGenres(MediaType.Movie, res.genre_ids) : this.getGenres(MediaType.TV, res.genre_ids)
 
-			return new SearchResult(res, genres)
+			const result = new SearchResult()
+			result.Populate(res, genres)
+			return result
 		} else {
 			// console.error(`MovieDb returned unknown media type ${res.media_type} in search result ${JSON.stringify(res)}`)
 			// apparently media_type includes 'person' and other stuff

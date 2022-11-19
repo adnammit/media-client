@@ -54,6 +54,7 @@ npm run lint
 * option to set your streaming services and highlight titles that are on them
 * wrap service stuff in try/catch -- cors errors etc are not getting caught
 * error display
+* import/export option
 * check out [this api](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability) to supply streaming availability
 * when it's done-ish, pull to-do list from v1.0 and work on that
 * add alert banner warning that data is persistent but subject to change

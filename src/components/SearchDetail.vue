@@ -1,8 +1,35 @@
 <template>
 	<v-row justify="center">
-		<v-dialog v-model="dialog" scrollable max-width="40vw">
+
+		<v-dialog v-model="dialog" persistent>
+			<!-- <template v-slot:activator="{ props }">
+				<v-btn color="primary" v-bind="props">
+					Open Dialog
+				</v-btn>
+			</template> -->
+			<v-card>
+				<v-card-title class="text-h5">
+					Use Google's location service?
+				</v-card-title>
+				<v-card-text>Let Google help apps determine location. This means sending anonymous location data to
+					Google, even
+					when no apps are running.</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="green-darken-1" variant="text" @click="confirmDiscard()">
+						Disagree
+					</v-btn>
+					<v-btn color="green-darken-1" variant="text" @click="save()">
+						Agree
+					</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+
+
+		<!-- <v-dialog v-model="filter.showSelectedItem" persistent scrollable max-width="40vw">
 			<v-card class="item-details">
-				<!-- <v-card-title>{{ title }}</v-card-title>
+				<v-card-title>{{ filter.selectedItem.title }}</v-card-title>
 				<v-card-subtitle>{{ subtitle }}</v-card-subtitle>
 				<v-divider></v-divider>
 				<v-card-text>
@@ -48,37 +75,40 @@
 							</v-col>
 							<v-col cols="6" class="align-self-center">
 								<v-row>
-									<v-col align-self="center"> {{ year }} • {{ popularRating }} </v-col>
+									<v-col align-self="center"> {{ releaseYear }} • {{ popularRating }} </v-col>
 								</v-row>
 								<v-row>
 									<v-col align-self="center">
-										<GenreSet v-bind:genres="genres" />
+										<GenreSet v-bind:genres="filter.selectedItem.genres" />
 									</v-col>
 								</v-row>
 								<v-row>
 									<v-col align-self="center">
-										{{ description }}
+										{{ filter.selectedItem.summary }}
 									</v-col>
 								</v-row>
 							</v-col>
 						</v-row>
 					</v-container>
-				</v-card-text> -->
+				</v-card-text>
 				<v-divider></v-divider>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn @click.stop="confirmDiscard">Cancel</v-btn>
-					<v-btn @click.stop="save" class="save">Save</v-btn>
+					<v-btn @click="confirmDiscard()">Cancel</v-btn>
+					<v-btn @click="save()" class="primary">Save</v-btn>
 				</v-card-actions>
 			</v-card>
-		</v-dialog>
-		<!-- <SimpleAlert :value="alert" @close-dialog="closeAlert" :titleText="alertTitle" :messageText="alertMessage" /> -->
+		</v-dialog> -->
+
+
+		<!-- TODO simple alert won't alert :( -->
+		<!-- <SimpleAlert :value="alert" :titleText="alertTitle" :messageText="alertMessage" @confirm-dialog="closeAlertWithConfirm()" @cancel-dialog="closeAlert()" /> -->
 		<!-- <Poster v-model="poster" :path="posterPath" /> -->
 	</v-row>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { useMainStore } from '@/store'
 import { useFilterStore } from '@/store/filter'
 import type SearchResult from '@/models/searchResult'
@@ -88,181 +118,169 @@ import SimpleAlert from '@/components/SimpleAlert.vue'
 import Poster from '@/components/title/Poster.vue'
 import type Genre from '@/models/genre'
 import { MediaType } from '@/models/enum'
+import { formatYear } from '@/filters/format'
 
-export default defineComponent({
-	components: { Rating, GenreSet, SimpleAlert, Poster },
-	// props: {
-	// 	dialog: Boolean,
-	// },
-	data() {
-		return {
-			queued: false,
-			favorite: false,
-			watched: false,
-			rating: 0,
-			alert: false,
-			alertTitle: 'Confirm Removal',
-			poster: false,
-		}
+// const dialog = ref(false)
+
+
+const props = defineProps({
+	dialog: {
+		type: Boolean,
+		default: false
 	},
-	computed: {
-		dialog: {
-			get() {
-				return this.filterStore.showSelectedItem
-			},
-			set(value:boolean) {
-				this.filterStore.toggleShowSelectedItem(value)
-				// this.$emit('input', value)
-			}
-		},
-
-		alertMessage(): string {
-			return 'Are you sure you want to discard changes to "' + this.selectedItem.title + '"?'
-		},
-
-		selectedItem(): SearchResult {
-			if (!!this.filterStore.selectedItem) return this.filterStore.selectedItem
-			const msg = 'Could not load selected item'
-			console.error(msg)
-			throw Error()
-		},
-
-		title(): string {
-			return this.selectedItem.title
-		},
-
-		subtitle(): string {
-			return this.selectedItem.mediaType == MediaType.Movie ? 'Movie' : this.selectedItem.mediaType == MediaType.TV ? 'Television Show' : ''
-		},
-
-		year(): string {
-			return this.selectedItem.releaseYear
-		},
-
-		popularRating(): string {
-			return 'IMDB Rating ' + String(this.selectedItem.popularRating)
-		},
-
-		genres(): Genre[] {
-			return this.selectedItem.genres
-		},
-
-		description(): string {
-			return this.selectedItem.summary ?? ''
-		},
-
-		showPoster(): boolean {
-			return this.selectedItem.poster != null && this.selectedItem.poster != ''
-		},
-
-		posterPath(): string {
-			return `${import.meta.env.VITE_POSTER_BASE_PATH}${this.selectedItem.poster}`
-		},
-
-		// showDialog(): boolean {
-		// 	return this.value
-		// },
-
-		// setshowDialog(value: boolean) {
-		// 	this.$emit('input', value)
-		// }
-	},
-	methods: {
-
-		toggleQueued(): void {
-			this.queued = !this.queued
-		},
-
-		toggleFavorite(): void {
-			this.favorite = !this.favorite
-		},
-
-		toggleWatched(): void {
-			this.watched = !this.watched
-		},
-
-		showPosterDetail(): void {
-			this.poster = true
-		},
-
-		reset() {
-			// other properties?
-			this.queued = false
-			this.favorite = false
-			this.watched = false
-			this.rating = 0
-		},
-
-		closeDialog() {
-			this.filterStore.clearSearchData()
-			// this.filterStore.toggleShowAddItem(false)
-
-			// emit closeDialog
-			// this.$emit('close-dialog')
-			// this.$emit('update:value', false)
-			//
-		},
-
-		async save() {
-			// const item = Object.assign(this.selectedItem)
-			// item.queued = this.queued
-			// item.favorite = this.favorite
-			// item.watched = this.watched
-			// item.rating = this.rating
-			// await this.mainStore.addUserItem(item)
-			this.closeDialog()
-		},
-
-		confirmDiscard() {
-			this.alert = true
-		},
-
-		closeAlert(val: boolean) {
-			console.log('>> closing wiht ' + JSON.stringify(val));
-			this.alert = false
-			if (val) this.closeDialog()
-		}
-
-		// remove() {
-		// 	AppModule.removeFromCollection(AppModule.selectedItem)
-		// 	this.closeDialog()
-		// },
-	},
-	watch: {
-		dialog(val) {
-			if (val) this.reset()
-		}
-	},
-	// emits: [ 'update:value', 'close-dialog' ],
-	setup() {
-		const mainStore = useMainStore()
-		const filterStore = useFilterStore()
-		return { mainStore, filterStore }
-	}
 })
+
+const emit = defineEmits(['update:dialog', 'closeDialog'])
+
+const store = useMainStore()
+const filter = useFilterStore()
+
+// USER INPUT - TODO combine as reactive obj if they're not treated separately
+const queued = ref(false)
+const favorite = ref(false)
+const watched = ref(false)
+const rating = ref(0)
+
+const toggleQueued = () => {
+	queued.value = !queued.value
+}
+const toggleFavorite = () => {
+	favorite.value = !favorite.value
+}
+const toggleWatched = () => {
+	watched.value = !watched.value
+}
+const setRating = (val: number) => { // emitted from Rating child
+	rating.value = val
+}
+const reset = () => {
+	queued.value = false
+	favorite.value = false
+	watched.value = false
+	rating.value = 0
+}
+
+// SEARCH RESULT: data from the searchResult that doesn't need to be reactive probably
+const subtitle = filter.selectedItem.mediaType == MediaType.Movie ? 'Movie' : filter.selectedItem.mediaType == MediaType.TV ? 'Television Show' : ''
+const releaseYear = formatYear(filter.selectedItem.releaseDate)
+const popularRating = 'IMDB Rating ' + String(filter.selectedItem.popularRating)
+
+// const subtitle = computed(() => {
+// 	return filter.selectedItem.mediaType == MediaType.Movie ? 'Movie' : filter.selectedItem.mediaType == MediaType.TV ? 'Television Show' : ''
+// })
+
+// const releaseYear = computed(() => {
+// 	return formatYear(filter.selectedItem.releaseDate)
+
+// })
+
+// const popularRating = computed(() => {
+// 	return 'IMDB Rating ' + String(filter.selectedItem.popularRating)
+// })
+
+
+// ALERT MODAL
+const alert = ref(false)
+const alertTitle = `Confirm Removal`
+const alertMessage = `Are you sure you want to discard changes to ${filter.selectedItem.title}?`
+// const alertMessage = computed(() => {
+// 	return 'Are you sure you want to discard changes to "' + filter.selectedItem.title + '"?'
+// })
+
+// // remove if not needed
+// const description = computed(() => {
+// 	return filter.selectedItem.summary ?? ''
+
+// })
+
+
+// POSTER MODAL
+const poster = ref(false)
+const posterPath = `${import.meta.env.VITE_POSTER_BASE_PATH}${filter.selectedItem.poster}`
+
+const showPoster = computed(() => {
+	return filter.selectedItem.poster != null && filter.selectedItem.poster != ''
+
+})
+
+const showPosterDetail = (): void => {
+	poster.value = true
+}
+
+// DIALOG MANAGEMENT
+// const dialog = computed(() => {
+// 	return filter.showSelectedItem
+// })
+
+const closeDialog = () => {
+	// dialog.value = false
+	// filter.clearSearchData()
+	// filter.setShowSelectedItem(false)
+
+	// emit('update:dialog', false)
+	emit('closeDialog')
+
+}
+
+const closeAlert = () => {
+	// console.log('>> closing with ' + JSON.stringify(val));
+	alert.value = false
+}
+
+const closeAlertWithConfirm = () => {
+	// console.log('>> closing with ' + JSON.stringify(val));
+	alert.value = false
+	closeDialog()
+}
+
+const confirmDiscard = () => {
+	console.log('>> activating alert ' + alert.value);
+	alert.value = true
+}
+
+const save = async () => {
+	//// DO SAVE
+	console.log('>> SAVING');
+	const item = Object.assign(filter.selectedItem)
+	// item.queued = this.queued
+	// item.favorite = this.favorite
+	// item.watched = this.watched
+	// item.rating = this.rating
+	await store.addUserItem(item)
+	closeDialog()
+}
+
+// // reset values when the model closes -- actually this seems unnecessary...?
+// watch(() => props.modelValue, (newValue) => {
+// 	if (!newValue) {
+// 		reset()
+// 	}
+// })
+
+
 </script>
 
 <style scoped lang="scss">
 @import '@/assets/colors';
 @import '@/assets/main';
 
-.item-details::v-deep {
-	.v-card__subtitle {
-		letter-spacing: 1px;
-	}
+// .item-details::v-deep {
+// 	.v-card__subtitle {
+// 		letter-spacing: 1px;
+// 	}
 
-	.v-card__text {
-		height: 60vh;
-		padding: 10px 30px;
+// 	.v-card__text {
+// 		height: 60vh;
+// 		padding: 10px 30px;
 
-		.row.details--body {
-			padding: 10px 30px;
-		}
-	}
+// 		.row.details--body {
+// 			padding: 10px 30px;
+// 		}
+// 	}
 
-	.poster {
-		max-height: 40vh;
-		display: flex;
-	}
-}
+// 	.poster {
+// 		max-height: 40vh;
+// 		display: flex;
+// 	}
+// }
 </style>

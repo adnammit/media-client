@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type SearchResult from '@/models/searchResult'
+import SearchResult from '@/models/searchResult'
 import { useMainStore } from '@/store'
 import MovieDbApi from '@/services/MovieDbApi'
 
@@ -9,10 +9,10 @@ export type FilterState = {
 	filterByUpNext: boolean
 	filterToMovies: boolean
 	filterToTv: boolean
-	showSearch: boolean
+	// showSearch: boolean
 	showSelectedItem: boolean
 	results: SearchResult[],
-	selectedItem?: SearchResult,
+	selectedItem: SearchResult,
 	isSearching: boolean
 }
 
@@ -24,9 +24,10 @@ export const useFilterStore = defineStore('filter', {
 		filterByUpNext: false,
 		filterToMovies: false,
 		filterToTv: false,
-		showSearch: false,
+		// showSearch: false,
 		showSelectedItem: false,
 		results: [],
+		selectedItem: new SearchResult(),
 		isSearching: false
 	} as FilterState),
 
@@ -75,23 +76,21 @@ export const useFilterStore = defineStore('filter', {
 
 		resetSearch() {
 			this.results = []
-			this.selectedItem = undefined
+			this.selectedItem = new SearchResult()
 		},
 
 		setSelectedItem(val: SearchResult) {
-			console.log('>> set selected to ' + JSON.stringify(val));
 			this.selectedItem = val
 			this.showSelectedItem = true
 		},
 
 		clearSearchData() {
-			console.log('>> clearing data ');
-			this.selectedItem = undefined
+			this.selectedItem = new SearchResult()
 			this.results = []
 			this.showSelectedItem = false
 		},
 
-		toggleShowSelectedItem(val: boolean) {
+		setShowSelectedItem(val: boolean) {
 			this.showSelectedItem = val
 		},
 

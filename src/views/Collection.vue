@@ -10,7 +10,7 @@
 			{{ subtitle }}
 		</div>
 
-		<template v-if="isLoading">
+		<template v-if="store.isLoading">
 			<Loader />
 		</template>
 
@@ -42,67 +42,176 @@
 			<div class="text-overline font-weight-light">Clear the filter and try again</div>
 		</div>
 
-		<v-container v-else="hasCollection">
+		<v-container v-else>
 			<v-row class="mx-1">
-				<v-col v-for="(item, index) in filteredContent" :key="item.id" cols="12" sm="6" md="3" xl="2">
+				<v-col v-for="(item, index) in store.filteredCollection" :key="item.id" cols="12" sm="6" md="3" xl="2">
 					<CollectionItemDisplay :title="item.title" :summary="item.summary" :poster="item.poster"
-						:released="item.released" />
+						:released="item.releaseDate" />
 				</v-col>
 			</v-row>
 		</v-container>
 
-		<SearchDetail />
-		<!-- <SearchDetail :dialog.sync="showSearchDetail" @close-dialog="() => closeDetail" /> -->
+		<v-dialog v-model="dialog" persistent>
+			<!-- <template v-slot:activator="{ props }">
+						<v-btn color="primary" v-bind="props">
+							Open Dialog
+						</v-btn>
+					</template> -->
+			<v-card>
+				<!-- <v-card-actions> -->
+					<v-spacer></v-spacer>
+					<v-btn color="green-darken-1" variant="text" @click="confirmDiscard()">
+						Disagree
+					</v-btn>
+					<button @click="sayHello()" >HELLO</button>
+					<v-btn color="green-darken-1" variant="text" @click="sayHello()">
+						Agree
+					</v-btn>
+				<!-- </v-card-actions> -->
+			</v-card>
+		</v-dialog>
+
+		<!-- <SearchDetail :dialog="dialog" @close-dialog="closeDialog" /> -->
+		<!-- <SearchDetail v-model="filter.showSelectedItem"/> -->
+		<!-- <SearchDetail :dialog.sync="showSelectedItemDetail" @close-dialog="() => closeDetail" /> -->
 
 	</PageLayout>
 </template>
 
-<script lang="ts">
-import { defineComponent, watch } from 'vue'
+<script setup lang="ts">
+import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useMainStore } from '@/store'
 import { useFilterStore } from '@/store/filter'
-import type Title from '@/models/title'
 import PageLayout from '@/components/navigation/PageLayout.vue'
 import FilterBar from '@/components/FilterBar.vue'
 import Loader from '@/components/Loader.vue'
 import CollectionItemDisplay from '@/components/CollectionItemDisplay.vue'
 import SearchDetail from '@/components/SearchDetail.vue'
 
-export default defineComponent({
-	name: 'Collection',
-	components: { PageLayout, FilterBar, Loader, CollectionItemDisplay, SearchDetail },
-	computed: {
-		title(): string {
-			return 'My Collection'
-			// return `${this.mainStore.filterSubject == '' ? 'The' : this.mainStore.filterSubject} Feed`;
-		},
-		subtitle(): string {
-			return `Browse what's UpNext`
-			// return `All the latest in ${this.mainStore.filterSubject == '' ? 'Cowpoke' : this.mainStore.filterSubject} news!`
-		},
-		isLoading(): boolean {
-			return this.mainStore.isLoading
-		},
-		noData(): boolean {
-			// are any items saved at all
-			return this.mainStore.collection.length == 0
-		},
-		noResults(): boolean {
-			// are there any filtered results
-			return this.filteredContent.length == 0
-		},
-		filteredContent(): Title[] {
-			return this.mainStore.filteredCollection
-		},
+const store = useMainStore()
+const filter = useFilterStore()
 
-	},
-	setup() {
-		const mainStore = useMainStore()
-		const filterStore = useFilterStore()
-		return { mainStore, filterStore }
-	},
-	created() {
-		this.mainStore.loadCollection()
-	}
+const title = `My Collection`
+const subtitle = `Browse what's UpNext`
+
+// let dialog = false
+const dialog = ref(false)
+
+// const dialog = computed(() => {
+// 	return filter.showSelectedItem
+// })
+
+const noData = computed(() => {
+	return store.collection.length == 0
 })
+
+const noResults = computed(() => {
+	return store.filteredCollection.length == 0
+})
+
+const closeDialog = () => {
+	console.log('>> emitted close');
+	filter.clearSearchData()
+}
+
+onBeforeMount(() => {
+	store.loadCollection()
+})
+
+
+
+watch(() => filter.showSelectedItem, (newValue) => {
+	console.log('>> watching ' + newValue);
+	dialog.value = newValue
+	// if (newValue) {
+	// 	dialog.value = true
+	// }
+})
+
+
+// const closeDialog = () => {
+// 	// dialog.value = false
+// 	// filter.clearSearchData()
+// 	// filter.setShowSelectedItem(false)
+
+// 	// emit('update:dialog', false)
+// 	emit('closeDialog')
+
+// }
+
+// const closeAlert = () => {
+// 	// console.log('>> closing with ' + JSON.stringify(val));
+// 	alert.value = false
+// }
+
+// const closeAlertWithConfirm = () => {
+// 	// console.log('>> closing with ' + JSON.stringify(val));
+// 	alert.value = false
+// 	closeDialog()
+// }
+
+const confirmDiscard = () => {
+	console.log('>> activating alert ');
+	// alert.value = true
+}
+
+const sayHello = () => {
+	console.log('>> HELLO alert ');
+	// alert.value = true
+}
+
+const save = async () => {
+	//// DO SAVE
+	console.log('>> SAVING');
+	const item = Object.assign(filter.selectedItem)
+	// item.queued = this.queued
+	// item.favorite = this.favorite
+	// item.watched = this.watched
+	// item.rating = this.rating
+	await store.addUserItem(item)
+	closeDialog()
+}
+
 </script>
+
+
+
+
+
+// export default defineComponent({
+// 	name: 'Collection',
+// 	components: { PageLayout, FilterBar, Loader, CollectionItemDisplay, SearchDetail },
+// 	computed: {
+// 		title(): string {
+// 			return 'My Collection'
+// 			// return `${this.mainStore.filterSubject == '' ? 'The' : this.mainStore.filterSubject} Feed`;
+// 		},
+// 		subtitle(): string {
+// 			return `Browse what's UpNext`
+// 			// return `All the latest in ${this.mainStore.filterSubject == '' ? 'Cowpoke' : this.mainStore.filterSubject} news!`
+// 		},
+// 		isLoading(): boolean {
+// 			return this.mainStore.isLoading
+// 		},
+// 		noData(): boolean {
+// 			// are any items saved at all
+// 			return this.mainStore.collection.length == 0
+// 		},
+// 		noResults(): boolean {
+// 			// are there any filtered results
+// 			return this.filteredContent.length == 0
+// 		},
+// 		filteredContent(): Title[] {
+// 			return this.mainStore.filteredCollection
+// 		},
+
+// 	},
+// 	setup() {
+// 		const mainStore = useMainStore()
+// 		const filterStore = useFilterStore()
+// 		return { mainStore, filterStore }
+// 	},
+// 	created() {
+// 		this.mainStore.loadCollection()
+// 	}
+// })
