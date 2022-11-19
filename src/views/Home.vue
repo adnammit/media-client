@@ -23,40 +23,32 @@
 	</PageLayout>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import HomeItem from '@/components/HomeItem.vue'
 import PageLayout from '@/components/navigation/PageLayout.vue'
 
-export default {
-	name: "Home",
-	components: { HomeItem, PageLayout },
-	data() {
-		return {
-			homeItems:
-				[
-					{
-						title: 'What is UpNext?',
-						text: ['UpNext allows you to keep a list of items to watch and see what platforms they\'re available on.', 'Sign up to get started!'],
-						icon: 'mdi-arrow-right-circle',
-						color: 'info',
-						route: '/signup'
-					},
-					{
-						title: 'Why is UpNext?',
-						text: ['Because keeping track of what you want to watch across multiple subscription services is a terrible way to live your life.', 'And when you can\'t decide what to watch, let our Randomizer pick for you!'],
-						icon: 'mdi-dice-5',
-						color: 'warning',
-						route: '/collection' // TODO: generate a random movie?
-					},
-					{
-						title: 'How is UpNext?',
-						text: ['UpNext is a personal portfolio project, not a Real Thing, but feel free to check it out!', 'Read more about UpNext below.'],
-						icon: 'mdi-help-circle',
-						color: 'secondary',
-						route: '/about'
-					},
-				],
-		}
-	}
-}
+const homeItems = [
+	{
+		title: 'What is UpNext?',
+		text: ['UpNext allows you to keep a list of items to watch and see what platforms they\'re available on.', 'Sign up to get started!'],
+		icon: 'mdi-arrow-right-circle',
+		color: 'info',
+		route: '/signup'
+	},
+	{
+		title: 'Why is UpNext?',
+		text: ['Because keeping track of what you want to watch across multiple subscription services is a terrible way to live your life.', 'And when you can\'t decide what to watch, let our Randomizer pick for you!'],
+		icon: 'mdi-dice-5',
+		color: 'warning',
+		route: '/collection' // TODO: generate a random movie?
+	},
+	{
+		title: 'How is UpNext?',
+		text: ['UpNext is a personal portfolio project, not a Real Thing, but feel free to check it out!', 'Read more about UpNext below.'],
+		icon: 'mdi-help-circle',
+		color: 'secondary',
+		route: '/about'
+	},
+]
+
 </script>

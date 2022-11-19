@@ -1,7 +1,7 @@
 <template>
 	<PageLayout>
 		<v-card class="my-5 pa-5">
-		<!-- <v-card class="pa-6" max-width="80%" min-width="500px"> -->
+			<!-- <v-card class="pa-6" max-width="80%" min-width="500px"> -->
 			<v-form ref="form" lazy-validation @submit.prevent="updateProfile">
 				<v-container fluid>
 					<v-row justify="center">
@@ -52,8 +52,6 @@
 								</v-col>
 							</v-row> -->
 
-
-
 						</v-col>
 					</v-row>
 				</v-container>
@@ -62,62 +60,37 @@
 	</PageLayout>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import { useMainStore } from '@/store'
 import PageLayout from '@/components/navigation/PageLayout.vue'
 import vibrates from '@/assets/vibrates.png'
 import ImgUtil from '@/filters/img-util'
 
-export default defineComponent({
-	name: 'Profile',
-	components: { PageLayout },
-	computed: {
-		username(): string { return this.mainStore.username },
-		fullName(): string { return this.mainStore.fullName },
-		email(): string { return this.mainStore.email },
-		avatar(): string {
-			const imgUrl = this.mainStore.user?.imgUrl as string
-			return (ImgUtil.isValidImage(imgUrl)) ? imgUrl : vibrates
-		},
-		form(): any {
-			return this.$refs.form as InstanceType<typeof FormData>;
-		},
-		// canSubmit(): boolean {
-		// 	return !!this.username && !!this.email
-		// },
-	},
-	data() {
-		return {
-			vibrates: vibrates,
-			bio: 'stuff about me, myself and I'
-		}
-	},
-	methods: {
-		// validate() {
-		// 	this.form.validate()
-		// },
-		reset() {
-			this.form.reset()
-		},
-		// clearError() {
-		// 	this.errorMessage = ''
-		// },
-		async updateProfile() {
+const store = useMainStore()
+const form = ref<any>(null) // TODO: why you no type??
 
-			// const user = await MediaProvider.getUser(this.username, this.email)
+const username = store.username
+const fullName = store.fullName
+const email = store.email
+const bio = `stuff about me, myself and I`
 
-			// if (!!user && user.username) {
-			// 	this.mainStore.login(user)
-			// 	this.$router.push({ path: '/collection' })
-			// } else {
-			// 	this.errorMessage = 'Login failed'
-			// }
-		},
-	},
-	setup() {
-		const mainStore = useMainStore()
-		return { mainStore }
-	}
-})
+const imgUrl = store.user?.imgUrl as string
+const avatar = (ImgUtil.isValidImage(imgUrl)) ? imgUrl : vibrates
+
+const reset = () => {
+	form.value.reset()
+}
+
+const updateProfile = () => {
+	// const user = await MediaProvider.getUser(this.username, this.email)
+
+	// if (!!user && user.username) {
+	// 	this.mainStore.login(user)
+	// 	this.$router.push({ path: '/collection' })
+	// } else {
+	// 	this.errorMessage = 'Login failed'
+	// }
+}
+
 </script>

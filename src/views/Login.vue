@@ -37,13 +37,9 @@
 							</v-text-field>
 
 							<v-row justify="space-between" class="my-5">
-								<v-col xs="12" sm="6">
+								<v-col cols="12" >
 									<v-btn block flat color="secondary" :loading="loading" :disabled="!canSubmit"
 										class="text-color--contrast" @click="validate" type="submit">Log In</v-btn>
-								</v-col>
-
-								<v-col xs="12" sm="6">
-									<v-btn block variant="tonal" @click="reset">Reset Form</v-btn>
 								</v-col>
 							</v-row>
 
@@ -62,86 +58,85 @@
 	</PageLayout>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store'
+import { useRouter } from 'vue-router'
 import PageLayout from '@/components/navigation/PageLayout.vue'
 import MediaProvider from '@/services/MediaProvider';
 
-export default defineComponent({
-	name: 'LogIn',
-	components: { PageLayout },
-	data: () => ({
-		username: '',
-		email: '',
-		errorMessage: '',
-		loading: false,
-	}),
-	methods: {
-		validate() {
-			this.form.validate()
-		},
-		reset() {
-			this.form.reset()
-		},
-		clearError() {
-			this.errorMessage = ''
-		},
-		async tryLogin() {
+const store = useMainStore()
+const { name } = useDisplay()
+const router = useRouter()
 
-			this.loading = true
+const form = ref<any>(null) // TODO: why you no type??
+// const form = ref<InstanceType<typeof FormData>>(null)
 
-			// // test loading
-			// function timeout(ms: any) {
-			// 	return new Promise(resolve => setTimeout(resolve, ms));
-			// }
-			// await timeout(5000)
+const valid = ref(true)
+const loading = ref(false)
 
-			const user = await MediaProvider.getUser(this.username, this.email)
+const username = ref('')
+const email = ref('')
+const errorMessage = ref('')
 
-			if (!!user && user.username) {
-				this.mainStore.login(user)
-				this.$router.push({ path: '/collection' })
-			} else {
-				this.errorMessage = 'Login failed'
-			}
+// FORM STUFF
+const validate = () => {
+	form.value?.validate()
+}
 
-			this.loading = false
-		},
-		signup() {
-			this.$router.push({ path: '/signup' })
-		},
-		async demo() {
-			this.loading = true
+const clearError = () => {
+	errorMessage.value = ''
+}
 
-			const user = await MediaProvider.getUser('test', 'test@test.com')
-
-			if (!!user && user.username) {
-				this.mainStore.login(user)
-				this.$router.push({ path: '/collection' })
-			} else {
-				this.errorMessage = 'Demo login failed'
-			}
-
-			this.loading = false
-		}
-	},
-	computed: {
-		form(): any {
-			return this.$refs.form as InstanceType<typeof FormData>;
-		},
-		canSubmit(): boolean {
-			return !!this.username && !!this.email && !this.loading
-		},
-		width(): string {
-			return this.name == 'xs' ? '95vw' : '500px'
-		},
-	},
-	setup() {
-		const mainStore = useMainStore()
-		const { name } = useDisplay()
-		return { mainStore, name }
-	}
+const canSubmit = computed(() => {
+	return valid.value && errorMessage.value == ''
 })
+
+const width = computed(() => {
+	return name.value == 'xs' ? '95vw' : '500px'
+})
+
+// FORM ACTIONS
+const tryLogin = async () => {
+
+	loading.value = true
+
+	// // test loading
+	// function timeout(ms: any) {
+	// 	return new Promise(resolve => setTimeout(resolve, ms));
+	// }
+	// await timeout(5000)
+
+	const user = await MediaProvider.getUser(username.value, email.value)
+
+	if (!!user && user.username) {
+		store.login(user)
+		router.push({ path: '/collection' })
+	} else {
+		errorMessage.value = 'Login failed'
+	}
+
+	loading.value = false
+}
+
+const signup = () => {
+	router.push({ path: '/signup' })
+}
+
+const demo = async () => {
+	loading.value = true
+
+	const user = await MediaProvider.getUser('test', 'test@test.com')
+
+	if (!!user && user.username) {
+		store.login(user)
+		router.push({ path: '/collection' })
+	} else {
+		errorMessage.value = 'Demo login failed'
+	}
+
+	loading.value = false
+}
+
 </script>

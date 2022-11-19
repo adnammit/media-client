@@ -18,42 +18,36 @@
 				</template>
 			</div>
 			<div class="text-subtitle-1">
-				UpNext is made possible by <a href="https://www.themoviedb.org/" target="_blank">The Movie Database API</a>
+				UpNext is made possible by <a href="https://www.themoviedb.org/" target="_blank">The Movie Database
+					API</a>
 			</div>
 		</div>
 	</PageLayout>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import PageLayout from '@/components/navigation/PageLayout.vue'
 import AboutItem from '@/components/AboutItem.vue'
 
-export default {
-	name: "About",
-	components: { PageLayout, AboutItem },
-	data() {
-		return {
-			items: [
-				{
-					title: 'Client',
-					text: 'Single-Page Client Application that sits on top of the service. Uses Vue3, Vite, Pinia, Vuetify 3, Typescript and Auth',
-					icon: 'mdi-vuejs',
-					href: 'https://github.com/adnammit/media-client'
-				},
-				{
-					title: 'Service',
-					text: 'RESTful API to support the client. Implemented with Node/Express, Concurrently + Nodemon and PostgreSQL integration',
-					icon: 'mdi-nodejs',
-					href: 'https://github.com/adnammit/media-service'
-				},
-				{
-					title: 'Database',
-					text: 'PostgreSQL database to persist all our choices and lists. Repo contains the relations and seeds needed to set up the database',
-					icon: 'mdi-database-outline',
-					href: 'https://github.com/adnammit/media-database'
-				},
-			],
-		}
-	}
-}
+const items = [
+	{
+		title: 'Client',
+		text: 'Single-Page Client Application that sits on top of the service. Uses Vue3, Vite, Pinia, Vuetify 3, Typescript and Auth',
+		icon: 'mdi-vuejs',
+		href: 'https://github.com/adnammit/media-client'
+	},
+	{
+		title: 'Service',
+		text: 'RESTful API to support the client. Implemented with Node/Express, Concurrently + Nodemon and PostgreSQL integration',
+		icon: 'mdi-nodejs',
+		href: 'https://github.com/adnammit/media-service'
+	},
+	{
+		title: 'Database',
+		text: 'PostgreSQL database to persist all our choices and lists. Repo contains the relations and seeds needed to set up the database',
+		icon: 'mdi-database-outline',
+		href: 'https://github.com/adnammit/media-database'
+	},
+]
+
 </script>

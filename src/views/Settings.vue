@@ -18,11 +18,6 @@
 	</PageLayout>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import PageLayout from '@/components/navigation/PageLayout.vue'
-
-export default {
-	name: "Settings",
-	components: { PageLayout },
-}
 </script>
