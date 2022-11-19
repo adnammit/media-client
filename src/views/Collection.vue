@@ -51,25 +51,31 @@
 			</v-row>
 		</v-container>
 
-		<v-dialog v-model="dialog" persistent>
-			<!-- <template v-slot:activator="{ props }">
+			<v-row justify="center">
+				<v-dialog v-model="dialog" persistent>
+					<!-- <template v-slot:activator="{ props }">
 						<v-btn color="primary" v-bind="props">
 							Open Dialog
 						</v-btn>
 					</template> -->
-			<v-card>
-				<!-- <v-card-actions> -->
-					<v-spacer></v-spacer>
-					<v-btn color="green-darken-1" variant="text" @click="confirmDiscard()">
-						Disagree
-					</v-btn>
-					<button @click="sayHello()" >HELLO</button>
-					<v-btn color="green-darken-1" variant="text" @click="sayHello()">
-						Agree
-					</v-btn>
-				<!-- </v-card-actions> -->
-			</v-card>
-		</v-dialog>
+					<v-card>
+						<v-card-title class="text-h5">
+							Use Google's location service?
+						</v-card-title>
+						<v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google,
+							even when no apps are running.</v-card-text>
+						<v-card-actions>
+							<v-spacer></v-spacer>
+							<v-btn color="green-darken-1" variant="text" @click="sayHello()">
+								Disagree
+							</v-btn>
+							<v-btn color="green-darken-1" variant="text" @click="sayHello">
+								Agree
+							</v-btn>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
+			</v-row>
 
 		<!-- <SearchDetail :dialog="dialog" @close-dialog="closeDialog" /> -->
 		<!-- <SearchDetail v-model="filter.showSelectedItem"/> -->
@@ -100,6 +106,19 @@ const dialog = ref(false)
 // const dialog = computed(() => {
 // 	return filter.showSelectedItem
 // })
+// const dialog = computed({
+// 	get: () => filter.showSelectedItem,
+// 	set: (val) => {
+// 		filter.setShowSelectedItem(val)
+// 	}
+// })
+
+const sayHello = () => {
+	console.log('>> HELLO alert ');
+	// alert.value = true
+	// dialog.value = false
+}
+
 
 const noData = computed(() => {
 	return store.collection.length == 0
@@ -122,10 +141,10 @@ onBeforeMount(() => {
 
 watch(() => filter.showSelectedItem, (newValue) => {
 	console.log('>> watching ' + newValue);
-	dialog.value = newValue
-	// if (newValue) {
-	// 	dialog.value = true
-	// }
+	// dialog.value = newValue
+	if (newValue) {
+		dialog.value = true
+	}
 })
 
 
@@ -155,10 +174,7 @@ const confirmDiscard = () => {
 	// alert.value = true
 }
 
-const sayHello = () => {
-	console.log('>> HELLO alert ');
-	// alert.value = true
-}
+
 
 const save = async () => {
 	//// DO SAVE
