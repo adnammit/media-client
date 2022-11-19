@@ -80,7 +80,7 @@ export default defineComponent({
 			// emit?
 		},
 		results(): SearchResult[] {
-			return this.filterStore.results
+			return this.filterStore.searchResults
 		},
 	},
 	setup() {

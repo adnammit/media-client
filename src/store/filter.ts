@@ -11,7 +11,7 @@ export type FilterState = {
 	filterToTv: boolean
 	// showSearch: boolean
 	showSelectedItem: boolean
-	results: SearchResult[],
+	searchResults: SearchResult[],
 	selectedItem: SearchResult,
 	isSearching: boolean
 }
@@ -26,7 +26,7 @@ export const useFilterStore = defineStore('filter', {
 		filterToTv: false,
 		// showSearch: false,
 		showSelectedItem: false,
-		results: [],
+		searchResults: [],
 		selectedItem: new SearchResult(),
 		isSearching: false
 	} as FilterState),
@@ -75,18 +75,19 @@ export const useFilterStore = defineStore('filter', {
 		},
 
 		resetSearch() {
-			this.results = []
+			this.searchResults = []
 			this.selectedItem = new SearchResult()
 		},
 
 		setSelectedItem(val: SearchResult) {
+			console.log('>> set selected ' + JSON.stringify(val));
 			this.selectedItem = val
 			this.showSelectedItem = true
 		},
 
 		clearSearchData() {
 			this.selectedItem = new SearchResult()
-			this.results = []
+			this.searchResults = []
 			this.showSelectedItem = false
 		},
 
@@ -104,7 +105,7 @@ export const useFilterStore = defineStore('filter', {
 						if (results.Error != null) {
 							throw Error('Error contacting movie api ' + JSON.stringify(results.Error))
 						} else {
-							this.results = results
+							this.searchResults = results
 						}
 					})
 					.catch((e: any) => {

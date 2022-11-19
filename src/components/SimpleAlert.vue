@@ -20,7 +20,6 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue';
 
-
 const props = defineProps({
 	value: {
 		type: Boolean,

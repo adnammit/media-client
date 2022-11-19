@@ -36,19 +36,19 @@
 	</v-col>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 
-export default defineComponent({
-	props: {
-		title: String,
-		text: String
+const props = defineProps({
+	title: {
+		type: String,
+		default: ''
 	},
-	data() {
-		return {
-			show: false
-		}
-	},
+	text: {
+		type: String,
+		default: ''
+	}
 })
+
+const show = false
 
 </script>
