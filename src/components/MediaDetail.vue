@@ -190,7 +190,7 @@ export default defineComponent({
 		},
 
 		async save() {
-			const item = Object.assign(this.selectedItem)
+			const item = Object.assign(this.selectedItem) // not deep copy
 			item.queued = this.queued
 			item.favorite = this.favorite
 			item.watched = this.watched

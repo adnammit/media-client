@@ -11,6 +11,9 @@
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
+    "lib": ["dom",
+      "es2015",
+      "es2018.promise"],
     "paths": {
       "@/*": [
         "./src/*"

@@ -1,20 +1,20 @@
-// // talks to the MovieDbApi and gets info from our third party api
-// // gets our app data from the mediaService depending on whether we're testing/mocking or not
+// talks to the MovieDbApi and gets info from our third party api
+// gets our app data from the mediaService depending on whether we're testing/mocking or not
 import type { IUser, IUserInput } from '@/models/user'
 import type { MediaType } from '@/models/enum'
 import type UserTitleDto from '@/dto/userTitleDto'
+import type UserTitleRequest from '@/dto/userTitleRequest'
 import Title from '@/models/title'
 import type IMediaService from '@/services/IMediaService'
 import MediaService from '@/services/MediaService'
 import MockMediaService from '@/services/MockMediaService'
 import MovieDbApi from '@/services/MovieDbApi'
-import type SearchResult from '@/models/searchResult'
 
 class MediaProvider {
 	private service: IMediaService
 
 	constructor() {
-		this.service = process.env.NODE_ENV === 'testing' ? MockMediaService : MediaService
+		this.service = import.meta.env.NODE_ENV === 'testing' ? MockMediaService : MediaService
 	}
 
 	public async addUser(user: IUserInput): Promise<IUser> {
@@ -40,7 +40,9 @@ class MediaProvider {
 			const id = +userItem.moviedbid
 			return MovieDbApi.getTitle(id, userItem.mediatype as MediaType)
 				.then((res) => {
-					titles.push(new Title(res, userItem))
+					const title = new Title()
+					title.Populate(res, userItem)
+					titles.push(title)
 				})
 		})
 
@@ -49,12 +51,9 @@ class MediaProvider {
 	}
 
 
-	// public async addSearch(userId: number, item: Title): Promise<boolean> {
-	// 	const title = MovieDbApi.getTitle(item.movieDbId, item.mediaType)
-	// 	return this.service.addUserTitle(userId, title, item.mediaType)
-
-	// 	// return item.mediaType == MediaType.Movie ? this.addSearchAsMovie(userid, item) : this.addSearchAsTv(userid, item)
-	// }
+	public async addSearch(request: UserTitleRequest): Promise<boolean> {
+		return this.service.addUserTitle(request)
+	}
 
 	// private async addSearchAsMovie(userid: number, item: SearchResult): Promise<boolean> {
 	// 	const movie = await MovieDbApi.getMovie(item.movieDbId)

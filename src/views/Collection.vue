@@ -88,77 +88,9 @@ onBeforeMount(() => {
 })
 
 watch(() => filter.showSelectedItem, (newValue) => {
-	console.log('>> watching ' + newValue);
-	// dialog.value = newValue
 	if (newValue) {
 		dialog.value = true
 	}
 })
 
-
-// const closeDialog = () => {
-// 	// dialog.value = false
-// 	// filter.clearSearchData()
-// 	// filter.setShowSelectedItem(false)
-
-// 	// emit('update:dialog', false)
-// 	emit('closeDialog')
-
-// }
-
-// const closeAlert = () => {
-// 	// console.log('>> closing with ' + JSON.stringify(val));
-// 	alert.value = false
-// }
-
-// const closeAlertWithConfirm = () => {
-// 	// console.log('>> closing with ' + JSON.stringify(val));
-// 	alert.value = false
-// 	closeDialog()
-// }
-
-
-
 </script>
-
-
-
-
-
-// export default defineComponent({
-// 	name: 'Collection',
-// 	components: { PageLayout, FilterBar, Loader, CollectionItemDisplay, SearchDetail },
-// 	computed: {
-// 		title(): string {
-// 			return 'My Collection'
-// 			// return `${this.mainStore.filterSubject == '' ? 'The' : this.mainStore.filterSubject} Feed`;
-// 		},
-// 		subtitle(): string {
-// 			return `Browse what's UpNext`
-// 			// return `All the latest in ${this.mainStore.filterSubject == '' ? 'Cowpoke' : this.mainStore.filterSubject} news!`
-// 		},
-// 		isLoading(): boolean {
-// 			return this.mainStore.isLoading
-// 		},
-// 		noData(): boolean {
-// 			// are any items saved at all
-// 			return this.mainStore.collection.length == 0
-// 		},
-// 		noResults(): boolean {
-// 			// are there any filtered results
-// 			return this.filteredContent.length == 0
-// 		},
-// 		filteredContent(): Title[] {
-// 			return this.mainStore.filteredCollection
-// 		},
-
-// 	},
-// 	setup() {
-// 		const mainStore = useMainStore()
-// 		const filterStore = useFilterStore()
-// 		return { mainStore, filterStore }
-// 	},
-// 	created() {
-// 		this.mainStore.loadCollection()
-// 	}
-// })

@@ -1,6 +1,5 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import SearchResult from '@/models/searchResult'
-import { useMainStore } from '@/store'
 import MovieDbApi from '@/services/MovieDbApi'
 
 export type FilterState = {
@@ -9,7 +8,6 @@ export type FilterState = {
 	filterByUpNext: boolean
 	filterToMovies: boolean
 	filterToTv: boolean
-	// showSearch: boolean
 	showSelectedItem: boolean
 	searchResults: SearchResult[],
 	selectedItem: SearchResult,
@@ -74,27 +72,25 @@ export const useFilterStore = defineStore('filter', {
 			this.filterToTv = false
 		},
 
-		resetSearch() {
-			this.searchResults = []
-			this.selectedItem = new SearchResult()
-		},
+		// resetSearch() {
+		// 	this.searchResults = []
+		// 	this.selectedItem = new SearchResult()
+		// },
 
 		setSelectedItem(val: SearchResult) {
-			console.log('>> set selected ' + JSON.stringify(val));
 			this.selectedItem = val
 			this.showSelectedItem = true
 		},
 
 		clearSearchData() {
-			console.log('>> clearing data');
 			this.selectedItem = new SearchResult()
 			this.searchResults = []
 			this.showSelectedItem = false
 		},
 
-		setShowSelectedItem(val: boolean) {
-			this.showSelectedItem = val
-		},
+		// setShowSelectedItem(val: boolean) {
+		// 	this.showSelectedItem = val
+		// },
 
 		async Search(search: string) {
 
@@ -116,19 +112,18 @@ export const useFilterStore = defineStore('filter', {
 					.finally(() => {
 						this.isSearching = false
 					})
-			} else {
-				// this.clearSearchData()
 			}
 		},
 
 	},
 
 	getters: {
-		mainStore(): any {
-			return useMainStore()
-		},
 		// showSearchDetail(): boolean {
-		// 	return this.showAddItem
+		// 	return this.isSearching
 		// }
 	}
 })
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useFilterStore, import.meta.hot))
+}

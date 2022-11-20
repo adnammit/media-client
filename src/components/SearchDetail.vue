@@ -105,14 +105,17 @@
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { useMainStore } from '@/store'
 import { useFilterStore } from '@/store/filter'
+import type UserTitleData from '@/dto/userTitleData'
+import type Genre from '@/models/genre'
+import { MediaType } from '@/models/enum'
+import { formatYear } from '@/filters/format'
+import Title from '@/models/title'
 import type SearchResult from '@/models/searchResult'
 import Rating from '@/components/title/Rating.vue'
 import GenreSet from '@/components/title/GenreSet.vue'
 import SimpleAlert from '@/components/SimpleAlert.vue'
 import Poster from '@/components/title/Poster.vue'
-import type Genre from '@/models/genre'
-import { MediaType } from '@/models/enum'
-import { formatYear } from '@/filters/format'
+
 
 const props = defineProps({
 	// dialog: {
@@ -130,13 +133,15 @@ const emit = defineEmits(['update:modelValue', 'closeDialog'])
 const save = async () => {
 	//// DO SAVE
 	console.log('>> SAVING');
-	const item = Object.assign(filter.selectedItem)
-	// item.queued = this.queued
-	// item.favorite = this.favorite
-	// item.watched = this.watched
-	// item.rating = this.rating
-	await store.addUserItem(item)
-	filter.clearSearchData()
+
+	const userData = {
+		queued: queued.value,
+		favorite: favorite.value,
+		watched: watched.value,
+		rating: rating.value,
+	} as UserTitleData
+
+	await store.addUserItem(userData)
 	// closeDialog()
 	emit('update:modelValue')
 }
@@ -221,15 +226,15 @@ const showPosterDetail = (): void => {
 // 	return filter.showSelectedItem
 // })
 
-const closeDialog = () => {
-	// dialog.value = false
-	// filter.clearSearchData()
-	// filter.setShowSelectedItem(false)
+// const closeDialog = () => {
+// 	// dialog.value = false
+// 	// filter.clearSearchData()
+// 	// filter.setShowSelectedItem(false)
 
-	// emit('update:dialog', false)
-	emit('closeDialog')
+// 	// emit('update:dialog', false)
+// 	emit('closeDialog')
 
-}
+// }
 
 const closeAlert = () => {
 	// console.log('>> closing with ' + JSON.stringify(val));
@@ -239,7 +244,8 @@ const closeAlert = () => {
 const closeAlertWithConfirm = () => {
 	// console.log('>> closing with ' + JSON.stringify(val));
 	alert.value = false
-	closeDialog()
+	emit('closeDialog')
+	// closeDialog()
 }
 
 const confirmDiscard = () => {

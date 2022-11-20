@@ -1,4 +1,5 @@
 import type UserTitleDto from '@/dto/userTitleDto'
+import type UserTitleRequest from '@/dto/userTitleRequest'
 import User, { type IUserInput, type IUser } from '@/models/user'
 import type IMediaService from '@/services/IMediaService'
 
@@ -19,9 +20,9 @@ class MockMediaService implements IMediaService {
 		return [] as UserTitleDto[]
 	}
 
-	// public async addUserMovie(userid: number, movie: Movie): Promise<boolean> {
-	// 	return true
-	// }
+	public async addUserTitle(req: UserTitleRequest): Promise<boolean> {
+		return true
+	}
 
 	// public async updateUserMovie(userid: number, movie: Movie): Promise<boolean> {
 	// 	return true

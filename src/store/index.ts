@@ -1,10 +1,13 @@
-import { defineStore } from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { useRouter } from 'vue-router'
+import { useFilterStore } from '@/store/filter'
 import type IUser from '@/models/user'
 import type Title from '@/models/title'
-import MediaProvider from '@/services/MediaProvider'
-import { useFilterStore } from '@/store/filter'
 import { MediaType } from '@/models/enum'
-import type SearchResult from '@/models/searchResult'
+import type UserTitleRequest from '@/dto/userTitleRequest'
+import type UserTitleData from '@/dto/userTitleData'
+import MediaProvider from '@/services/MediaProvider'
+import MovieDbApi from '@/services/MovieDbApi'
 
 
 type ErrorState = {
@@ -30,6 +33,14 @@ export const useMainStore = defineStore('main', {
 
 	actions: {
 
+		setIsLoading(val: boolean) {
+			this.isLoading = val
+		},
+
+		setIsErrored(val: boolean, message?: string) {
+			this.error = { isError: val, message: message ?? '' }
+		},
+
 		login(user: IUser) {
 			this.error = { isError: false, message: '' }
 			this.user = user
@@ -38,16 +49,9 @@ export const useMainStore = defineStore('main', {
 
 		logout() {
 			this.user = null
+			const router = useRouter()
+			router.push({ path: '/' })
 			this.unloadCollection()
-			this.$router.push({ path: '/' })
-		},
-
-		setIsLoading(val: boolean) {
-			this.isLoading = val
-		},
-
-		setIsErrored(val: boolean, message?: string) {
-			this.error = { isError: val, message: message ?? '' }
 		},
 
 		async loadCollection() {
@@ -76,23 +80,54 @@ export const useMainStore = defineStore('main', {
 			this.collection = []
 		},
 
-		async addUserItem(item: SearchResult) {
-			console.log('>> SAVING ' + JSON.stringify(item));
-			// MediaProvider.addSearch(1, item)
-			// 	.then((res: boolean) => {
-			// 		if (res) {
-			// 			this.loadCollection()
-			// 		} else {
-			// 			throw Error('Error saving searched item to user collection ')
-			// 		}
-			// 	})
-			// 	.catch((e: any) => {
-			// 		console.log(e)
-			// 		this.error = { isError: true, message: 'Error adding item' }
-			// 	})
+		async addUserItem(userData: UserTitleData) {
+
+			const userId = this.userId
+
+			if (userId < 0) {
+				console.error(`Could not create user item for unknown user`)
+				this.error = { isError: true, message: `Error adding item to collection` }
+			} else {
+
+				this.isLoading = true
+
+				const filter = useFilterStore()
+				const item = filter.selectedItem
+				// fwiw i hate this -- the data that we get from searching is missing imdbid so we need to get the full object and tack it on before storing it
+				const dto = await MovieDbApi.getTitle(item.movieDbId, item.mediaType)
+
+				const request = {
+					userId: userId,
+					movieDbId: item.movieDbId,
+					mediaType: item.mediaType,
+					imdbId: dto.imdb_id,
+					queued: userData.queued,
+					favorite: userData.favorite,
+					watched: userData.watched,
+					rating: userData.rating,
+				} as UserTitleRequest
+
+				MediaProvider.addSearch(request)
+					.then((res: boolean) => {
+						if (res) {
+							this.loadCollection()
+						} else {
+							throw Error('Error saving searched item to user collection ')
+						}
+					})
+					.catch((e: any) => {
+						console.log(e)
+						this.error = { isError: true, message: 'Error adding item' }
+					})
+					.finally(() => {
+						filter.clearSearchData()
+						this.isLoading = false
+					})
+			}
 		},
 	},
 	getters: {
+		userId: (state: RootState): number => state.user?.id ?? -1,
 		username: (state: RootState): string => state.user?.username ?? '',
 		fullName: (state: RootState): string => `${state.user?.firstName} ${state.user?.lastName}` ?? '',
 		email: (state: RootState): string => state.user?.email ?? '',
@@ -106,3 +141,6 @@ export const useMainStore = defineStore('main', {
 	}
 })
 
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useMainStore, import.meta.hot))
+}

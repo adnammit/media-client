@@ -3,7 +3,7 @@ import User, { type IUserInput, type IUser } from '@/models/user'
 import type UserTitleDto from '@/dto/userTitleDto'
 import type IMediaService from '@/services/IMediaService'
 import ApiBase from '@/services/ApiBase'
-import type Title from '@/models/title'
+import type UserTitleRequest from '@/models/dto/userTitleRequest'
 
 const requestMgr = axios.create({
 	baseURL: `${import.meta.env.VITE_API_SERVER_URL}/api/v1/`,
@@ -62,18 +62,19 @@ class MediaService extends ApiBase implements IMediaService {
 			})
 	}
 
-	public async addUserTitle(userid: number, title: Title): Promise<boolean> {
+	public async addUserTitle(req: UserTitleRequest): Promise<boolean> {
 		const request: any = {
-			movieDbId: title.movieDbId,
-			imdbId: title.imdbId,
-			mediaType: title.mediaType,
-			rating: title.rating,
-			watched: title.watched,
-			favorite: title.favorite,
-			queued: title.queued,
+			movieDbId: req.movieDbId,
+			imdbId: req.imdbId,
+			mediaType: req.mediaType,
+			rating: req.rating,
+			watched: req.watched,
+			favorite: req.favorite,
+			queued: req.queued,
 		}
+
 		return requestMgr
-			.put('user/' + userid + '/titles', request)
+			.put('users/' + req.userId + '/titles', request)
 			.then(res => {
 				return res.status === 201
 			})
