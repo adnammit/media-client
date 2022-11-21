@@ -15,8 +15,8 @@
 
 			<v-row class="mx-4">
 				<v-col cols="12">
-					<v-btn @click="clearPersonalFilters()" rounded variant="text" :text="!isUnfiltered">
-						Clear Personal Filters
+					<v-btn @click="clearMediaFilters()" rounded variant="text" :text="!isUnfiltered">
+						Clear Media Filters
 					</v-btn>
 				</v-col>
 			</v-row>
@@ -25,25 +25,18 @@
 
 			<v-row class="mx-4">
 				<v-col cols="12">
-					<v-btn :active="filter.filterByFavorite" @click="toggleFavorites()" rounded :text="!filter.filterByFavorite"
+					<v-btn :active="filter.filterToMovies" @click="toggleMovies()" rounded
+						:text="!filter.filterToMovies" variant="text">
+						Movies
+					</v-btn>
+				</v-col>
+			</v-row>
+
+			<v-row class="mx-4">
+				<v-col cols="12">
+					<v-btn :active="filter.filterToTv" @click="toggleTv()" rounded :text="!filter.filterToTv"
 						variant="text">
-						Favorites
-					</v-btn>
-				</v-col>
-			</v-row>
-
-			<v-row class="mx-4">
-				<v-col cols="12">
-					<v-btn :active="filter.filterByWatched" @click="toggleWatched()" rounded :text="!filter.filterByWatched" variant="text">
-						Unwatched
-					</v-btn>
-				</v-col>
-			</v-row>
-
-			<v-row class="mx-4">
-				<v-col cols="12">
-					<v-btn :active="filter.filterByUpNext" @click="toggleUpNext()" rounded :text="!filter.filterByUpNext" variant="text">
-						Up Next
+						TV
 					</v-btn>
 				</v-col>
 			</v-row>
@@ -68,34 +61,28 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const selected = computed(() => {
-	return isUnfiltered.value ? 'All Your Picks'
-		: filter.filterByFavorite ? 'Favorites'
-			: filter.filterByUpNext ? 'UpNext'
-				: filter.filterByWatched ? 'Unwatched'
-					: 'All'
+	return isUnfiltered.value ? 'Movies and TV'
+		: filter.filterToMovies ? 'Movies'
+			: filter.filterToTv ? 'TV'
+				: 'All'
 })
 
 const isUnfiltered = computed(() => {
-	return !filter.filterByWatched && !filter.filterByFavorite && !filter.filterByUpNext
+	return !filter.filterToMovies && !filter.filterToTv
 })
 
-const clearPersonalFilters = () => {
-	filter.resetPersonalFilters()
+const clearMediaFilters = () => {
+	filter.resetMediaFilters()
 	emit('update:modelValue', false)
 }
 
-const toggleFavorites = () => {
-	filter.toggleFavorites()
+const toggleMovies = () => {
+	filter.toggleMovies()
 	emit('update:modelValue', false)
 }
 
-const toggleWatched = () => {
-	filter.toggleWatched()
-	emit('update:modelValue', false)
-}
-
-const toggleUpNext = () => {
-	filter.toggleUpNext()
+const toggleTv = () => {
+	filter.toggleTv()
 	emit('update:modelValue', false)
 }
 

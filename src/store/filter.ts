@@ -64,6 +64,17 @@ export const useFilterStore = defineStore('filter', {
 			if (val && this.filterToMovies) this.filterToMovies = false
 		},
 
+		resetPersonalFilters() {
+			this.filterByFavorite = false
+			this.filterByWatched = false
+			this.filterByUpNext = false
+		},
+
+		resetMediaFilters() {
+			this.filterToMovies = false
+			this.filterToTv = false
+		},
+
 		resetFilter() {
 			this.filterByFavorite = false
 			this.filterByWatched = false
@@ -72,10 +83,7 @@ export const useFilterStore = defineStore('filter', {
 			this.filterToTv = false
 		},
 
-		// resetSearch() {
-		// 	this.searchResults = []
-		// 	this.selectedItem = new SearchResult()
-		// },
+
 
 		setSelectedItem(val: SearchResult) {
 			this.selectedItem = val

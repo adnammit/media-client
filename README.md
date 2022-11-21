@@ -49,7 +49,8 @@ npm run lint
 * **START HERE**: add edit item/item detail view
 * add more info to search so you can tell what you're looking at
 * surprise!
-* improve mobile friendly filter/add search/add item
+* look for `TODO` in comments
+* improve mobile friendly filter/add search/add item --
 * here's the thing about simple user login -- when you refresh, you lose your user. fix it -- maybe
 * option to set your streaming services and highlight titles that are on them
 * wrap service stuff in try/catch -- cors errors etc are not getting caught
