@@ -47,7 +47,6 @@ npm run lint
 
 ## To-do
 * show which filter buttons are selected
-* **START HERE**: add mediaDetail modal to add a search item to collection; make sure you clear search props when opening modal
 * mobile friendly filter
 * can i filter cards like a table? or can i make a table look like cards? -- yeah i think you just... filter the list...?
 * here's the thing about simple user login -- when you refresh, you lose your user. fix it -- maybe
@@ -72,12 +71,14 @@ npm run lint
     // Testing
     console.log(isDarkMode());
     ```
+* check out [animations](https://vuejs.org/guide/extras/animation.html#class-based-animations)
 
 ## Done
 * mobile-friendly navBar
 * scratch auth0 for simplicity's sake
 * on login/signup, show loading bc prod db is slow
 * login is case sensitive -- make it not so
+* **START HERE**: add mediaDetail modal to add a search item to collection; make sure you clear search props when opening modal
 
 
 ## Type Support for `.vue` Imports in TS

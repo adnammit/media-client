@@ -2,12 +2,12 @@
 	<div class="container-fluid filter-bar ma-0 py-0 px-2">
 		<div>
 			<v-toolbar border>
-				<v-btn @click="resetFilter()" rounded :text="!isUnfiltered">All</v-btn>
-				<v-btn @click="toggleFavorites()" rounded :text="!filter.filterByFavorite">Favorites</v-btn>
-				<v-btn @click="toggleWatched()" rounded :text="!filter.filterByWatched">To Do</v-btn>
-				<v-btn @click="toggleUpNext()" rounded :text="!filter.filterByUpNext">Up Next</v-btn>
-				<v-btn @click="toggleMovies()" rounded :text="!filter.filterToMovies">Movies</v-btn>
-				<v-btn @click="toggleTv()" rounded :text="!filter.filterToTv">Tv</v-btn>
+				<v-btn :active="isUnfiltered" @click="resetFilter()" rounded :text="!isUnfiltered" variant="text">All</v-btn>
+				<v-btn :active="filter.filterByFavorite" @click="toggleFavorites()" rounded :text="!filter.filterByFavorite" variant="text">Favorites</v-btn>
+				<v-btn :active="filter.filterByWatched" @click="toggleWatched()" rounded :text="!filter.filterByWatched" variant="text">To Do</v-btn>
+				<v-btn :active="filter.filterByUpNext" @click="toggleUpNext()" rounded :text="!filter.filterByUpNext" variant="text">Up Next</v-btn>
+				<v-btn :active="filter.filterToMovies" @click="toggleMovies()" rounded :text="!filter.filterToMovies" variant="text">Movies</v-btn>
+				<v-btn :active="filter.filterToTv" @click="toggleTv()" rounded :text="!filter.filterToTv" variant="text">Tv</v-btn>
 				<v-btn @click="surprise()" rounded text>
 					<v-icon>mdi-dice-5</v-icon>
 				</v-btn>
