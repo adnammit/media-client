@@ -47,6 +47,7 @@ npm run lint
 
 ## To-do
 * **START HERE**: add edit item/item detail view
+* add more info to search so you can tell what you're looking at
 * surprise!
 * improve mobile friendly filter/add search/add item
 * here's the thing about simple user login -- when you refresh, you lose your user. fix it -- maybe

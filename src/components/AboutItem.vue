@@ -15,7 +15,7 @@
 
 		<v-card-actions>
 			<v-spacer></v-spacer>
-			<v-btn prepend-icon="mdi-github" :href="href" target="_blank">
+			<v-btn prepend-icon="mdi-github" :href="href" target="_blank" variant="tonal" class="px-5">
 				Source
 			</v-btn>
 		</v-card-actions>
