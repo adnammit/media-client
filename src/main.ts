@@ -2,7 +2,8 @@ import { createApp, markRaw } from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
 import { createPinia } from 'pinia'
-import { loadFonts } from './plugins/webfontloader'
+import { loadFonts } from '@/plugins/webfontloader'
+import FontAwesomeIcon from '@/plugins/font-awesome'
 import vuetify from '@/plugins/vuetify'
 import { formatYear } from '@/filters/format'
 import '@/assets/main.scss'
@@ -18,6 +19,7 @@ pinia.use(({ store }) => {
 
 app.use(pinia)
 	.use(vuetify)
+	.component('font-awesome-icon', FontAwesomeIcon)
 	.use(router)
 	.mount('#app')
 

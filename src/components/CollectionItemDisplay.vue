@@ -1,6 +1,6 @@
 <template>
 
-	<v-card class="mx-1" @click="dialog = true" max-height="200px">
+	<v-card class="mx-1 bump-animation" @click="dialog = true" max-height="200px">
 		<v-img :src="posterUrl" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px"
 			cover>
 
@@ -71,11 +71,13 @@ const itemProps = defineProps({
 
 const store = useMainStore()
 const dialog = ref(false)
+const x = ref(0)
 const maxPreviewWordLength = 75
 const { name } = useDisplay()
 
 const year = formatYear(itemProps.releaseDate)
 const posterUrl = `${import.meta.env.VITE_POSTER_BASE_PATH}${itemProps.poster}`
+
 const quickText = () => {
 	let words = itemProps.summary?.split(' ') ?? []
 	if (words?.length > maxPreviewWordLength) {
@@ -100,5 +102,9 @@ const imgSizeThm = computed(() => {
 const imgSizeFull = computed(() => {
 	return (isSmallScreen) ? '75vw' : '275'
 })
+
+const onMousemove = (e: any) => {
+	x.value = e.clientX
+}
 
 </script>

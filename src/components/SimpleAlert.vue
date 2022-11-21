@@ -1,16 +1,16 @@
 <template>
-	<v-dialog v-model="modelValue" max-width="600">
+	<v-dialog v-model="modelValue" class="modal-contents" max-width="600">
 		<v-card fill>
-			<v-form ref="form" class="modal-contents" @submit.prevent="$emit('confirmAlert')">
+			<v-form ref="form" @submit.prevent="$emit('confirmAlert')">
 				<v-card-title>{{ titleText }}</v-card-title>
 
 				<v-card-text>
 					{{ messageText }}
 				</v-card-text>
-				<v-card-actions class="modal-actions mt-12">
+				<v-card-actions class="mt-12">
 					<v-spacer></v-spacer>
 					<v-btn @click.stop="$emit('cancelAlert')" variant="flat">{{ cancelText }}</v-btn>
-					<v-btn prepend-icon="mdi-magnify" color="secondary" type="submit" variant="flat">{{ confirmText }}</v-btn>
+					<v-btn color="secondary" type="submit" variant="flat">{{ confirmText }}</v-btn>
 				</v-card-actions>
 			</v-form>
 		</v-card>
@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue';
 
 const props = defineProps({
 	modelValue: {

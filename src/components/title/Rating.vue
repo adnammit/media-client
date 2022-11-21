@@ -1,5 +1,5 @@
 <template>
-	<v-rating v-model="rating" @input="$emit('update:rating', $event.target.value)">
+	<v-rating v-model="modelValue" @input="$emit('update:modelValue', $event.target.value)">
 		<template v-slot:item="props">
 			<v-icon :color="props.isFilled ? 'pink' : 'blue lighten-3'" @click="updateRating(props)">{{ props.isFilled ? 'mdi-star' : 'mdi-star-outline' }}</v-icon>
 		</template>
@@ -7,23 +7,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 
 const props = defineProps({
-	value: Number,
+	modelValue: {
+		type: Number,
+		required: true
+	},
 })
 
-// const rating = computed(() => {
-// 	return props.value ?? 0
-
-// })
-
-const rating = computed({
-	get: () => props.value ?? 0,
-	set: (val) => {
-		// emit val
-	}
-})
+const emit = defineEmits(['update:modelValue'])
 
 const updateRating = (props: any) => {
 	const rating = props.index + 1

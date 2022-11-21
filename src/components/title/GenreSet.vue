@@ -1,6 +1,9 @@
 <template>
-	<div class="genre-set align-center">
-		<v-tooltip top open-delay="300" v-if="getGenreMatch('Action')">
+	<div class="genre-set align-center d-inline">
+		<template v-for="item in items">
+			<GenreDisplay v-if="getGenreMatch(item.genres)" :icon="item.icon" :text="item.name" />
+		</template>
+		<!-- <v-tooltip top open-delay="300" v-if="getGenreMatch('Action')">
 			<template v-slot:activator="{ on }">
 				<font-awesome-icon v-on="on" icon="car-crash" size="lg" />
 			</template>
@@ -137,27 +140,47 @@
 				<font-awesome-icon v-on="on" icon="hat-cowboy-side" size="lg" />
 			</template>
 			<span>Western</span>
-		</v-tooltip>
+		</v-tooltip> -->
 	</div>
 </template>
 
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router'
-import Genre from '@/models/genre'
+import type Genre from '@/models/genre'
+import GenreDisplay from '@/components/title/GenreDisplay.vue'
+
+const items = [
+	{
+		icon: 'car-crash',
+		name: 'Action',
+		genres: [ 'Action' ]
+	},
+	{
+		icon: 'hiking',
+		name: 'Adventure',
+		genres: ['Adventure', 'Action & Adventure']
+	},
+	{
+		icon: 'paint-brush',
+		name: 'Animation',
+		genres: ['Animation']
+	},
+	// TODO the rest
+]
 
 const props = defineProps({
-	// genres: Genre[]
-
+	genres: {
+		type: Array<Genre>,
+		required: true
+	},
 })
 
-function getGenreMatch(val: string | string[]) {
-	// const genre = typeof val == 'string' ? [val] : val;
-	// if (this.genres) {
-	// 	return genre.some(g => this.genres.some(gg => gg.name == g));
-	// }
-	return false;
+const getGenreMatch = (val: string | string[]) => {
+	const genre = typeof val == 'string' ? [val] : val
+	if (props.genres) {
+		return genre.some(g => props.genres.some(gg => gg.name == g))
+	}
+	return false
 }
 
 </script>

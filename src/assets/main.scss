@@ -20,6 +20,10 @@ a {
 	letter-spacing: 0.1em !important;
 }
 
+.rounded img {
+	border-radius: 20%;
+}
+
 .subtitle--emphasis {
 	letter-spacing: 2px;
 	font-weight: 600;
@@ -32,8 +36,37 @@ a {
 	top: 40%;
 }
 
+.bump-animation:hover {
+	transform: scale(1.05);
+}
 
 // THE COLORS, DUKE!
+.favorite {
+	color: $turmeric;
+}
+
+.complete {
+	color: $goblin;
+}
+
+.queued {
+	color: $jaffa;
+}
+
+// // global button colors
+// .save {
+// 	color: $curious-blue;
+// }
+
+// .remove {
+// 	color: $cinnabar;
+// }
+
+// global btn styles
+.v-card__actions .v-btn {
+	margin: auto 5px;
+	padding: 5px 9px;
+}
 
 // preserve some colors
 .v-alert.text-info i,
@@ -41,11 +74,16 @@ a {
 	color: rgb(var(--v-theme-info)) !important;
 }
 
+// text overlay for images
+div.text-color--contrast {
+	color: $white !important
+}
+
 // change other colors depending on light/dark theme
 .v-theme--light {
 
 	span:not(.v-alert__underlay),
-	div:not(.v-alert__content):not(.v-alert__prepend),
+	div:not(.v-alert__content):not(.v-alert__prepend):not(.v-overlay__content),
 	a .v-icon,
 	strong {
 		color: $tundora
@@ -65,10 +103,6 @@ a {
 				color: $white
 			}
 		}
-	}
-
-	div.text-color--contrast {
-		color: $white;
 	}
 
 	.v-main.main-body {
@@ -99,10 +133,6 @@ a {
 				color: $mine-shaft
 			}
 		}
-	}
-
-	div.text-color--contrast {
-		color: $mine-shaft;
 	}
 
 	.v-main.main-body {

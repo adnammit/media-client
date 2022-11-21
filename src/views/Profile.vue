@@ -9,7 +9,7 @@
 
 							<v-row align="center" justify="center">
 								<v-col align="center">
-									<v-card-title class="text-h5">
+									<v-card-title class="text-h4">
 										{{ fullName }}
 									</v-card-title>
 
