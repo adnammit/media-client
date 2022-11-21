@@ -13,7 +13,7 @@
 			<v-row justify="center">
 				<template v-for="item in homeItems">
 					<HomeItem :title="item.title" :text="item.text">
-						<v-btn class="ma-2 text-color--contrast" :color="item.color" :icon="item.icon" size="x-large"
+						<v-btn class="ma-2" :color="item.color" :icon="item.icon" size="x-large"
 							:to="item.route">
 						</v-btn>
 					</HomeItem>

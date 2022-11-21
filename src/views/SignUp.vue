@@ -53,7 +53,7 @@
 							<v-row justify="space-between" class="my-5">
 								<v-col cols="12" sm="6">
 									<v-btn block flat color="secondary" :loading="loading" :disabled="!canSubmit"
-										class="text-color--contrast" @click="validate" type="submit">Sign Up</v-btn>
+										@click="validate" type="submit">Sign Up</v-btn>
 								</v-col>
 								<v-col cols="12" sm="6">
 									<v-btn block variant="tonal" @click="reset">Reset Form</v-btn>

@@ -33,8 +33,6 @@ a {
 }
 
 
-
-
 // THE COLORS, DUKE!
 
 // preserve some colors
@@ -47,19 +45,30 @@ a {
 .v-theme--light {
 
 	span:not(.v-alert__underlay),
-	div:not(.v-alert__content),
-	// span:not(.v-btn.text-info span.v-btn__content),
-	strong,
-	.v-icon {
+	div:not(.v-alert__content):not(.v-alert__prepend),
+	a .v-icon,
+	strong {
 		color: $tundora
 	}
 
-	.text-color--contrast,
-	div.text-color--contrast,
-	.text-color--contrast i.v-icon.v-icon,
-	.v-alert .v-icon,
-	.v-btn.text-color--contrast .v-btn__content {
-		color: $white
+	// high-contrast content for buttons and alerts
+	.v-btn,
+	.v-alert {
+
+		&.bg-primary,
+		&.bg-secondary,
+		&.bg-info,
+		&.bg-warning {
+
+			.v-btn__content,
+			i.v-icon.v-icon {
+				color: $white
+			}
+		}
+	}
+
+	div.text-color--contrast {
+		color: $white;
 	}
 
 	.v-main.main-body {
@@ -70,19 +79,30 @@ a {
 .v-theme--dark {
 
 	span:not(.v-alert__underlay),
-	div:not(.v-alert__content),
-	strong,
-	.v-icon {
+	div:not(.v-alert__content):not(.v-alert__prepend),
+	a .v-icon,
+	strong {
 		color: $silver
 	}
 
-	.text-color--contrast,
-	div.text-color--contrast,
-	.text-color--contrast i.v-icon.v-icon,
-	.v-alert .v-icon,
-	.v-btn.text-color--contrast .v-btn__content,
-	.v-alert.bg-error .v-alert__content {
-		color: $mine-shaft
+	// high-contrast content for buttons and alerts
+	.v-btn,
+	.v-alert {
+
+		&.bg-primary,
+		&.bg-secondary,
+		&.bg-info,
+		&.bg-warning {
+
+			.v-btn__content,
+			i.v-icon.v-icon {
+				color: $mine-shaft
+			}
+		}
+	}
+
+	div.text-color--contrast {
+		color: $mine-shaft;
 	}
 
 	.v-main.main-body {

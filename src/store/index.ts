@@ -1,5 +1,4 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { useRouter } from 'vue-router'
 import { useFilterStore } from '@/store/filter'
 import type IUser from '@/models/user'
 import type Title from '@/models/title'
@@ -8,7 +7,6 @@ import type UserTitleRequest from '@/dto/userTitleRequest'
 import type UserTitleData from '@/dto/userTitleData'
 import MediaProvider from '@/services/MediaProvider'
 import MovieDbApi from '@/services/MovieDbApi'
-
 
 type ErrorState = {
 	isError: boolean,
@@ -49,8 +47,7 @@ export const useMainStore = defineStore('main', {
 
 		logout() {
 			this.user = null
-			const router = useRouter()
-			router.push({ path: '/' })
+			this.$router.push({ path: '/' })
 			this.unloadCollection()
 		},
 

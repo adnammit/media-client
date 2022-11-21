@@ -1,7 +1,7 @@
 <template>
 	<PageLayout>
 		<v-card class="my-5 pa-5" :width="width">
-			<v-form ref="form" lazy-validation @submit.prevent="tryLogin" :disabled="loading">
+			<v-form ref="form" v-model="valid" lazy-validation @submit.prevent="tryLogin" :disabled="loading">
 
 				<v-container fluid>
 					<v-row justify="center">
@@ -12,7 +12,8 @@
 							</div>
 
 							<v-alert type="info" class="my-5" variant="tonal">
-								Use demo mode to quickly see what UpNext is all about, or create your own account and start from scratch.
+								Use demo mode to quickly see what UpNext is all about, or create your own account and
+								start from scratch.
 								<v-row justify="space-between" class="mt-2" hide-gutters no-gutters>
 									<v-col xs="12" sm="6">
 										<v-spacer></v-spacer>
@@ -28,18 +29,18 @@
 								{{ errorMessage }}
 							</v-alert>
 
-							<v-text-field v-model="username" :counter="50" label="Username" required clearable
+							<v-text-field v-model="username" :counter="50" :rules="rules.defaultRules" label="Username" required clearable
 								variant="outlined" @click="clearError">
 							</v-text-field>
 
-							<v-text-field v-model="email" label="E-mail" required clearable variant="outlined"
+							<v-text-field v-model="email" :rules="rules.defaultRules" label="E-mail" required clearable variant="outlined"
 								@click="clearError">
 							</v-text-field>
 
 							<v-row justify="space-between" class="my-5">
-								<v-col cols="12" >
+								<v-col cols="12">
 									<v-btn block flat color="secondary" :loading="loading" :disabled="!canSubmit"
-										class="text-color--contrast" @click="validate" type="submit">Log In</v-btn>
+										@click="validate" type="submit">Log In</v-btn>
 								</v-col>
 							</v-row>
 
@@ -79,6 +80,12 @@ const loading = ref(false)
 const username = ref('')
 const email = ref('')
 const errorMessage = ref('')
+
+const rules = {
+	defaultRules: [
+		(v: string) => !!v || 'Required',
+	],
+}
 
 // FORM STUFF
 const validate = () => {

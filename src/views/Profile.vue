@@ -44,7 +44,7 @@
 
 							<!-- <v-row justify="space-between" class="my-5">
 								<v-col xs="12" sm="6">
-									<v-btn block flat color="secondary" :disabled="!canSubmit" class="text-color--contrast" @click="validate" type="submit">
+									<v-btn block flat color="secondary" :disabled="!canSubmit" @click="validate" type="submit">
 										Log In</v-btn>
 								</v-col>
 								<v-col xs="12" sm="6">

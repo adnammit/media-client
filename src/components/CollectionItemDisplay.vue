@@ -7,7 +7,7 @@
 			<v-card-title class="text-button text-no-wrap text-color--contrast">
 				{{ title }}
 			</v-card-title>
-			<v-card-subtitle class="pb-3 text-color--contrast">
+			<v-card-subtitle class="pb-3 font-weight-bold text-color--contrast">
 				{{ year }}
 			</v-card-subtitle>
 			<v-card-text>

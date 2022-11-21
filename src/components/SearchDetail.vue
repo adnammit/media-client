@@ -1,7 +1,7 @@
 <template>
 	<v-row justify="center">
 
-		<v-dialog v-model="modelValue" persistent>
+		<!-- <v-dialog v-model="modelValue" persistent>
 			<v-card>
 				<v-card-title class="text-h5">
 					Use Google's location service?
@@ -11,23 +11,23 @@
 					even when no apps are running.</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<!-- <v-btn color="green-darken-1" variant="text" @click="confirmDiscard">
+					<v-btn color="green-darken-1" variant="text" @click="confirmDiscard">
 						Disagree
-					</v-btn> -->
+					</v-btn>
 					<v-btn color="green-darken-1" variant="text" @click.prevent="save">
 						Agree
 					</v-btn>
 				</v-card-actions>
 			</v-card>
-		</v-dialog>
+		</v-dialog> -->
 
 
-		<!-- <v-dialog v-model="filter.showSelectedItem" persistent scrollable max-width="40vw">
+		<v-dialog v-model="modelValue" persistent scrollable max-width="40vw">
 			<v-card class="item-details">
-				<v-card-title>{{ filter.selectedItem.title }}</v-card-title>
+				<v-card-title>{{ title }}</v-card-title>
 				<v-card-subtitle>{{ subtitle }}</v-card-subtitle>
 				<v-divider></v-divider>
-				<v-card-text>
+				<!-- <v-card-text>
 					<v-container>
 						<v-row justify="center" align="center">
 							<v-spacer></v-spacer>
@@ -85,18 +85,18 @@
 							</v-col>
 						</v-row>
 					</v-container>
-				</v-card-text>
+				</v-card-text> -->
 				<v-divider></v-divider>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn @click="confirmDiscard()">Cancel</v-btn>
-					<v-btn @click="save()" class="primary">Save</v-btn>
+					<v-btn @click="confirmDiscard">Cancel</v-btn>
+					<v-btn @click.prevent="save()" class="primary">Save</v-btn>
 				</v-card-actions>
 			</v-card>
-		</v-dialog> -->
+		</v-dialog>
 
 		<!-- TODO simple alert won't alert :( -->
-		<!-- <SimpleAlert :value="alert" :titleText="alertTitle" :messageText="alertMessage" @confirm-dialog="closeAlertWithConfirm()" @cancel-dialog="closeAlert()" /> -->
+		<SimpleAlert v-model="alert" :titleText="alertTitle" :messageText="alertMessage" @confirm-alert="closeAlertWithConfirm()" @cancel-alert="closeAlert()" />
 		<!-- <Poster v-model="poster" :path="posterPath" /> -->
 	</v-row>
 </template>
@@ -118,33 +118,13 @@ import Poster from '@/components/title/Poster.vue'
 
 
 const props = defineProps({
-	// dialog: {
-	// 	type: Boolean,
-	// 	default: false
-	// },
 	modelValue: {
 		type: Boolean,
 		required: true
 	},
 })
 
-const emit = defineEmits(['update:modelValue', 'closeDialog'])
-
-const save = async () => {
-	//// DO SAVE
-	console.log('>> SAVING');
-
-	const userData = {
-		queued: queued.value,
-		favorite: favorite.value,
-		watched: watched.value,
-		rating: rating.value,
-	} as UserTitleData
-
-	await store.addUserItem(userData)
-	// closeDialog()
-	emit('update:modelValue')
-}
+const emit = defineEmits(['update:modelValue'])
 
 const store = useMainStore()
 const filter = useFilterStore()
@@ -174,32 +154,27 @@ const reset = () => {
 	rating.value = 0
 }
 
-// SEARCH RESULT: data from the searchResult that doesn't need to be reactive probably
-const subtitle = filter.selectedItem.mediaType == MediaType.Movie ? 'Movie' : filter.selectedItem.mediaType == MediaType.TV ? 'Television Show' : ''
-const releaseYear = formatYear(filter.selectedItem.releaseDate)
-const popularRating = 'IMDB Rating ' + String(filter.selectedItem.popularRating)
+// SEARCH RESULT: data from the searchResult
+const title = computed(() => {
+	return filter.selectedItem.title
+})
 
-// const subtitle = computed(() => {
-// 	return filter.selectedItem.mediaType == MediaType.Movie ? 'Movie' : filter.selectedItem.mediaType == MediaType.TV ? 'Television Show' : ''
-// })
+const subtitle = computed(() => {
+	return filter.selectedItem.mediaType == MediaType.Movie ? 'Movie' : filter.selectedItem.mediaType == MediaType.TV ? 'Television Show' : ''
+})
 
 // const releaseYear = computed(() => {
 // 	return formatYear(filter.selectedItem.releaseDate)
-
 // })
 
-// const popularRating = computed(() => {
-// 	return 'IMDB Rating ' + String(filter.selectedItem.popularRating)
-// })
-
+const popularRating = computed(() => {
+	'IMDB Rating ' + String(filter.selectedItem.popularRating)
+})
 
 // ALERT MODAL
 const alert = ref(false)
-const alertTitle = `Confirm Removal`
-const alertMessage = `Are you sure you want to discard changes to ${filter.selectedItem.title}?`
-// const alertMessage = computed(() => {
-// 	return 'Are you sure you want to discard changes to "' + filter.selectedItem.title + '"?'
-// })
+const alertTitle = `Confirm Cancel`
+const alertMessage = `Are you sure you want to discard changes to ${title.value}?`
 
 // // remove if not needed
 // const description = computed(() => {
@@ -211,48 +186,39 @@ const alertMessage = `Are you sure you want to discard changes to ${filter.selec
 // POSTER MODAL
 const poster = ref(false)
 const posterPath = `${import.meta.env.VITE_POSTER_BASE_PATH}${filter.selectedItem.poster}`
-
-const showPoster = computed(() => {
-	return filter.selectedItem.poster != null && filter.selectedItem.poster != ''
-
-})
+const showPoster = filter.selectedItem.poster != null && filter.selectedItem.poster != ''
 
 const showPosterDetail = (): void => {
 	poster.value = true
 }
 
 // DIALOG MANAGEMENT
-// const dialog = computed(() => {
-// 	return filter.showSelectedItem
-// })
-
-// const closeDialog = () => {
-// 	// dialog.value = false
-// 	// filter.clearSearchData()
-// 	// filter.setShowSelectedItem(false)
-
-// 	// emit('update:dialog', false)
-// 	emit('closeDialog')
-
-// }
+const confirmDiscard = () => {
+	alert.value = true
+}
 
 const closeAlert = () => {
-	// console.log('>> closing with ' + JSON.stringify(val));
 	alert.value = false
 }
 
 const closeAlertWithConfirm = () => {
-	// console.log('>> closing with ' + JSON.stringify(val));
 	alert.value = false
-	emit('closeDialog')
-	// closeDialog()
+	filter.clearSearchData()
+	emit('update:modelValue')
 }
 
-const confirmDiscard = () => {
-	console.log('>> activating alert ' + alert.value);
-	alert.value = true
-}
+const save = async () => {
 
+	const userData = {
+		queued: queued.value,
+		favorite: favorite.value,
+		watched: watched.value,
+		rating: rating.value,
+	} as UserTitleData
+
+	await store.addUserItem(userData)
+	emit('update:modelValue')
+}
 
 
 // // reset values when the model closes -- actually this seems unnecessary...?
