@@ -15,7 +15,7 @@
 
 				<v-autocomplete v-model="searchModel" :items="filter.searchResults" :loading="filter.isSearching"
 					v-model:search="search" clearable hide-details item-title="title" item-value="movieDbId"
-					label="Add to your collection..." dense variant="underlined">
+					label="Add to your collection..." dense variant="underlined" class="search-bar">
 					<template v-slot:no-data>
 						<v-list-item>
 							<v-list-item-title>
@@ -131,5 +131,8 @@ watch(() => filter.selectedItem, (newValue) => {
 
 .filter-bar {
 	width: 100%;
+}
+.search-bar {
+	max-width: 400px;
 }
 </style>

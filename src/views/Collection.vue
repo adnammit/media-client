@@ -1,7 +1,8 @@
 <template>
 	<PageLayout>
 
-		<FilterBar />
+		<FilterBarMobile v-if="isMobile"/>
+		<FilterBar v-else />
 
 		<div class="text-h2 mt-6">
 			{{ title }}
@@ -59,21 +60,28 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watch } from 'vue'
+import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store'
 import { useFilterStore } from '@/store/filter'
 import PageLayout from '@/components/navigation/PageLayout.vue'
 import FilterBar from '@/components/FilterBar.vue'
+import FilterBarMobile from '@/components/FilterBarMobile.vue'
 import Loader from '@/components/Loader.vue'
 import CollectionItemDisplay from '@/components/CollectionItemDisplay.vue'
 import SearchDetail from '@/components/SearchDetail.vue'
 
 const store = useMainStore()
 const filter = useFilterStore()
+const { name } = useDisplay()
 
 const title = `My Collection`
 const subtitle = `Browse what's UpNext`
-
+const smallScreens = ['xs', 'sm']
 const dialog = ref(false)
+
+const isMobile = computed(() => {
+	return smallScreens.includes(name.value)
+})
 
 const noData = computed(() => {
 	return store.collection.length == 0

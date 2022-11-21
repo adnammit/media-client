@@ -46,9 +46,9 @@ npm run lint
 
 
 ## To-do
-* show which filter buttons are selected
-* mobile friendly filter
-* can i filter cards like a table? or can i make a table look like cards? -- yeah i think you just... filter the list...?
+* **START HERE**: add edit item/item detail view
+* surprise!
+* improve mobile friendly filter/add search/add item
 * here's the thing about simple user login -- when you refresh, you lose your user. fix it -- maybe
 * option to set your streaming services and highlight titles that are on them
 * wrap service stuff in try/catch -- cors errors etc are not getting caught
@@ -61,7 +61,6 @@ npm run lint
 * fonts, my dude
 * contact form?
 * improve or remove page loader
-* get knowing about CompositionAPI and OptionsAPI -- check that you're using best practices
 * scss -- maybe? css may be preferred
 * see if i can detect dark mode and set to dark automatically:
     ```js
@@ -78,7 +77,10 @@ npm run lint
 * scratch auth0 for simplicity's sake
 * on login/signup, show loading bc prod db is slow
 * login is case sensitive -- make it not so
-* **START HERE**: add mediaDetail modal to add a search item to collection; make sure you clear search props when opening modal
+* add mediaDetail modal to add a search item to collection; make sure you clear search props when opening modal
+* can i filter cards like a table? or can i make a table look like cards? -- yeah i think you just... filter the list...?
+* show which filter buttons are selected
+* get knowing about CompositionAPI and OptionsAPI -- check that you're using best practices
 
 
 ## Type Support for `.vue` Imports in TS
