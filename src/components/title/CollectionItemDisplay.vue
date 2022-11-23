@@ -1,11 +1,11 @@
 <template>
 
-	<v-card class="mx-1 bump-animation" @click="dialog = true" max-height="200px">
+	<v-card class="my-3 bump-animation" @click="dialog = true" max-height="200px">
 		<v-img :src="posterUrl" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px"
 			cover>
 
 			<v-card-title class="text-button text-no-wrap text-color--contrast">
-				{{ title }}
+				{{ props.title.title }}
 			</v-card-title>
 			<v-card-subtitle class="pb-3 font-weight-bold text-color--contrast">
 				{{ year }}
@@ -30,6 +30,8 @@
 			</v-card-text>
 		</v-img>
 	</v-card>
+
+	<MediaDetail v-model="dialog" :userTitle="props.title"/>
 
 	<!-- <v-dialog v-model="dialog" scrollable :width="width">
 		<v-card>
@@ -57,54 +59,31 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 import { useMainStore } from '@/store'
-import { useDisplay } from 'vuetify'
 import { formatYear } from '@/filters/format'
+import Title from '@/models/title'
+import MediaDetail from '@/components/title/MediaDetail.vue'
 
-const itemProps = defineProps({
-	title: String,
-	summary: String,
-	releaseDate: Date,
-	poster: String
+const props = defineProps({
+	title: {
+		type: Title,
+		required: true
+	},
 })
+
+
+// const itemProps = defineProps({
+// 	title: String,
+// 	summary: String,
+// 	releaseDate: Date,
+// 	poster: String
+// })
 
 const store = useMainStore()
 const dialog = ref(false)
-const x = ref(0)
-const maxPreviewWordLength = 75
-const { name } = useDisplay()
 
-const year = formatYear(itemProps.releaseDate)
-const posterUrl = `${import.meta.env.VITE_POSTER_BASE_PATH}${itemProps.poster}`
-
-const quickText = () => {
-	let words = itemProps.summary?.split(' ') ?? []
-	if (words?.length > maxPreviewWordLength) {
-		words = words.slice(0, maxPreviewWordLength)
-		words.push('(...)')
-	}
-	return words.join(' ')
-}
-
-const isSmallScreen = computed(() => {
-	return name.value == 'xs'
-})
-
-const width = computed(() => {
-	return (isSmallScreen) ? '90%' : '60%'
-})
-
-const imgSizeThm = computed(() => {
-	return (isSmallScreen) ? '100%' : '175'
-})
-
-const imgSizeFull = computed(() => {
-	return (isSmallScreen) ? '75vw' : '275'
-})
-
-const onMousemove = (e: any) => {
-	x.value = e.clientX
-}
+const year = formatYear(props.title.releaseDate)
+const posterUrl = `${import.meta.env.VITE_POSTER_BASE_PATH}${props.title.poster}`
 
 </script>

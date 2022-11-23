@@ -101,6 +101,10 @@ class MovieDbApi extends ApiBase {
 			.then(res => {
 				return res.data as MovieDto
 			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
 	}
 
 	private async getTv(id: number): Promise<TvDto> {
@@ -110,6 +114,10 @@ class MovieDbApi extends ApiBase {
 				const tvDto = tv.data as TvDto
 				tvDto.imdb_id = ids?.data?.imdb_id
 				return tvDto
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
 			})
 	}
 

@@ -41,17 +41,17 @@ npm run lint
 ## A Note On Authorization
 * it's not great. this is just a demo. we don't even store a password because i don't want to tempt anyone to give me something sensitive (say, a pw that's tied to like 83 other actual websites with actual data)
 * email doesn't even have to be real -- auth is simply based on a username/email string pair that you will (hopefully) remember and use to login
-* I might use localStorage to save user creds (so you can refresh at-will without having to login) but this is susceptible to CSS attacks, so again **PUT NOTHING SACRED INTO THIS WEBSITE** -- not your banking password, maybe not even your real email, not your hopes and dreams
+* I might use localStorage to save user creds (so you can refresh at-will without having to login) but this is susceptible to attacks, so again **PUT NOTHING SACRED INTO THIS WEBSITE** -- not your banking password, maybe not even your real email, not your hopes and dreams
 * ideally look into storing user info in cookies using HttpOnly or going all in and learning about/implementing OAuth
 
 
 ## To-do
-* **START HERE**: add edit item/item detail view
+* **START HERE**: data is not resetting between collection items; remove persistent
+* use the same component for SearchDetail and MediaDetail if possible
 * add more info to search so you can tell what you're looking at
 * surprise!
 * look for `TODO` in comments
-* improve mobile friendly filter/add search/add item --
-* here's the thing about simple user login -- when you refresh, you lose your user. fix it -- maybe
+* implement or remove poster preview
 * option to set your streaming services and highlight titles that are on them
 * wrap service stuff in try/catch -- cors errors etc are not getting caught
 * error display
@@ -83,6 +83,7 @@ npm run lint
 * can i filter cards like a table? or can i make a table look like cards? -- yeah i think you just... filter the list...?
 * show which filter buttons are selected
 * get knowing about CompositionAPI and OptionsAPI -- check that you're using best practices
+* fix referenceError in sub menus in mobile navbar
 
 
 ## Type Support for `.vue` Imports in TS

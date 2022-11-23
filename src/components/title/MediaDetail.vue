@@ -1,6 +1,7 @@
 <template>
 	<v-row justify="center">
-		<v-dialog v-model="modelValue" persistent scrollable class="modal-contents" :class="classes" :width="width" :height="height">
+		<v-dialog v-model="modelValue" scrollable persistent class="modal-contents" :class="classes" :width="width"
+			:height="height">
 			<v-card class="item-details">
 				<v-card-title class="text-h4 mt-7 mx-6">{{ title }}</v-card-title>
 				<v-card-text>
@@ -32,7 +33,7 @@
 								</v-row>
 								<v-row>
 									<v-col align-self="center">
-										<GenreSet v-bind:genres="filter.selectedItem.genres" />
+										<GenreSet v-bind:genres="genres" />
 									</v-col>
 								</v-row>
 
@@ -91,7 +92,7 @@
 
 								<v-row>
 									<v-col align-self="center">
-										{{ filter.selectedItem.summary }}
+										{{ summary }}
 									</v-col>
 								</v-row>
 							</v-col>
@@ -117,6 +118,7 @@ import { ref, computed, type Ref, onBeforeMount } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store'
 import { useFilterStore } from '@/store/filter'
+import Title from '@/models/title'
 import type UserTitleData from '@/dto/userTitleData'
 import { MediaType } from '@/models/enum'
 import { formatYear } from '@/filters/format'
@@ -131,6 +133,10 @@ const props = defineProps({
 		type: Boolean,
 		required: true
 	},
+	userTitle: {
+		type: Title,
+		required: true
+	}
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -155,27 +161,36 @@ const toggleWatched = () => {
 	watched.value = !watched.value
 }
 const reset = () => {
-	queued.value = false
-	favorite.value = false
-	watched.value = false
-	rating.value = 0
+	console.log('>> restting values to ' + JSON.stringify(props.userTitle));
+	queued.value = props.userTitle.queued
+	favorite.value = props.userTitle.favorite
+	watched.value = props.userTitle.watched
+	rating.value = props.userTitle.rating
 }
 
 // SEARCH RESULT: data from the searchResult
 const title = computed(() => {
-	return filter.selectedItem.title
+	return props.userTitle.title
 })
 
 const mediaType = computed(() => {
-	return filter.selectedItem.mediaType == MediaType.Movie ? 'Movie' : filter.selectedItem.mediaType == MediaType.TV ? 'Television Show' : ''
+	return props.userTitle.mediaType == MediaType.Movie ? 'Movie' : props.userTitle.mediaType == MediaType.TV ? 'Television Show' : ''
+})
+
+const genres = computed(() => {
+	return props.userTitle.genres
+})
+
+const summary = computed(() => {
+	return props.userTitle.summary
 })
 
 const releaseYear = computed(() => {
-	return formatYear(filter.selectedItem.releaseDate)
+	return formatYear(props.userTitle.releaseDate)
 })
 
 const popularRating = computed(() => {
-	return 'IMDB Rating ' + String(filter.selectedItem.popularRating)
+	return 'IMDB Rating ' + String(props.userTitle.popularRating)
 })
 
 // ALERT MODAL
@@ -187,11 +202,11 @@ const alertMessage = `Are you sure you want to discard your changes?`
 const poster = ref(false)
 
 const showPoster = computed(() => {
-	return filter.selectedItem.poster != null && filter.selectedItem.poster != ''
+	return props.userTitle.poster != null && props.userTitle.poster != ''
 })
 
 const posterPath = computed(() => {
-	return `${import.meta.env.VITE_POSTER_BASE_PATH}${filter.selectedItem.poster}`
+	return `${import.meta.env.VITE_POSTER_BASE_PATH}${props.userTitle.poster}`
 })
 
 const showPosterDetail = (): void => {
@@ -242,9 +257,13 @@ const save = async () => {
 		rating: rating.value,
 	} as UserTitleData
 
-	await store.addUserItem(userData)
+	await store.updateUserItem(props.userTitle.id, userData)
 	closeDialog()
 }
+
+onBeforeMount(() => {
+	reset()
+})
 
 </script>
 

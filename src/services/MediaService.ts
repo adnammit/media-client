@@ -1,9 +1,10 @@
 import axios from 'axios'
 import User, { type IUserInput, type IUser } from '@/models/user'
+import type UserTitleData from '@/dto/userTitleData'
 import type UserTitleDto from '@/dto/userTitleDto'
 import type IMediaService from '@/services/IMediaService'
 import ApiBase from '@/services/ApiBase'
-import type UserTitleRequest from '@/models/dto/userTitleRequest'
+import type AddUserTitleRequest from '@/models/dto/addUserTitleRequest'
 
 const requestMgr = axios.create({
 	baseURL: `${import.meta.env.VITE_API_SERVER_URL}/api/v1/`,
@@ -62,19 +63,19 @@ class MediaService extends ApiBase implements IMediaService {
 			})
 	}
 
-	public async addUserTitle(req: UserTitleRequest): Promise<boolean> {
-		const request: any = {
-			movieDbId: req.movieDbId,
-			imdbId: req.imdbId,
-			mediaType: req.mediaType,
-			rating: req.rating,
-			watched: req.watched,
-			favorite: req.favorite,
-			queued: req.queued,
-		}
+	public async addUserTitle(req: AddUserTitleRequest): Promise<boolean> {
+		// const request: any = {
+		// 	movieDbId: req.movieDbId,
+		// 	imdbId: req.imdbId,
+		// 	mediaType: req.mediaType,
+		// 	rating: req.rating,
+		// 	watched: req.watched,
+		// 	favorite: req.favorite,
+		// 	queued: req.queued,
+		// }
 
 		return requestMgr
-			.put('users/' + req.userId + '/titles', request)
+			.put('users/' + req.userId + '/titles', req)
 			.then(res => {
 				return res.status === 201
 			})
@@ -84,91 +85,29 @@ class MediaService extends ApiBase implements IMediaService {
 			})
 	}
 
-	// public async updateUserMovie(userid: number, movie: Movie): Promise<boolean> {
-	// 	const request: any = {
-	// 		id: movie.id,
-	// 		rating: movie.rating,
-	// 		watched: movie.watched,
-	// 		favorite: movie.favorite,
-	// 		queued: movie.queued,
-	// 	}
-	// 	return requestMgr
-	// 		.put('user/' + userid + '/movies', request)
-	// 		.then(res => {
-	// 			return res.status === 200
-	// 		})
-	// 		.catch(error => {
-	// 			this.logError(error)
-	// 			throw error
-	// 		})
-	// }
+	public async updateUserTitle(userId: number, titleId: number, req: UserTitleData): Promise<boolean> {
+
+		const request: any = {
+			rating: req.rating,
+			watched: req.watched,
+			favorite: req.favorite,
+			queued: req.queued,
+		}
+
+		return requestMgr
+			.put('users/' + userId + '/titles/' + titleId, request)
+			.then(res => {
+				return res.status === 200
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
+	}
 
 	// public async deleteUserMovie(userid: number, movie: Movie): Promise<boolean> {
 	// 	return requestMgr
 	// 		.delete('user/' + userid + '/movies/' + movie.id)
-	// 		.then(res => {
-	// 			return res.status === 200
-	// 		})
-	// 		.catch(error => {
-	// 			this.logError(error)
-	// 			throw error
-	// 		})
-	// }
-
-	// public async getUserTv(userid: number): Promise<UserMedia[]> {
-	// 	return requestMgr
-	// 		.get('user/' + userid + '/tv')
-	// 		.then(res => {
-	// 			return res.data as UserMedia[]
-	// 		})
-	// 		.catch(error => {
-	// 			this.logError(error)
-	// 			throw error
-	// 		})
-	// }
-
-	// public async addUserTv(userid: number, tv: Tv): Promise<boolean> {
-	// 	const request: any = {
-	// 		movieDbId: tv.movieDbId,
-	// 		imdbId: tv.imdbId,
-	// 		rating: tv.rating,
-	// 		watched: tv.watched,
-	// 		favorite: tv.favorite,
-	// 		queued: tv.queued,
-	// 	}
-	// 	return requestMgr
-	// 		.post('user/' + userid + '/tv', request)
-	// 		.then(res => {
-	// 			return res.status === 200
-	// 		})
-	// 		.catch(error => {
-	// 			this.logError(error)
-	// 			throw error
-	// 		})
-	// }
-
-	// public async updateUserTv(userid: number, tv: Tv): Promise<boolean> {
-	// 	const request: any = {
-	// 		id: tv.id,
-	// 		rating: tv.rating,
-	// 		watched: tv.watched,
-	// 		favorite: tv.favorite,
-	// 		queued: tv.queued,
-	// 	}
-	// 	return requestMgr
-	// 		.put('user/' + userid + '/tv', request)
-	// 		.then(res => {
-	// 			return res.status === 200
-	// 		})
-	// 		.catch(error => {
-	// 			this.logError(error)
-	// 			throw error
-	// 		})
-	// }
-
-	// public async deleteUserTv(userid: number, tv: Tv): Promise<boolean> {
-	// 	return requestMgr
-	// 		.delete('user/' + userid + '/tv/' + tv.id)
 	// 		.then(res => {
 	// 			return res.status === 200
 	// 		})

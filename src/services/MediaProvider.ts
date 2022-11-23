@@ -3,12 +3,13 @@
 import type { IUser, IUserInput } from '@/models/user'
 import type { MediaType } from '@/models/enum'
 import type UserTitleDto from '@/dto/userTitleDto'
-import type UserTitleRequest from '@/dto/userTitleRequest'
+import type AddUserTitleRequest from '@/models/dto/addUserTitleRequest'
 import Title from '@/models/title'
 import type IMediaService from '@/services/IMediaService'
 import MediaService from '@/services/MediaService'
 import MockMediaService from '@/services/MockMediaService'
 import MovieDbApi from '@/services/MovieDbApi'
+import type UserTitleData from '@/models/dto/userTitleData'
 
 class MediaProvider {
 	private service: IMediaService
@@ -51,23 +52,13 @@ class MediaProvider {
 	}
 
 
-	public async addSearch(request: UserTitleRequest): Promise<boolean> {
+	public async addSearch(request: AddUserTitleRequest): Promise<boolean> {
 		return this.service.addUserTitle(request)
 	}
 
-	// private async addSearchAsMovie(userid: number, item: SearchResult): Promise<boolean> {
-	// 	const movie = await MovieDbApi.getMovie(item.movieDbId)
-	// 	return this.service.addUserMovie(userid, movie)
-	// }
-
-	// private async addSearchAsTv(userid: number, item: SearchResult): Promise<boolean> {
-	// 	const tv = await MovieDbApi.getTv(item.movieDbId)
-	// 	return this.service.addUserTv(userid, tv)
-	// }
-
-	// public updateUserItem(userid: number, item: Media): Promise<boolean> {
-	// 	return item instanceof Movie ? this.service.updateUserMovie(userid, item) : item instanceof Tv ? this.service.updateUserTv(userid, item) : Promise.resolve(false)
-	// }
+	public updateUserItem(userId: number, titleId: number, item: UserTitleData): Promise<boolean> {
+		return this.service.updateUserTitle(userId, titleId, item)
+	}
 
 	// public removeFromCollection(userid: number, item: Media): Promise<boolean> {
 	// 	return item instanceof Movie ? this.service.deleteUserMovie(userid, item) : item instanceof Tv ? this.service.deleteUserTv(userid, item) : Promise.resolve(false)

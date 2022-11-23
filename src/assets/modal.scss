@@ -1,5 +1,6 @@
 @import '@/assets/colors';
 
+// general modals
 .modal-contents .v-card {
 	// padding: 35px 28px;
 	// margin: 35px 28px;
@@ -14,4 +15,25 @@
 	// 	width: 150px;
 	// 	margin: 0 15px 15px;
 	// }
+}
+
+// edit title views
+.item-details {
+	.v-card__subtitle {
+		letter-spacing: 1px;
+	}
+
+	.v-card__text {
+		height: 60vh;
+		padding: 10px 30px;
+
+		.row.details--body {
+			padding: 10px 30px;
+		}
+	}
+
+	.poster {
+		max-height: 40vh;
+		display: flex;
+	}
 }

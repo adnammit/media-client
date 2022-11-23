@@ -3,7 +3,7 @@ import { useFilterStore } from '@/store/filter'
 import type IUser from '@/models/user'
 import type Title from '@/models/title'
 import { MediaType } from '@/models/enum'
-import type UserTitleRequest from '@/dto/userTitleRequest'
+import type AddUserTitleRequest from '@/models/dto/addUserTitleRequest'
 import type UserTitleData from '@/dto/userTitleData'
 import MediaProvider from '@/services/MediaProvider'
 import MovieDbApi from '@/services/MovieDbApi'
@@ -92,6 +92,15 @@ export const useMainStore = defineStore('main', {
 				const item = filter.selectedItem
 				// fwiw i hate this -- the data that we get from searching is missing imdbid so we need to get the full object and tack it on before storing it
 				const dto = await MovieDbApi.getTitle(item.movieDbId, item.mediaType)
+					.catch((e: any) => {
+						console.log(e)
+					})
+
+				if (dto == null || dto.imdb_id.trim() == '') {
+					this.error = { isError: true, message: 'Error retrieving MovieDb data for this title' }
+					this.isLoading = false
+					return
+				}
 
 				const request = {
 					userId: userId,
@@ -102,7 +111,7 @@ export const useMainStore = defineStore('main', {
 					favorite: userData.favorite,
 					watched: userData.watched,
 					rating: userData.rating,
-				} as UserTitleRequest
+				} as AddUserTitleRequest
 
 				MediaProvider.addSearch(request)
 					.then((res: boolean) => {
@@ -122,6 +131,55 @@ export const useMainStore = defineStore('main', {
 					})
 			}
 		},
+
+		async updateUserItem(titleId: number, userData: UserTitleData) {
+
+			const userId = this.userId
+
+			if (userId < 0 || titleId < 0) {
+
+				console.error(`Could not create user item for unknown ${!!userId && !!titleId ? 'user and title' : !!userId ? 'user' : 'title'}`)
+				this.error = { isError: true, message: `Error adding item to collection` }
+
+			} else {
+
+				this.isLoading = true
+
+				// const filter = useFilterStore()
+				// const item = filter.selectedItem
+				// // fwiw i hate this -- the data that we get from searching is missing imdbid so we need to get the full object and tack it on before storing it
+				// const dto = await MovieDbApi.getTitle(item.movieDbId, item.mediaType)
+
+				// const request = {
+				// 	userId: userId,
+				// 	movieDbId: item.movieDbId,
+				// 	mediaType: item.mediaType,
+				// 	imdbId: dto.imdb_id,
+				// 	queued: userData.queued,
+				// 	favorite: userData.favorite,
+				// 	watched: userData.watched,
+				// 	rating: userData.rating,
+				// } as AddUserTitleRequest
+
+				MediaProvider.updateUserItem(userId, titleId, userData)
+					.then((res: boolean) => {
+						if (res) {
+							this.loadCollection()
+						} else {
+							throw Error(`Error updating titleId ${titleId}`)
+						}
+					})
+					.catch((e: any) => {
+						console.log(e)
+						this.error = { isError: true, message: 'Error saving updates to title' }
+					})
+					.finally(() => {
+						// filter.clearSearchData()
+						this.isLoading = false
+					})
+			}
+		},
+
 	},
 	getters: {
 		userId: (state: RootState): number => state.user?.id ?? -1,

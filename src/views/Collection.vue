@@ -46,9 +46,12 @@
 		<v-container v-else>
 			<v-row class="mx-1">
 				<v-col v-for="(item, index) in store.filteredCollection" :key="item.id" cols="12" sm="6" md="3" xl="2">
+					<CollectionItemDisplay :title="item" />
+				</v-col>
+				<!-- <v-col v-for="(item, index) in store.filteredCollection" :key="item.id" cols="12" sm="6" md="3" xl="2">
 					<CollectionItemDisplay :title="item.title" :summary="item.summary" :poster="item.poster"
 						:releaseDate="item.releaseDate" />
-				</v-col>
+				</v-col> -->
 			</v-row>
 		</v-container>
 
@@ -67,7 +70,7 @@ import PageLayout from '@/components/navigation/PageLayout.vue'
 import FilterBar from '@/components/filter/FilterBar.vue'
 import FilterBarMobile from '@/components/filter/FilterBarMobile.vue'
 import Loader from '@/components/Loader.vue'
-import CollectionItemDisplay from '@/components/CollectionItemDisplay.vue'
+import CollectionItemDisplay from '@/components/title/CollectionItemDisplay.vue'
 import SearchDetail from '@/components/SearchDetail.vue'
 
 const store = useMainStore()
