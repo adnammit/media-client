@@ -1,5 +1,5 @@
 <template>
-	<v-menu v-model="modelValue" location="bottom" :open-delay="0" :close-on-content-click="false">
+	<v-menu v-model="value" location="bottom" :open-delay="0" :close-on-content-click="false">
 
 		<template v-slot:activator="{ props }">
 			<v-row>
@@ -66,6 +66,15 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
+
+const value = computed({
+	get() {
+		return props.modelValue
+	},
+	set(val: Boolean) {
+		emit('update:modelValue', val)
+	}
+})
 
 const selected = computed(() => {
 	return isUnfiltered.value ? 'All Your Picks'
