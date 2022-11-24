@@ -17,7 +17,7 @@
 
 				<v-tooltip text="Select a Random Title" location="top" open-delay="300">
 					<template v-slot:activator="{ props }">
-						<v-btn @click="surprise()" rounded text v-bind="props">
+						<v-btn @click="surprise" rounded text v-bind="props">
 							<v-icon>mdi-dice-5</v-icon>
 						</v-btn>
 					</template>

@@ -46,7 +46,7 @@ npm run lint
 
 
 ## To-do
-* **START HERE**: data is not resetting between collection items; remove persistent
+* **START HERE**: implement deletion
 * finish writing out genre types
 * use the same component for SearchDetail and MediaDetail if possible
 * add more info to search so you can tell what you're looking at

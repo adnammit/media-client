@@ -1,6 +1,7 @@
 <template>
 	<v-row justify="center">
-		<v-dialog v-model="modelValue" scrollable class="modal-contents" :class="classes" :width="width" :height="height">
+		<v-dialog v-model="modelValue" scrollable class="modal-contents" :class="classes" :width="width"
+			:height="height">
 			<v-card class="item-details">
 				<v-card-title class="text-h4 mt-7 mx-6">{{ title }}</v-card-title>
 				<v-card-text>
@@ -83,8 +84,8 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn @click="onCloseDialog">Cancel</v-btn>
-					<v-btn @click.prevent="save()" color="secondary">Save</v-btn>
+					<v-btn @click="closeDialog">Cancel</v-btn>
+					<v-btn @click.prevent="save()" color="secondary" type="submit" variant="flat">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -114,7 +115,7 @@ const props = defineProps({
 	},
 })
 
-const emit = defineEmits(['update:modelValue','closeDialog'])
+const emit = defineEmits(['update:modelValue', 'closeDialog'])
 
 const collection = useCollectionStore()
 const { name } = useDisplay()

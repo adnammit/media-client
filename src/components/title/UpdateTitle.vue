@@ -88,16 +88,17 @@
 						</v-row>
 					</v-container>
 				</v-card-text>
-				<v-card-actions>
+				<v-card-actions class="pa-5">
 					<v-spacer></v-spacer>
+					<v-btn @click="confirmDelete" color="error" variant="flat">Delete</v-btn>
 					<v-btn @click="closeDialog">Cancel</v-btn>
-					<v-btn @click.prevent="save()" color="secondary">Save</v-btn>
+					<v-btn @click.prevent="save()" color="secondary" type="submit" variant="flat">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
 
-		<!-- <SimpleAlert v-model="alert" :titleText="alertTitle" :messageText="alertMessage"
-			@confirm-alert="closeAlertWithConfirm()" @cancel-alert="closeAlert()" /> -->
+		<SimpleAlert v-model="alert" :titleText="alertTitle" :messageText="alertMessage" :cancelText="cancelText"
+			@confirm-alert="closeAlertWithConfirm()" @cancel-alert="closeAlert()" />
 		<!-- <Poster v-model="poster" :path="posterPath" /> -->
 	</v-row>
 </template>
@@ -171,10 +172,11 @@ const popularRating = computed(() => {
 	return 'IMDB Rating ' + String(userTitle.value.popularRating)
 })
 
-// // ALERT MODAL
-// const alert = ref(false)
-// const alertTitle = `Confirm Cancel`
-// const alertMessage = `Are you sure you want to discard your changes?`
+// ALERT MODAL
+const alert = ref(false)
+const alertTitle = `Confirm`
+const alertMessage = `Are you sure you want to delete this?`
+const cancelText = `Nevermind`
 
 // POSTER MODAL
 const poster = ref(false)
@@ -208,6 +210,26 @@ const classes = computed(() => {
 
 const closeDialog = () => {
 	emit('closeDialog')
+}
+
+const confirmDelete = () => {
+	alert.value = true
+}
+
+const closeAlert = () => {
+	alert.value = false
+}
+
+const closeAlertWithConfirm = () => {
+	alert.value = false
+
+	window.alert('Deleted!')
+	// START HERE - DO DELETE
+
+
+
+
+	closeDialog()
 }
 
 // const confirmDiscard = () => {
