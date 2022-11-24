@@ -13,7 +13,7 @@
 				</v-btn>
 				<v-spacer></v-spacer>
 
-				<v-autocomplete v-model="searchModel" :items="filter.searchResults" :loading="filter.isSearching"
+				<v-autocomplete v-model="searchModel" :items="collection.searchResults" :loading="collection.isSearching"
 					v-model:search="search" clearable hide-details item-title="title" item-value="movieDbId"
 					label="Add to your collection..." dense variant="underlined" class="search-bar pr-4">
 					<template v-slot:no-data>
@@ -46,13 +46,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
-import { useMainStore } from '@/store'
+import { computed, ref, watch } from 'vue'
 import { useFilterStore } from '@/store/filter'
-import type SearchResult from '@/models/searchResult'
+import { useCollectionStore } from '@/store/collection'
 
-const store = useMainStore()
 const filter = useFilterStore()
+const collection = useCollectionStore()
 
 const searchModel = ref<any>(null) // TODO: what is this type? -- number, but can it be object?
 // const searchModel: any = null // TODO: what is this type?
@@ -95,7 +94,7 @@ const surprise = () => {
 // convert to computed get/set
 watch(() => search.value, (newValue) => {
 	// console.log('>> search updated ' + newValue);
-	filter.Search(newValue)
+	collection.Search(newValue)
 })
 
 // convert to computed get/set
@@ -105,19 +104,19 @@ watch(() => searchModel.value, (newValue) => {
 
 	// TODO review this logic starting with truthiness of all these things
 	if (!!newValue) { // newValue is number
-		const result = filter.searchResults.find(s => s.movieDbId == newValue)
+		const result = collection.searchResults.find(s => s.movieDbId == newValue)
 
 		if (!!result?.title) {
-			filter.setSelectedItem(result)
+			collection.setSelectedSearchItem(result)
 		} else {
 			console.error(`Error finding search result for movieDbId ${newValue}`)
-			filter.clearSearchData()
+			collection.clearSearchData()
 		}
 	}
 })
 
 // convert to computed get/set
-watch(() => filter.selectedItem, (newValue) => {
+watch(() => collection.selectedSearch, (newValue) => {
 	// clear our local value when the store updates
 	if (!newValue?.title) {
 		searchModel.value = null

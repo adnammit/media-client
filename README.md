@@ -47,13 +47,13 @@ npm run lint
 
 ## To-do
 * **START HERE**: data is not resetting between collection items; remove persistent
+* finish writing out genre types
 * use the same component for SearchDetail and MediaDetail if possible
 * add more info to search so you can tell what you're looking at
 * surprise!
 * look for `TODO` in comments
 * implement or remove poster preview
 * option to set your streaming services and highlight titles that are on them
-* wrap service stuff in try/catch -- cors errors etc are not getting caught
 * error display
 * import/export option
 * check out [this api](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability) to supply streaming availability
@@ -84,6 +84,7 @@ npm run lint
 * show which filter buttons are selected
 * get knowing about CompositionAPI and OptionsAPI -- check that you're using best practices
 * fix referenceError in sub menus in mobile navbar
+* wrap service stuff in try/catch -- cors errors etc are not getting caught
 
 
 ## Type Support for `.vue` Imports in TS

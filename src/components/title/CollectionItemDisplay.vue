@@ -1,6 +1,6 @@
 <template>
 
-	<v-card class="my-3 bump-animation" @click="dialog = true" max-height="200px">
+	<v-card class="my-3 bump-animation" @click="onClick" max-height="200px">
 		<v-img :src="posterUrl" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px"
 			cover>
 
@@ -31,39 +31,11 @@
 		</v-img>
 	</v-card>
 
-	<MediaDetail v-model="dialog" :userTitle="props.title"/>
-
-	<!-- <v-dialog v-model="dialog" scrollable :width="width">
-		<v-card>
-			<v-card-title>{{ title }}</v-card-title>
-			<v-divider></v-divider>
-			<v-card-text style="height: 50vh;">
-				<div class="subtitle--emphasis pb-3">
-					{{ author }}
-				</div>
-				<v-img cover aspect-ratio="1" :src="imgUrl" class="rounded-xl ml-3 mb-3"
-					:class="{ 'float-right': !isSmallScreen }" :height="imgSizeFull" :width="imgSizeFull"></v-img>
-				<span style="white-space: pre-wrap;">
-					{{ text }}
-				</span>
-			</v-card-text>
-			<v-divider></v-divider>
-			<v-card-actions>
-				<v-btn variant="tonal" @click="dialog = false">
-					Close
-				</v-btn>
-			</v-card-actions>
-		</v-card>
-	</v-dialog> -->
-
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useMainStore } from '@/store'
 import { formatYear } from '@/filters/format'
 import Title from '@/models/title'
-import MediaDetail from '@/components/title/MediaDetail.vue'
 
 const props = defineProps({
 	title: {
@@ -72,18 +44,13 @@ const props = defineProps({
 	},
 })
 
-
-// const itemProps = defineProps({
-// 	title: String,
-// 	summary: String,
-// 	releaseDate: Date,
-// 	poster: String
-// })
-
-const store = useMainStore()
-const dialog = ref(false)
+const emit = defineEmits(['selectTitleUpdate'])
 
 const year = formatYear(props.title.releaseDate)
 const posterUrl = `${import.meta.env.VITE_POSTER_BASE_PATH}${props.title.poster}`
+
+const onClick = () => {
+	emit('selectTitleUpdate', props.title)
+}
 
 </script>

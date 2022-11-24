@@ -32,7 +32,7 @@
 								</v-row>
 								<v-row>
 									<v-col align-self="center">
-										<GenreSet v-bind:genres="filter.selectedItem.genres" />
+										<GenreSet v-bind:genres="collection.selectedSearch.genres" />
 									</v-col>
 								</v-row>
 
@@ -91,7 +91,7 @@
 
 								<v-row>
 									<v-col align-self="center">
-										{{ filter.selectedItem.summary }}
+										{{ collection.selectedSearch.summary }}
 									</v-col>
 								</v-row>
 							</v-col>
@@ -117,6 +117,7 @@ import { ref, computed, type Ref, onBeforeMount } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store'
 import { useFilterStore } from '@/store/filter'
+import { useCollectionStore } from '@/store/collection'
 import type UserTitleData from '@/dto/userTitleData'
 import { MediaType } from '@/models/enum'
 import { formatYear } from '@/filters/format'
@@ -137,6 +138,7 @@ const emit = defineEmits(['update:modelValue'])
 
 const store = useMainStore()
 const filter = useFilterStore()
+const collection = useCollectionStore()
 const { name } = useDisplay()
 
 // USER INPUT - TODO combine as reactive obj if they're not treated separately
@@ -163,19 +165,19 @@ const reset = () => {
 
 // SEARCH RESULT: data from the searchResult
 const title = computed(() => {
-	return filter.selectedItem.title
+	return collection.selectedSearch.title
 })
 
 const mediaType = computed(() => {
-	return filter.selectedItem.mediaType == MediaType.Movie ? 'Movie' : filter.selectedItem.mediaType == MediaType.TV ? 'Television Show' : ''
+	return collection.selectedSearch.mediaType == MediaType.Movie ? 'Movie' : collection.selectedSearch.mediaType == MediaType.TV ? 'Television Show' : ''
 })
 
 const releaseYear = computed(() => {
-	return formatYear(filter.selectedItem.releaseDate)
+	return formatYear(collection.selectedSearch.releaseDate)
 })
 
 const popularRating = computed(() => {
-	return 'IMDB Rating ' + String(filter.selectedItem.popularRating)
+	return 'IMDB Rating ' + String(collection.selectedSearch.popularRating)
 })
 
 // ALERT MODAL
@@ -187,11 +189,11 @@ const alertMessage = `Are you sure you want to discard your changes?`
 const poster = ref(false)
 
 const showPoster = computed(() => {
-	return filter.selectedItem.poster != null && filter.selectedItem.poster != ''
+	return collection.selectedSearch.poster != null && collection.selectedSearch.poster != ''
 })
 
 const posterPath = computed(() => {
-	return `${import.meta.env.VITE_POSTER_BASE_PATH}${filter.selectedItem.poster}`
+	return `${import.meta.env.VITE_POSTER_BASE_PATH}${collection.selectedSearch.poster}`
 })
 
 const showPosterDetail = (): void => {
@@ -229,7 +231,7 @@ const closeAlert = () => {
 
 const closeAlertWithConfirm = () => {
 	alert.value = false
-	filter.clearSearchData()
+	collection.clearSearchData()
 	closeDialog()
 }
 
@@ -242,7 +244,7 @@ const save = async () => {
 		rating: rating.value,
 	} as UserTitleData
 
-	await store.addUserItem(userData)
+	await collection.addUserItem(userData)
 	closeDialog()
 }
 

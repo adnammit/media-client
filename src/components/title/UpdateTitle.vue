@@ -1,6 +1,6 @@
 <template>
 	<v-row justify="center">
-		<v-dialog v-model="modelValue" scrollable persistent class="modal-contents" :class="classes" :width="width"
+		<v-dialog v-model="value" scrollable class="modal-contents" :class="classes" :width="width"
 			:height="height">
 			<v-card class="item-details">
 				<v-card-title class="text-h4 mt-7 mx-6">{{ title }}</v-card-title>
@@ -127,7 +127,6 @@ import GenreSet from '@/components/title/GenreSet.vue'
 import SimpleAlert from '@/components/SimpleAlert.vue'
 import Poster from '@/components/title/Poster.vue'
 
-
 const props = defineProps({
 	modelValue: {
 		type: Boolean,
@@ -140,6 +139,16 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue'])
+
+const value = computed({
+	get() {
+		return props.modelValue
+	},
+	set(val: Boolean) {
+		reset()
+		emit('update:modelValue', val)
+	}
+})
 
 const store = useMainStore()
 const filter = useFilterStore()
@@ -230,8 +239,9 @@ const classes = computed(() => {
 })
 
 const closeDialog = () => {
-	emit('update:modelValue')
-	reset()
+	value.value = false
+	// emit('update:modelValue')
+	// reset()
 }
 
 const confirmDiscard = () => {

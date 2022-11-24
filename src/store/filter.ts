@@ -1,6 +1,4 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import SearchResult from '@/models/searchResult'
-import MovieDbApi from '@/services/MovieDbApi'
 
 export type FilterState = {
 	filterByFavorite: boolean
@@ -8,10 +6,6 @@ export type FilterState = {
 	filterByUpNext: boolean
 	filterToMovies: boolean
 	filterToTv: boolean
-	showSelectedItem: boolean
-	searchResults: SearchResult[],
-	selectedItem: SearchResult,
-	isSearching: boolean
 }
 
 export const useFilterStore = defineStore('filter', {
@@ -22,11 +16,6 @@ export const useFilterStore = defineStore('filter', {
 		filterByUpNext: false,
 		filterToMovies: false,
 		filterToTv: false,
-		// showSearch: false,
-		showSelectedItem: false,
-		searchResults: [],
-		selectedItem: new SearchResult(),
-		isSearching: false
 	} as FilterState),
 
 	actions: {
@@ -82,54 +71,7 @@ export const useFilterStore = defineStore('filter', {
 			this.filterToMovies = false
 			this.filterToTv = false
 		},
-
-
-
-		setSelectedItem(val: SearchResult) {
-			this.selectedItem = val
-			this.showSelectedItem = true
-		},
-
-		clearSearchData() {
-			this.selectedItem = new SearchResult()
-			this.searchResults = []
-			this.showSelectedItem = false
-		},
-
-		// setShowSelectedItem(val: boolean) {
-		// 	this.showSelectedItem = val
-		// },
-
-		async Search(search: string) {
-
-			if (!!search) {
-				this.isSearching = true
-
-				MovieDbApi.search(search)
-					.then((results: any) => {
-						if (results.Error != null) {
-							throw Error('Error contacting movie api ' + JSON.stringify(results.Error))
-						} else {
-							this.searchResults = results
-						}
-					})
-					.catch((e: any) => {
-						console.log(e)
-						// this.mainStore.setIsErrored(true, 'Error while searching')
-					})
-					.finally(() => {
-						this.isSearching = false
-					})
-			}
-		},
-
 	},
-
-	getters: {
-		// showSearchDetail(): boolean {
-		// 	return this.isSearching
-		// }
-	}
 })
 
 if (import.meta.hot) {

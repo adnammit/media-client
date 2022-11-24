@@ -45,18 +45,14 @@
 
 		<v-container v-else>
 			<v-row class="mx-1">
-				<v-col v-for="(item, index) in store.filteredCollection" :key="item.id" cols="12" sm="6" md="3" xl="2">
-					<CollectionItemDisplay :title="item" />
+				<v-col v-for="(item, index) in collection.filteredCollection" :key="item.id" cols="12" sm="6" md="3" xl="2">
+					<CollectionItemDisplay :title="item" :select-title-update="selectTitleUpdate" />
 				</v-col>
-				<!-- <v-col v-for="(item, index) in store.filteredCollection" :key="item.id" cols="12" sm="6" md="3" xl="2">
-					<CollectionItemDisplay :title="item.title" :summary="item.summary" :poster="item.poster"
-						:releaseDate="item.releaseDate" />
-				</v-col> -->
 			</v-row>
 		</v-container>
 
-		<SearchDetail v-model="dialog" />
-		<!-- <SearchDetail :dialog.sync="showSelectedItemDetail" @close-dialog="() => closeDetail" /> -->
+		<SearchDetail v-model="addSearchDialog" />
+		<!-- <UpdateTitle v-model="updateTitleDialog" /> -->
 
 	</PageLayout>
 </template>
@@ -65,42 +61,54 @@
 import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store'
-import { useFilterStore } from '@/store/filter'
+import { useCollectionStore } from '@/store/collection'
+import type Title from '@/models/title'
 import PageLayout from '@/components/navigation/PageLayout.vue'
 import FilterBar from '@/components/filter/FilterBar.vue'
 import FilterBarMobile from '@/components/filter/FilterBarMobile.vue'
 import Loader from '@/components/Loader.vue'
 import CollectionItemDisplay from '@/components/title/CollectionItemDisplay.vue'
-import SearchDetail from '@/components/SearchDetail.vue'
+import SearchDetail from '@/components/title/AddSearch.vue'
 
 const store = useMainStore()
-const filter = useFilterStore()
+const collection = useCollectionStore()
 const { name } = useDisplay()
 
 const title = `My Collection`
 const subtitle = `Browse what's UpNext`
 const smallScreens = ['xs', 'sm']
-const dialog = ref(false)
+const addSearchDialog = ref(false)
+const updateTitleDialog = ref(false)
 
 const isMobile = computed(() => {
 	return smallScreens.includes(name.value)
 })
 
 const noData = computed(() => {
-	return store.collection.length == 0
+	return collection.collection.length == 0
 })
 
 const noResults = computed(() => {
-	return store.filteredCollection.length == 0
+	return collection.filteredCollection.length == 0
 })
+
+const selectTitleUpdate = (title: Title) => {
+	collection.setSelectedUserTitle(title)
+}
 
 onBeforeMount(() => {
-	store.loadCollection()
+	collection.loadCollection()
 })
 
-watch(() => filter.showSelectedItem, (newValue) => {
+watch(() => collection.showSelectedSearchItem, (newValue) => {
 	if (newValue) {
-		dialog.value = true
+		addSearchDialog.value = true
+	}
+})
+
+watch(() => collection.showSelectedUserTitle, (newValue) => {
+	if (newValue) {
+		updateTitleDialog.value = true
 	}
 })
 
