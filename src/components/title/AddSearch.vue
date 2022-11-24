@@ -1,6 +1,6 @@
 <template>
 	<v-row justify="center">
-		<v-dialog v-model="modelValue" persistent scrollable class="modal-contents" :class="classes" :width="width" :height="height">
+		<v-dialog v-model="modelValue" scrollable class="modal-contents" :class="classes" :width="width" :height="height">
 			<v-card class="item-details">
 				<v-card-title class="text-h4 mt-7 mx-6">{{ title }}</v-card-title>
 				<v-card-text>
@@ -66,26 +66,9 @@
 									</v-col>
 								</v-row>
 
-								<!-- <v-row justify="space-between">
-									<v-col>
-										<div @click="toggleWatched()" class="d-inline">
-											<v-icon v-if="watched" class="complete">mdi-check-bold</v-icon>
-											<v-icon v-else class="icon--deselected">mdi-panorama-fisheye</v-icon>
-										</div>
-										<div @click="toggleQueued()" class="d-inline">
-											<v-icon v-if="queued" class="queued">mdi-fire</v-icon>
-											<v-icon v-else class="icon--deselected">mdi-fire</v-icon>
-										</div>
-										<div @click="toggleFavorite()" class="d-inline">
-											<v-icon v-if="favorite" class="favorite">mdi-star-circle</v-icon>
-											<v-icon v-else class="icon--deselected">mdi-star-circle-outline</v-icon>
-										</div>
-									</v-col>
-								</v-row> -->
-
 								<v-row>
 									<v-col align-self="center">
-										<Rating v-model="rating" />
+										<v-rating v-model="rating" hover></v-rating>
 									</v-col>
 								</v-row>
 
@@ -100,28 +83,25 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn @click="confirmDiscard">Cancel</v-btn>
-					<v-btn @click.prevent="save()" class="primary" color="secondary">Save</v-btn>
+					<v-btn @click="onCloseDialog">Cancel</v-btn>
+					<v-btn @click.prevent="save()" color="secondary">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
 
-		<SimpleAlert v-model="alert" :titleText="alertTitle" :messageText="alertMessage"
-			@confirm-alert="closeAlertWithConfirm()" @cancel-alert="closeAlert()" />
+		<!-- <SimpleAlert v-model="alert" :titleText="alertTitle" :messageText="alertMessage"
+			@confirm-alert="closeAlertWithConfirm()" @cancel-alert="closeAlert()" /> -->
 		<!-- <Poster v-model="poster" :path="posterPath" /> -->
 	</v-row>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, type Ref, onBeforeMount } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
-import { useMainStore } from '@/store'
-import { useFilterStore } from '@/store/filter'
 import { useCollectionStore } from '@/store/collection'
 import type UserTitleData from '@/dto/userTitleData'
 import { MediaType } from '@/models/enum'
 import { formatYear } from '@/filters/format'
-import Rating from '@/components/title/Rating.vue'
 import GenreSet from '@/components/title/GenreSet.vue'
 import SimpleAlert from '@/components/SimpleAlert.vue'
 import Poster from '@/components/title/Poster.vue'
@@ -134,10 +114,8 @@ const props = defineProps({
 	},
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue','closeDialog'])
 
-const store = useMainStore()
-const filter = useFilterStore()
 const collection = useCollectionStore()
 const { name } = useDisplay()
 
@@ -150,20 +128,15 @@ const rating = ref(0)
 const toggleQueued = () => {
 	queued.value = !queued.value
 }
+
 const toggleFavorite = () => {
 	favorite.value = !favorite.value
 }
+
 const toggleWatched = () => {
 	watched.value = !watched.value
 }
-const reset = () => {
-	queued.value = false
-	favorite.value = false
-	watched.value = false
-	rating.value = 0
-}
 
-// SEARCH RESULT: data from the searchResult
 const title = computed(() => {
 	return collection.selectedSearch.title
 })
@@ -180,10 +153,10 @@ const popularRating = computed(() => {
 	return 'IMDB Rating ' + String(collection.selectedSearch.popularRating)
 })
 
-// ALERT MODAL
-const alert = ref(false)
-const alertTitle = `Confirm Cancel`
-const alertMessage = `Are you sure you want to discard your changes?`
+// // ALERT MODAL
+// const alert = ref(false)
+// const alertTitle = `Confirm Cancel`
+// const alertMessage = `Are you sure you want to discard your changes?`
 
 // POSTER MODAL
 const poster = ref(false)
@@ -217,23 +190,24 @@ const classes = computed(() => {
 })
 
 const closeDialog = () => {
-	emit('update:modelValue')
-	reset()
+	emit('closeDialog')
+	// emit('update:modelValue')
+	// reset()
 }
 
-const confirmDiscard = () => {
-	alert.value = true
-}
+// const confirmDiscard = () => {
+// 	alert.value = true
+// }
 
-const closeAlert = () => {
-	alert.value = false
-}
+// const closeAlert = () => {
+// 	alert.value = false
+// }
 
-const closeAlertWithConfirm = () => {
-	alert.value = false
-	collection.clearSearchData()
-	closeDialog()
-}
+// const closeAlertWithConfirm = () => {
+// 	alert.value = false
+// 	collection.clearSearchData()
+// 	closeDialog()
+// }
 
 const save = async () => {
 
@@ -247,6 +221,21 @@ const save = async () => {
 	await collection.addUserItem(userData)
 	closeDialog()
 }
+
+const reset = () => {
+	queued.value = false
+	favorite.value = false
+	watched.value = false
+	rating.value = 0
+}
+
+watch(() => props.modelValue, (newValue) => {
+	if (!newValue) {
+		emit('closeDialog')
+	} else {
+		reset()
+	}
+})
 
 </script>
 

@@ -46,13 +46,13 @@
 		<v-container v-else>
 			<v-row class="mx-1">
 				<v-col v-for="(item, index) in collection.filteredCollection" :key="item.id" cols="12" sm="6" md="3" xl="2">
-					<CollectionItemDisplay :title="item" :select-title-update="selectTitleUpdate" />
+					<CollectionItemDisplay :title="item" @select-title-update="selectTitleUpdate" />
 				</v-col>
 			</v-row>
 		</v-container>
 
-		<SearchDetail v-model="addSearchDialog" />
-		<!-- <UpdateTitle v-model="updateTitleDialog" /> -->
+		<AddSearch v-model="addSearchDialog" @close-dialog="closeAddSearchDialog" />
+		<UpdateTitle v-model="updateTitleDialog" @close-dialog="closeUpdateTitleDialog" />
 
 	</PageLayout>
 </template>
@@ -68,7 +68,8 @@ import FilterBar from '@/components/filter/FilterBar.vue'
 import FilterBarMobile from '@/components/filter/FilterBarMobile.vue'
 import Loader from '@/components/Loader.vue'
 import CollectionItemDisplay from '@/components/title/CollectionItemDisplay.vue'
-import SearchDetail from '@/components/title/AddSearch.vue'
+import AddSearch from '@/components/title/AddSearch.vue'
+import UpdateTitle from '@/components/title/UpdateTitle.vue'
 
 const store = useMainStore()
 const collection = useCollectionStore()
@@ -93,23 +94,38 @@ const noResults = computed(() => {
 })
 
 const selectTitleUpdate = (title: Title) => {
+	// console.log('>> selecting title ');
+	// console.log(title.title);
+	// console.log(title.id);
+	// console.log(title.movieDbId);
+	// console.log(title.rating);
 	collection.setSelectedUserTitle(title)
+	updateTitleDialog.value = true
+}
+
+const closeAddSearchDialog = () => {
+	addSearchDialog.value = false
+}
+
+const closeUpdateTitleDialog = () => {
+	updateTitleDialog.value = false
 }
 
 onBeforeMount(() => {
 	collection.loadCollection()
 })
 
-watch(() => collection.showSelectedSearchItem, (newValue) => {
-	if (newValue) {
-		addSearchDialog.value = true
-	}
-})
+// watch(() => collection.showSelectedSearchItem, (newValue) => {
+// 	if (newValue) {
+// 		addSearchDialog.value = true
+// 	}
+// })
 
-watch(() => collection.showSelectedUserTitle, (newValue) => {
-	if (newValue) {
-		updateTitleDialog.value = true
-	}
-})
+// watch(() => collection.showSelectedUserTitle, (newValue) => {
+// 	console.log('>> selected user title changed ' + JSON.stringify(newValue));
+// 	if (newValue) {
+// 		updateTitleDialog.value = true
+// 	}
+// })
 
 </script>

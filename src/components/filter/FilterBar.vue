@@ -2,20 +2,32 @@
 	<div class="container-fluid filter-bar ma-0 py-0 px-2">
 		<div>
 			<v-toolbar border>
-				<v-btn :active="isUnfiltered" @click="resetFilter()" rounded :text="!isUnfiltered" variant="text">All</v-btn>
-				<v-btn :active="filter.filterByFavorite" @click="toggleFavorites()" rounded :text="!filter.filterByFavorite" variant="text">Favorites</v-btn>
-				<v-btn :active="filter.filterByWatched" @click="toggleWatched()" rounded :text="!filter.filterByWatched" variant="text">To Do</v-btn>
-				<v-btn :active="filter.filterByUpNext" @click="toggleUpNext()" rounded :text="!filter.filterByUpNext" variant="text">Up Next</v-btn>
-				<v-btn :active="filter.filterToMovies" @click="toggleMovies()" rounded :text="!filter.filterToMovies" variant="text">Movies</v-btn>
-				<v-btn :active="filter.filterToTv" @click="toggleTv()" rounded :text="!filter.filterToTv" variant="text">Tv</v-btn>
-				<v-btn @click="surprise()" rounded text>
-					<v-icon>mdi-dice-5</v-icon>
+				<v-btn :active="isUnfiltered" @click="resetFilter()" rounded :text="!isUnfiltered" variant="text">All
 				</v-btn>
+				<v-btn :active="filter.filterByFavorite" @click="toggleFavorites()" rounded
+					:text="!filter.filterByFavorite" variant="text">Favorites</v-btn>
+				<v-btn :active="filter.filterByWatched" @click="toggleWatched()" rounded :text="!filter.filterByWatched"
+					variant="text">To Do</v-btn>
+				<v-btn :active="filter.filterByUpNext" @click="toggleUpNext()" rounded :text="!filter.filterByUpNext"
+					variant="text">Up Next</v-btn>
+				<v-btn :active="filter.filterToMovies" @click="toggleMovies()" rounded :text="!filter.filterToMovies"
+					variant="text">Movies</v-btn>
+				<v-btn :active="filter.filterToTv" @click="toggleTv()" rounded :text="!filter.filterToTv"
+					variant="text">Tv</v-btn>
+
+				<v-tooltip text="Select a Random Title" location="top" open-delay="300">
+					<template v-slot:activator="{ props }">
+						<v-btn @click="surprise()" rounded text>
+							<v-icon>mdi-dice-5</v-icon>
+						</v-btn>
+					</template>
+				</v-tooltip>
 				<v-spacer></v-spacer>
 
-				<v-autocomplete v-model="searchModel" :items="collection.searchResults" :loading="collection.isSearching"
-					v-model:search="search" clearable hide-details item-title="title" item-value="movieDbId"
-					label="Add to your collection..." dense variant="underlined" class="search-bar pr-4">
+				<v-autocomplete v-model="searchModel" :items="collection.searchResults"
+					:loading="collection.isSearching" v-model:search="search" clearable hide-details item-title="title"
+					item-value="movieDbId" label="Add to your collection..." dense variant="underlined"
+					class="search-bar pr-4">
 					<template v-slot:no-data>
 						<v-list-item>
 							<v-list-item-title>
@@ -131,6 +143,7 @@ watch(() => collection.selectedSearch, (newValue) => {
 .filter-bar {
 	width: 100%;
 }
+
 .search-bar {
 	max-width: 400px;
 }

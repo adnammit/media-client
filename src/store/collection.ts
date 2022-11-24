@@ -14,8 +14,6 @@ export type CollectionState = {
 	collection: Title[],
 	selectedSearch: SearchResult,
 	selectedUserTitle: Title,
-	showSelectedSearchItem: boolean,
-	showSelectedUserTitle: boolean,
 	isSearching: boolean
 }
 
@@ -26,8 +24,6 @@ export const useCollectionStore = defineStore('filter', {
 		collection: [],
 		selectedSearch: new SearchResult(),
 		selectedUserTitle: new Title(),
-		showSelectedSearchItem: false,
-		showSelectedUserTitle: false,
 		selectedItem: new SearchResult(),
 		isSearching: false
 	} as CollectionState),
@@ -36,18 +32,19 @@ export const useCollectionStore = defineStore('filter', {
 
 		setSelectedSearchItem(val: SearchResult) {
 			this.selectedSearch = val
-			this.showSelectedSearchItem = true
 		},
 
 		setSelectedUserTitle(val: Title) {
 			this.selectedUserTitle = val
-			this.showSelectedUserTitle = true
 		},
 
 		clearSearchData() {
 			this.selectedSearch = new SearchResult()
 			this.searchResults = []
-			this.showSelectedSearchItem = false
+		},
+
+		clearUserTitleData() {
+			this.selectedUserTitle = new Title()
 		},
 
 		async Search(search: string) {
