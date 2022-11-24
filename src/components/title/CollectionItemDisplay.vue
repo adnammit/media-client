@@ -1,6 +1,6 @@
 <template>
 
-	<v-card class="my-3 bump-animation" @click="onClick" max-height="200px">
+	<v-card class="bump-animation" @click="onClick" max-height="200px">
 		<v-img :src="posterUrl" class="align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px"
 			cover>
 

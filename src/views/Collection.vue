@@ -94,11 +94,6 @@ const noResults = computed(() => {
 })
 
 const selectTitleUpdate = (title: Title) => {
-	// console.log('>> selecting title ');
-	// console.log(title.title);
-	// console.log(title.id);
-	// console.log(title.movieDbId);
-	// console.log(title.rating);
 	collection.setSelectedUserTitle(title)
 	updateTitleDialog.value = true
 }
@@ -115,17 +110,11 @@ onBeforeMount(() => {
 	collection.loadCollection()
 })
 
-// watch(() => collection.showSelectedSearchItem, (newValue) => {
-// 	if (newValue) {
-// 		addSearchDialog.value = true
-// 	}
-// })
-
-// watch(() => collection.showSelectedUserTitle, (newValue) => {
-// 	console.log('>> selected user title changed ' + JSON.stringify(newValue));
-// 	if (newValue) {
-// 		updateTitleDialog.value = true
-// 	}
-// })
+watch(() => collection.selectedSearch, (newValue) => {
+	console.log('watched selected ' + JSON.stringify(newValue));
+	if (!!newValue?.title) {
+		addSearchDialog.value = true
+	}
+})
 
 </script>

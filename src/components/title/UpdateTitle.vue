@@ -3,7 +3,13 @@
 		<v-dialog v-model="modelValue" scrollable class="modal-contents" :class="classes" :width="width"
 			:height="height">
 			<v-card class="item-details">
-				<v-card-title class="text-h4 mt-7 mx-6">{{ title }} - {{ userTitle.id }}</v-card-title>
+
+				<v-tooltip :text="`titleId ${userTitle.id}`" location="top" open-delay="500">
+					<template v-slot:activator="{ props }">
+						<v-card-title v-bind="props" class="text-h4 mt-7 mx-6">{{ title }}</v-card-title>
+					</template>
+				</v-tooltip>
+
 				<v-card-text>
 					<v-container>
 						<v-row class="details--body">

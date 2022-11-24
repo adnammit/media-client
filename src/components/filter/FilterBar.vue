@@ -17,11 +17,12 @@
 
 				<v-tooltip text="Select a Random Title" location="top" open-delay="300">
 					<template v-slot:activator="{ props }">
-						<v-btn @click="surprise()" rounded text>
+						<v-btn @click="surprise()" rounded text v-bind="props">
 							<v-icon>mdi-dice-5</v-icon>
 						</v-btn>
 					</template>
 				</v-tooltip>
+
 				<v-spacer></v-spacer>
 
 				<v-autocomplete v-model="searchModel" :items="collection.searchResults"
@@ -111,11 +112,9 @@ watch(() => search.value, (newValue) => {
 
 // convert to computed get/set
 watch(() => searchModel.value, (newValue) => {
-	// console.log('>> search model is ');
-	// console.log(newValue);
-
 	// TODO review this logic starting with truthiness of all these things
 	if (!!newValue) { // newValue is number
+
 		const result = collection.searchResults.find(s => s.movieDbId == newValue)
 
 		if (!!result?.title) {
