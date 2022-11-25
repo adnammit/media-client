@@ -28,6 +28,10 @@ class MockMediaService implements IMediaService {
 	public async updateUserTitle(userId: number, titleId: number, req: UserTitleData): Promise<boolean> {
 		return true
 	}
+
+	public async deleteUserTitle(userId: number, titleId: number): Promise<boolean> {
+		return true
+	}
 }
 
 export default new MockMediaService()

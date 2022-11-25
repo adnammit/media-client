@@ -169,22 +169,6 @@ export const useCollectionStore = defineStore('filter', {
 
 				store.setIsLoading(true)
 
-				// const filter = useFilterStore()
-				// const item = filter.selectedItem
-				// // fwiw i hate this -- the data that we get from searching is missing imdbid so we need to get the full object and tack it on before storing it
-				// const dto = await MovieDbApi.getTitle(item.movieDbId, item.mediaType)
-
-				// const request = {
-				// 	userId: userId,
-				// 	movieDbId: item.movieDbId,
-				// 	mediaType: item.mediaType,
-				// 	imdbId: dto.imdb_id,
-				// 	queued: userData.queued,
-				// 	favorite: userData.favorite,
-				// 	watched: userData.watched,
-				// 	rating: userData.rating,
-				// } as AddUserTitleRequest
-
 				MediaProvider.updateUserItem(userId, titleId, userData)
 					.then((res: boolean) => {
 						if (res) {
@@ -196,6 +180,38 @@ export const useCollectionStore = defineStore('filter', {
 					.catch((e: any) => {
 						console.log(e)
 						store.setIsErrored(true, `Error saving updates to title`)
+					})
+					.finally(() => {
+						store.setIsLoading(false)
+					})
+			}
+		},
+
+		async deleteUserItem(titleId: number) {
+
+			const store = useMainStore()
+			const userId = store.userId
+
+			if (userId < 0 || titleId < 0) {
+
+				console.error(`Could not create user item for unknown ${!!userId && !!titleId ? 'user and title' : !!userId ? 'user' : 'title'}`)
+				store.setIsErrored(true, `Error adding item to collection`)
+
+			} else {
+
+				store.setIsLoading(true)
+
+				MediaProvider.deleteUserItem(userId, titleId)
+					.then((res: boolean) => {
+						if (res) {
+							this.loadCollection()
+						} else {
+							throw Error(`Error deleting titleId ${titleId}`)
+						}
+					})
+					.catch((e: any) => {
+						console.log(e)
+						store.setIsErrored(true, `Error deleting title`)
 					})
 					.finally(() => {
 						store.setIsLoading(false)

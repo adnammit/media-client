@@ -1,7 +1,7 @@
 <template>
 	<v-row justify="center">
 		<v-dialog v-model="modelValue" scrollable class="modal-contents" :class="classes" :width="width"
-			:height="height">
+			:height="height" :disabled="isLoading">
 			<v-card class="item-details">
 
 				<v-tooltip :text="`titleId ${userTitle.id}`" location="top" open-delay="500">
@@ -106,6 +106,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
+import { useMainStore } from '@/store/'
 import { useCollectionStore } from '@/store/collection'
 import type UserTitleData from '@/dto/userTitleData'
 import { MediaType } from '@/models/enum'
@@ -123,6 +124,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'closeDialog'])
 
+const store = useMainStore()
 const collection = useCollectionStore()
 const { name } = useDisplay()
 
@@ -131,6 +133,10 @@ const queued = ref(false)
 const favorite = ref(false)
 const watched = ref(false)
 const rating = ref(0)
+
+const isLoading = () => {
+	store.isLoading
+}
 
 const toggleQueued = () => {
 	queued.value = !queued.value
@@ -220,15 +226,9 @@ const closeAlert = () => {
 	alert.value = false
 }
 
-const closeAlertWithConfirm = () => {
+const closeAlertWithConfirm = async () => {
 	alert.value = false
-
-	window.alert('Deleted!')
-	// START HERE - DO DELETE
-
-
-
-
+	await collection.deleteUserItem(collection.selectedUserTitle.id)
 	closeDialog()
 }
 

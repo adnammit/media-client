@@ -1,7 +1,7 @@
 <template>
 	<v-dialog v-model="modelValue" class="modal-contents" max-width="600">
 		<v-card fill>
-			<v-form ref="form" @submit.prevent="$emit('confirmAlert')">
+			<v-form ref="form" @submit.prevent="$emit('confirmAlert')" :disabled="isLoading">
 				<v-card-title>{{ titleText }}</v-card-title>
 
 				<v-card-text>
@@ -18,6 +18,8 @@
 </template>
 
 <script setup lang="ts">
+import { useMainStore } from '@/store/'
+const store = useMainStore()
 
 const props = defineProps({
 	modelValue: {
@@ -43,6 +45,11 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['confirmAlert', 'cancelAlert'])
+
+
+const isLoading = () => {
+	store.isLoading
+}
 
 </script>
 

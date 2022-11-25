@@ -60,9 +60,9 @@ class MediaProvider {
 		return this.service.updateUserTitle(userId, titleId, item)
 	}
 
-	// public removeFromCollection(userid: number, item: Media): Promise<boolean> {
-	// 	return item instanceof Movie ? this.service.deleteUserMovie(userid, item) : item instanceof Tv ? this.service.deleteUserTv(userid, item) : Promise.resolve(false)
-	// }
+	public deleteUserItem(userId: number, titleId: number): Promise<boolean> {
+		return this.service.deleteUserTitle(userId, titleId)
+	}
 }
 
 export default new MediaProvider()

@@ -53,6 +53,7 @@ class MediaService extends ApiBase implements IMediaService {
 	}
 
 	public async getUserTitles(userId: number): Promise<UserTitleDto[]> {
+
 		return requestMgr.get('users/' + userId + '/titles')
 			.then(res => {
 				return res.data.data as UserTitleDto[]
@@ -64,15 +65,6 @@ class MediaService extends ApiBase implements IMediaService {
 	}
 
 	public async addUserTitle(req: AddUserTitleRequest): Promise<boolean> {
-		// const request: any = {
-		// 	movieDbId: req.movieDbId,
-		// 	imdbId: req.imdbId,
-		// 	mediaType: req.mediaType,
-		// 	rating: req.rating,
-		// 	watched: req.watched,
-		// 	favorite: req.favorite,
-		// 	queued: req.queued,
-		// }
 
 		return requestMgr
 			.put('users/' + req.userId + '/titles', req)
@@ -87,15 +79,8 @@ class MediaService extends ApiBase implements IMediaService {
 
 	public async updateUserTitle(userId: number, titleId: number, req: UserTitleData): Promise<boolean> {
 
-		const request: any = {
-			rating: req.rating,
-			watched: req.watched,
-			favorite: req.favorite,
-			queued: req.queued,
-		}
-
 		return requestMgr
-			.put('users/' + userId + '/titles/' + titleId, request)
+			.put('users/' + userId + '/titles/' + titleId, req)
 			.then(res => {
 				return res.status === 200
 			})
@@ -105,17 +90,17 @@ class MediaService extends ApiBase implements IMediaService {
 			})
 	}
 
-	// public async deleteUserMovie(userid: number, movie: Movie): Promise<boolean> {
-	// 	return requestMgr
-	// 		.delete('user/' + userid + '/movies/' + movie.id)
-	// 		.then(res => {
-	// 			return res.status === 200
-	// 		})
-	// 		.catch(error => {
-	// 			this.logError(error)
-	// 			throw error
-	// 		})
-	// }
+	public async deleteUserTitle(userId: number, titleId: number): Promise<boolean> {
+		return requestMgr
+			.delete('users/' + userId + '/titles/' + titleId)
+			.then(res => {
+				return res.status === 200
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
+	}
 
 	private rawToUser(raw: any): IUser | null {
 		if (!raw || !raw.username || !raw.email) return null
