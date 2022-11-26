@@ -11,16 +11,14 @@
 		overflow-x: hidden;
 	}
 
-	.v-card-actions .v-btn {
+	.v-card-actions .v-btn:not(.v-btn--size-small) {
 		width: 100px;
-		// padding: 25px;
 		margin: 10px;
 	}
 
-	// .v-card-actions .v-btn {
-	// 	width: 150px;
-	// 	margin: 0 15px 15px;
-	// }
+	.v-card-actions .v-btn.v-btn--size-small {
+		width: 75px;
+	}
 }
 
 // edit title views

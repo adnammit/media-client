@@ -1,6 +1,6 @@
 <template>
 	<v-row justify="center">
-		<v-dialog v-model="modelValue" scrollable class="modal-contents" :class="classes" :width="width"
+		<v-dialog v-model="modelValue" scrollable class="modal-contents" :class="dialogClasses" :width="width"
 			:height="height">
 			<v-card class="item-details">
 				<v-card-title class="text-h4 mt-7 mx-6">{{ title }}</v-card-title>
@@ -13,7 +13,8 @@
 									<img :src="posterPath" />
 								</div> -->
 
-								<v-img :src="posterPath" class="poster" contain @click="showPosterDetail">
+								<v-img :src="posterPath" class="d-flex" contain @click="showPosterDetail"
+									:max-height="posterHeight">
 									<template v-slot:placeholder>
 										<v-row class="fill-height ma-0" align="center" justify="center">
 											<v-progress-circular indeterminate color="grey lighten-5">
@@ -83,10 +84,15 @@
 						</v-row>
 					</v-container>
 				</v-card-text>
-				<v-card-actions>
+				<v-card-actions :class="dialogActionClasses">
+
 					<v-spacer></v-spacer>
-					<v-btn @click="closeDialog" :disabled="isLoading">Cancel</v-btn>
-					<v-btn @click.prevent="save()" color="secondary" type="submit" variant="flat" :disabled="isLoading" :loading="isLoading">Save</v-btn>
+
+					<v-btn @click="closeDialog" :size="buttonSize" :disabled="isLoading">Cancel</v-btn>
+
+					<v-btn @click.prevent="save()" :size="buttonSize" color="secondary" type="submit" variant="flat"
+						:disabled="isLoading" :loading="isLoading">Save</v-btn>
+
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -181,41 +187,42 @@ const showPosterDetail = (): void => {
 	poster.value = true
 }
 
+const posterHeight = computed(() => {
+	return isVerySmallScreen.value ? '' : '40vh'
+})
+
 // DIALOG MANAGEMENT
-const smallScreens = ['xs', 'sm']
+const isSmallScreen = computed(() => {
+	return ['xs', 'sm'].includes(name.value)
+})
+
+const isVerySmallScreen = computed(() => {
+	return name.value == 'xs'
+})
 
 const width = computed(() => {
-	return smallScreens.includes(name.value) ? '98%' : '60vw'
-	// return name.value == 'xs' ? '90vw' : '60vw'
+	return isSmallScreen.value ? '98%' : '60vw'
 })
 
 const height = computed(() => {
-	return smallScreens.includes(name.value) ? '95vh' : '70vh'
+	return isSmallScreen.value ? '95vh' : '70vh'
 })
 
-const classes = computed(() => {
-	return smallScreens.includes(name.value) ? 'pa-0 ma-0' : 'pa-10'
+const dialogClasses = computed(() => {
+	return isSmallScreen.value ? 'pa-0 ma-0' : 'pa-10'
+})
+
+const dialogActionClasses = computed(() => {
+	return isVerySmallScreen.value ? 'px-2 py-5' : 'pa-5'
+})
+
+const buttonSize = computed(() => {
+	return isVerySmallScreen.value ? 'small' : 'default'
 })
 
 const closeDialog = () => {
 	emit('closeDialog')
-	// emit('update:modelValue')
-	// reset()
 }
-
-// const confirmDiscard = () => {
-// 	alert.value = true
-// }
-
-// const closeAlert = () => {
-// 	alert.value = false
-// }
-
-// const closeAlertWithConfirm = () => {
-// 	alert.value = false
-// 	collection.clearSearchData()
-// 	closeDialog()
-// }
 
 const save = async () => {
 

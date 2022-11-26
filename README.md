@@ -47,7 +47,6 @@ npm run lint
 
 ## To-do
 * **next** mobile-friendly detail view
-* updateUserItem modal is laggy -- why doesn't it close right away? or at least show as loading
 * finish writing out genre types
 * use the same component for SearchDetail and MediaDetail if possible
 * add more info to search so you can tell what you're looking at
@@ -87,6 +86,7 @@ npm run lint
 * get knowing about CompositionAPI and OptionsAPI -- check that you're using best practices
 * fix referenceError in sub menus in mobile navbar
 * wrap service stuff in try/catch -- cors errors etc are not getting caught
+* clean up loading in modals -- lock them once an action is submitted
 
 
 ## Type Support for `.vue` Imports in TS
