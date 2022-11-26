@@ -1,7 +1,7 @@
 <template>
 	<v-row justify="center">
 		<v-dialog v-model="modelValue" scrollable class="modal-contents" :class="classes" :width="width"
-			:height="height" :disabled="isLoading">
+			:height="height">
 			<v-card class="item-details">
 
 				<v-tooltip :text="`titleId ${userTitle.id}`" location="top" open-delay="500">
@@ -13,7 +13,7 @@
 				<v-card-text>
 					<v-container>
 						<v-row class="details--body">
-							<v-col cols="12" sm="6" v-if="showPoster">
+							<v-col cols="12" sm="6" v-if="showPoster" class="pa-0 ma-0">
 
 								<!-- <div class="poster rounded" @click="showPosterDetail">
 									<img :src="posterPath" />
@@ -75,7 +75,8 @@
 
 								<v-row>
 									<v-col align-self="center">
-										<v-rating v-model="rating" hover></v-rating>
+										<!-- TODO yellow stars -->
+										<v-rating v-model="rating" hover clearable density="comfortable"></v-rating>
 									</v-col>
 								</v-row>
 
@@ -90,9 +91,9 @@
 				</v-card-text>
 				<v-card-actions class="pa-5">
 					<v-spacer></v-spacer>
-					<v-btn @click="confirmDelete" color="error" variant="flat">Delete</v-btn>
-					<v-btn @click="closeDialog">Cancel</v-btn>
-					<v-btn @click.prevent="save()" color="secondary" type="submit" variant="flat">Save</v-btn>
+					<v-btn @click="confirmDelete" color="error" variant="flat" :disabled="isLoading">Delete</v-btn>
+					<v-btn @click="closeDialog" :disabled="isLoading">Cancel</v-btn>
+					<v-btn @click.prevent="save()" color="secondary" type="submit" variant="flat" :disabled="isLoading" :loading="isLoading">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -134,9 +135,9 @@ const favorite = ref(false)
 const watched = ref(false)
 const rating = ref(0)
 
-const isLoading = () => {
-	store.isLoading
-}
+const isLoading = computed(() => {
+	return store.isLoading
+})
 
 const toggleQueued = () => {
 	queued.value = !queued.value

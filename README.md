@@ -46,7 +46,8 @@ npm run lint
 
 
 ## To-do
-* **START HERE**: implement deletion
+* **next** mobile-friendly detail view
+* updateUserItem modal is laggy -- why doesn't it close right away? or at least show as loading
 * finish writing out genre types
 * use the same component for SearchDetail and MediaDetail if possible
 * add more info to search so you can tell what you're looking at

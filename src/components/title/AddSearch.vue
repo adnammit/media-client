@@ -33,7 +33,7 @@
 								</v-row>
 								<v-row>
 									<v-col align-self="center">
-										<GenreSet v-bind:genres="collection.selectedSearch.genres" />
+										<Genre clearableSet v-bind:genres="collection.selectedSearch.genres" />
 									</v-col>
 								</v-row>
 
@@ -69,7 +69,8 @@
 
 								<v-row>
 									<v-col align-self="center">
-										<v-rating v-model="rating" hover></v-rating>
+										<!-- TODO yellow stars -->
+										<v-rating v-model="rating" hover clearable density="comfortable"></v-rating>
 									</v-col>
 								</v-row>
 
@@ -84,8 +85,8 @@
 				</v-card-text>
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn @click="closeDialog">Cancel</v-btn>
-					<v-btn @click.prevent="save()" color="secondary" type="submit" variant="flat">Save</v-btn>
+					<v-btn @click="closeDialog" :disabled="isLoading">Cancel</v-btn>
+					<v-btn @click.prevent="save()" color="secondary" type="submit" variant="flat" :disabled="isLoading" :loading="isLoading">Save</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -99,6 +100,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
+import { useMainStore } from '@/store/'
 import { useCollectionStore } from '@/store/collection'
 import type UserTitleData from '@/dto/userTitleData'
 import { MediaType } from '@/models/enum'
@@ -117,6 +119,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'closeDialog'])
 
+const store = useMainStore()
 const collection = useCollectionStore()
 const { name } = useDisplay()
 
@@ -125,6 +128,10 @@ const queued = ref(false)
 const favorite = ref(false)
 const watched = ref(false)
 const rating = ref(0)
+
+const isLoading = computed(() => {
+	return store.isLoading
+})
 
 const toggleQueued = () => {
 	queued.value = !queued.value

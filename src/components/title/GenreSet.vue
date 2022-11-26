@@ -189,7 +189,7 @@ const getGenreMatch = (val: string | string[]) => {
 @import '@/assets/colors';
 @import '@/assets/main';
 
-.genre-set::v-deep {
+.genre-set:deep {
 	display: inline-flex;
 
 	.svg-inline--fa {

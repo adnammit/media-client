@@ -1,7 +1,7 @@
 <template>
 	<v-dialog v-model="modelValue" class="modal-contents" max-width="600">
 		<v-card fill>
-			<v-form ref="form" @submit.prevent="$emit('confirmAlert')" :disabled="isLoading">
+			<v-form ref="form" @submit.prevent="$emit('confirmAlert')">
 				<v-card-title>{{ titleText }}</v-card-title>
 
 				<v-card-text>
@@ -9,8 +9,8 @@
 				</v-card-text>
 				<v-card-actions class="mt-12">
 					<v-spacer></v-spacer>
-					<v-btn @click.stop="$emit('cancelAlert')" variant="flat">{{ cancelText }}</v-btn>
-					<v-btn color="secondary" type="submit" variant="flat">{{ confirmText }}</v-btn>
+					<v-btn @click.stop="$emit('cancelAlert')" variant="flat" :disabled="isLoading">{{ cancelText }}</v-btn>
+					<v-btn color="secondary" type="submit" variant="flat" :disabled="isLoading" :loading="isLoading">{{ confirmText }}</v-btn>
 				</v-card-actions>
 			</v-form>
 		</v-card>
@@ -19,6 +19,8 @@
 
 <script setup lang="ts">
 import { useMainStore } from '@/store/'
+import { computed } from 'vue'
+
 const store = useMainStore()
 
 const props = defineProps({
@@ -46,10 +48,10 @@ const props = defineProps({
 
 const emit = defineEmits(['confirmAlert', 'cancelAlert'])
 
-
-const isLoading = () => {
-	store.isLoading
-}
+// TODO: we should disable this when the user clicks submit
+const isLoading = computed(() => {
+	return store.isLoading
+})
 
 </script>
 

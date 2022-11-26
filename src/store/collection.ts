@@ -113,6 +113,12 @@ export const useCollectionStore = defineStore('filter', {
 				store.setIsLoading(true)
 				const item = this.selectedSearch
 
+				// // test loading
+				// function timeout(ms: any) {
+				// 	return new Promise(resolve => setTimeout(resolve, ms))
+				// }
+				// await timeout(5000)
+
 				// fwiw i hate this -- the data that we get from searching is missing imdbid so we need to get the full object and tack it on before storing it
 				const dto = await MovieDbApi.getTitle(item.movieDbId, item.mediaType)
 					.catch((e: any) => {
@@ -169,6 +175,12 @@ export const useCollectionStore = defineStore('filter', {
 
 				store.setIsLoading(true)
 
+				// // test loading
+				// function timeout(ms: any) {
+				// 	return new Promise(resolve => setTimeout(resolve, ms))
+				// }
+				// await timeout(5000)
+
 				MediaProvider.updateUserItem(userId, titleId, userData)
 					.then((res: boolean) => {
 						if (res) {
@@ -200,6 +212,12 @@ export const useCollectionStore = defineStore('filter', {
 			} else {
 
 				store.setIsLoading(true)
+
+				// // test loading
+				// function timeout(ms: any) {
+				// 	return new Promise(resolve => setTimeout(resolve, ms))
+				// }
+				// await timeout(5000)
 
 				MediaProvider.deleteUserItem(userId, titleId)
 					.then((res: boolean) => {
