@@ -5,23 +5,9 @@
 
 			<v-spacer></v-spacer>
 
-			<!-- SEARCH! -->
-			<v-menu v-model="searchMenu" :open-delay="0" :close-on-content-click="false">
-				<template v-slot:activator="{ props }">
-					<v-btn icon v-bind="props">
-						<v-icon>mdi-plus</v-icon>
-					</v-btn>
-				</template>
-				<v-card min-width="300" class="pa-4">
-					<v-row>
-						<v-col cols="12">
-							<Search @on-search="closeSearch()" />
-						</v-col>
-					</v-row>
-				</v-card>
-			</v-menu>
+			<SearchMenu v-model="searchMenu" />
 
-			<!-- TODO: add sort -->
+			<Sort v-model="sortMenu" />
 
 			<!-- FILTER! -->
 			<v-menu v-model="filterMenu" :open-delay="0" :close-on-content-click="false">
@@ -66,13 +52,15 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useFilterStore } from '@/store/filter'
-import Search from '@/components/filter/Search.vue'
+import SearchMenu from '@/components/filter/SearchMenu.vue'
+import Sort from '@/components/filter/Sort.vue'
 import PersonalFilterMenu from '@/components/filter/PersonalFilterMenu.vue'
 import MediaFilterMenu from '@/components/filter/MediaFilterMenu.vue'
 
 const filter = useFilterStore()
 
 const searchMenu = ref(false)
+const sortMenu = ref(false)
 const filterMenu = ref(false)
 const subMenuPersonal = ref(false)
 const subMenuMedia = ref(false)
@@ -80,10 +68,6 @@ const subMenuMedia = ref(false)
 const isUnfiltered = computed(() => {
 	return !filter.filterByWatched && !filter.filterByFavorite && !filter.filterByUpNext && !filter.filterToTv && !filter.filterToMovies
 })
-
-const closeSearch = () => {
-	searchMenu.value = false
-}
 
 const resetFilter = () => {
 	filter.resetFilter()

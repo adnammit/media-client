@@ -46,12 +46,12 @@ npm run lint
 
 
 ## To-do
-* **start here** mobile filter funcs not found
 * finish writing out genre types
 * use the same component for SearchDetail and MediaDetail if possible
 * add more info to search so you can tell what you're looking at
 * surprise!
 * add sort options
+* replace UpNext with user-defined lists
 * look for `TODO` in comments
 * implement or remove poster preview
 * option to set your streaming services and highlight titles that are on them

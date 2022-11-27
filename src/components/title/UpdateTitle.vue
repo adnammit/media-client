@@ -1,6 +1,6 @@
 <template>
 	<v-row justify="center">
-		<v-dialog v-model="modelValue" scrollable class="modal-contents" :class="dialogClasses" :width="width"
+		<v-dialog v-model="value" scrollable class="modal-contents" :class="dialogClasses" :width="width"
 			:height="height">
 			<v-card class="item-details">
 
@@ -140,7 +140,16 @@ const props = defineProps({
 	},
 })
 
-const emit = defineEmits(['update:modelValue', 'closeDialog'])
+const emit = defineEmits(['update:modelValue'])
+
+const value = computed({
+	get() {
+		return props.modelValue
+	},
+	set(val: Boolean) {
+		emit('update:modelValue', val)
+	}
+})
 
 const store = useMainStore()
 const collection = useCollectionStore()
@@ -251,7 +260,7 @@ const buttonSize = computed(() => {
 })
 
 const closeDialog = () => {
-	emit('closeDialog')
+	emit('update:modelValue', false)
 }
 
 const confirmDelete = () => {
@@ -289,9 +298,7 @@ const reset = () => {
 }
 
 watch(() => props.modelValue, (newValue) => {
-	if (!newValue) {
-		emit('closeDialog')
-	} else {
+	if (newValue) {
 		reset()
 	}
 })

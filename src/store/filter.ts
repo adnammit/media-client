@@ -1,75 +1,98 @@
+import { SortDirection, type SortCriteria } from '@/models/enum'
+import FilterCriteria from '@/models/filterCriteria'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export type FilterState = {
-	filterByFavorite: boolean
-	filterByWatched: boolean
-	filterByUpNext: boolean
-	filterToMovies: boolean
-	filterToTv: boolean
+	criteria: FilterCriteria
 }
 
 export const useFilterStore = defineStore('filter', {
 
 	state: () => ({
-		filterByFavorite: false,
-		filterByWatched: false,
-		filterByUpNext: false,
-		filterToMovies: false,
-		filterToTv: false,
+		criteria: new FilterCriteria(),
 	} as FilterState),
 
 	actions: {
 
 		toggleFavorites() {
-			const val = !this.filterByFavorite
-			this.filterByFavorite = val
-			if (val && this.filterByWatched) this.filterByWatched = false
-			if (val && this.filterByUpNext) this.filterByUpNext = false
+			const val = !this.criteria.filterByFavorite
+			this.criteria.filterByFavorite = val
+			if (val && this.criteria.filterByWatched) this.criteria.filterByWatched = false
+			if (val && this.criteria.filterByUpNext) this.criteria.filterByUpNext = false
 		},
 
 		toggleWatched() {
-			const val = !this.filterByWatched
-			this.filterByWatched = val
-			if (val && this.filterByFavorite) this.filterByFavorite = false
-			if (val && this.filterByUpNext) this.filterByUpNext = false
+			const val = !this.criteria.filterByWatched
+			this.criteria.filterByWatched = val
+			if (val && this.criteria.filterByFavorite) this.criteria.filterByFavorite = false
+			if (val && this.criteria.filterByUpNext) this.criteria.filterByUpNext = false
 		},
 
 		toggleUpNext() {
-			const val = !this.filterByUpNext
-			this.filterByUpNext = val
-			if (val && this.filterByFavorite) this.filterByFavorite = false
-			if (val && this.filterByWatched) this.filterByWatched = false
+			const val = !this.criteria.filterByUpNext
+			this.criteria.filterByUpNext = val
+			if (val && this.criteria.filterByFavorite) this.criteria.filterByFavorite = false
+			if (val && this.criteria.filterByWatched) this.criteria.filterByWatched = false
 		},
 
 		toggleMovies() {
-			const val = !this.filterToMovies
-			this.filterToMovies = val
-			if (val && this.filterToTv) this.filterToTv = false
+			const val = !this.criteria.filterToMovies
+			this.criteria.filterToMovies = val
+			if (val && this.criteria.filterToTv) this.criteria.filterToTv = false
 		},
 
 		toggleTv() {
-			const val = !this.filterToTv
-			this.filterToTv = val
-			if (val && this.filterToMovies) this.filterToMovies = false
+			const val = !this.criteria.filterToTv
+			this.criteria.filterToTv = val
+			if (val && this.criteria.filterToMovies) this.criteria.filterToMovies = false
+		},
+
+		setSortCriteria(val: SortCriteria) {
+			this.criteria.criteria = val
+		},
+
+		toggleSortDirection() {
+			if (this.criteria.direction == SortDirection.Ascending) {
+				this.criteria.direction = SortDirection.Descending
+			} else {
+				this.criteria.direction = SortDirection.Ascending
+			}
 		},
 
 		resetPersonalFilters() {
-			this.filterByFavorite = false
-			this.filterByWatched = false
-			this.filterByUpNext = false
+			this.criteria.filterByFavorite = false
+			this.criteria.filterByWatched = false
+			this.criteria.filterByUpNext = false
 		},
 
 		resetMediaFilters() {
-			this.filterToMovies = false
-			this.filterToTv = false
+			this.criteria.filterToMovies = false
+			this.criteria.filterToTv = false
 		},
 
 		resetFilter() {
-			this.filterByFavorite = false
-			this.filterByWatched = false
-			this.filterByUpNext = false
-			this.filterToMovies = false
-			this.filterToTv = false
+			this.criteria.filterByFavorite = false
+			this.criteria.filterByWatched = false
+			this.criteria.filterByUpNext = false
+			this.criteria.filterToMovies = false
+			this.criteria.filterToTv = false
+		},
+	},
+	getters: {
+		filterByFavorite: (state: FilterState) => {
+			return state.criteria.filterByFavorite
+		},
+		filterByWatched: (state: FilterState) => {
+			return state.criteria.filterByWatched
+		},
+		filterByUpNext: (state: FilterState) => {
+			return state.criteria.filterByUpNext
+		},
+		filterToMovies: (state: FilterState) => {
+			return state.criteria.filterToMovies
+		},
+		filterToTv: (state: FilterState) => {
+			return state.criteria.filterToTv
 		},
 	},
 })

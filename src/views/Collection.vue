@@ -1,7 +1,7 @@
 <template>
 	<PageLayout>
 
-		<FilterBarMobile v-if="isMobile"/>
+		<FilterBarMobile v-if="isMobile" />
 		<FilterBar v-else />
 
 		<div class="text-h2 mt-6">
@@ -45,22 +45,23 @@
 
 		<v-container v-else>
 			<v-row class="mx-1">
-				<v-col v-for="(item, index) in collection.filteredCollection" :key="item.id" cols="12" sm="6" md="3" xl="2">
+				<v-col v-for="(item, index) in filteredCollection" :key="item.id" cols="12" sm="6" md="3" xl="2">
 					<CollectionItemDisplay :title="item" @select-title-update="selectTitleUpdate" />
 				</v-col>
 			</v-row>
 		</v-container>
 
-		<AddSearch v-model="addSearchDialog" @close-dialog="closeAddSearchDialog" />
-		<UpdateTitle v-model="updateTitleDialog" @close-dialog="closeUpdateTitleDialog" />
+		<AddSearch v-model="addSearchDialog" />
+		<UpdateTitle v-model="updateTitleDialog" />
 
 	</PageLayout>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watch } from 'vue'
+import { computed, onBeforeMount, ref, watch, type Ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store'
+import { useFilterStore } from '@/store/filter'
 import { useCollectionStore } from '@/store/collection'
 import type Title from '@/models/title'
 import PageLayout from '@/components/navigation/PageLayout.vue'
@@ -72,6 +73,7 @@ import AddSearch from '@/components/title/AddSearch.vue'
 import UpdateTitle from '@/components/title/UpdateTitle.vue'
 
 const store = useMainStore()
+const filter = useFilterStore()
 const collection = useCollectionStore()
 const { name } = useDisplay()
 
@@ -90,20 +92,18 @@ const noData = computed(() => {
 })
 
 const noResults = computed(() => {
-	return collection.filteredCollection.length == 0
+	return filteredCollection.value.length == 0
+})
+
+const filteredCollection = computed(() => {
+	// hack to make sure filteredCollection is updated when direction changes
+	filter.criteria.direction
+	return filter.criteria.SortAndFilterTitles(collection.collection)
 })
 
 const selectTitleUpdate = (title: Title) => {
 	collection.setSelectedUserTitle(title)
 	updateTitleDialog.value = true
-}
-
-const closeAddSearchDialog = () => {
-	addSearchDialog.value = false
-}
-
-const closeUpdateTitleDialog = () => {
-	updateTitleDialog.value = false
 }
 
 onBeforeMount(() => {

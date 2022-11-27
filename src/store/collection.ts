@@ -38,6 +38,10 @@ export const useCollectionStore = defineStore('collection', {
 			this.selectedUserTitle = val
 		},
 
+		clearSearchResults() {
+			this.searchResults = []
+		},
+
 		clearSearchData() {
 			this.selectedSearch = new SearchResult()
 			this.searchResults = []
@@ -239,12 +243,10 @@ export const useCollectionStore = defineStore('collection', {
 		},
 	},
 	getters: {
-		filteredCollection: (state: CollectionState) => {
-			const filter = useFilterStore()
-			return state.collection
-				.filter(m => (filter.filterByFavorite ? m.favorite : filter.filterByWatched ? !m.watched : filter.filterByUpNext ? m.queued : true))
-				.filter(i => (filter.filterToMovies ? i.mediaType == MediaType.Movie : filter.filterToTv ? i.mediaType == MediaType.TV : true))
-		},
+		// filteredCollection: (state: CollectionState) => {
+		// 	const filter = useFilterStore()
+		// 	return filter.criteria.SortAndFilterTitles(state.collection)
+		// },
 	}
 })
 
