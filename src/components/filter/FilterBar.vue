@@ -56,7 +56,4 @@ const surprise = () => {
 	width: 100%;
 }
 
-.search-bar {
-	max-width: 400px;
-}
 </style>

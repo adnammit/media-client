@@ -11,9 +11,27 @@
 		</template>
 
 		<template v-slot:item="{ props, item }">
-			<!-- TODO display genre, maybe pic? -->
-			<v-list-item v-bind="props" :title="item.raw.title" :subtitle="item.raw.releaseYear">
-			</v-list-item>
+			<v-row>
+				<v-col align-self="center">
+					<div class="search--list" v-bind="props">
+						<v-img :src="getPosterUrl(item.raw)" class="search--list-item rounded-lg mx-3" cover
+							:max-height="posterHeight" :max-width="posterHeight" :aspect-ratio="1">
+							<template v-slot:placeholder>
+								<v-row class="fill-height ma-0" align="center" justify="center">
+									<v-progress-circular indeterminate color="grey lighten-5">
+									</v-progress-circular>
+								</v-row>
+							</template>
+						</v-img>
+						<div class="search--list-item mr-2">
+							{{ item.raw.title }}
+							<div class="search--list-item-date text-body-2">
+								{{ formatYear(item.raw.releaseDate) }}
+							</div>
+						</div>
+					</div>
+				</v-col>
+			</v-row>
 		</template>
 	</v-autocomplete>
 </template>
@@ -21,13 +39,20 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useCollectionStore } from '@/store/collection'
+import { formatYear } from '@/filters/format'
+import type SearchResult from '@/models/searchResult'
 
 const emit = defineEmits(['onSearch'])
 
 const collection = useCollectionStore()
 
-const searchModel = ref<number|undefined>(undefined)
+const searchModel = ref<number | undefined>(undefined)
 const search = ref('')
+const posterHeight = `30px`
+
+const getPosterUrl = (item: SearchResult) => {
+	return `${import.meta.env.VITE_POSTER_BASE_PATH}${item.poster}`
+}
 
 watch(() => search.value, (newValue) => {
 	collection.Search(newValue)
@@ -56,3 +81,28 @@ watch(() => collection.selectedSearch, (newValue) => {
 })
 
 </script>
+
+<style scoped lang="scss">
+.search-bar {
+	max-width: 400px;
+}
+
+.search--list {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.search--list-item {
+	display: inline-block;
+	vertical-align: middle;
+	width: 100%;
+	padding: 0;
+}
+
+.search--list-item-date {
+	display: block;
+	padding: 0;
+}
+
+</style>
