@@ -46,6 +46,7 @@ npm run lint
 
 
 ## To-do
+* fix rating sort
 * finish writing out genre types
 * use the same component for SearchDetail and MediaDetail if possible
 * add more info to search so you can tell what you're looking at

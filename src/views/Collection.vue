@@ -98,6 +98,7 @@ const noResults = computed(() => {
 const filteredCollection = computed(() => {
 	// hack to make sure filteredCollection is updated when direction changes
 	filter.criteria.direction
+	collection.collection
 	return filter.criteria.SortAndFilterTitles(collection.collection)
 })
 

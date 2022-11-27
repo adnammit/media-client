@@ -72,8 +72,8 @@ export default class FilterCriteria {
 	}
 
 	private sortByRating = (a: Title, b: Title): number => {
-		const ratingA = a.releaseDate
-		const ratingB = b.releaseDate
+		const ratingA = a.rating
+		const ratingB = b.rating
 
 		const comparison = (ratingA > ratingB) ? 1
 			: (ratingA < ratingB) ? -1

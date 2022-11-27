@@ -54,6 +54,9 @@ const items = [
 	{
 		criteria: SortCriteria.Year,
 	},
+	{
+		criteria: SortCriteria.Rating,
+	},
 ]
 
 const isSortedBy = (criteria: SortCriteria) => {
