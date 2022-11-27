@@ -111,7 +111,6 @@ onBeforeMount(() => {
 })
 
 watch(() => collection.selectedSearch, (newValue) => {
-	console.log('watched selected ' + JSON.stringify(newValue));
 	if (!!newValue?.title) {
 		addSearchDialog.value = true
 	}

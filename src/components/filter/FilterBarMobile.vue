@@ -5,14 +5,26 @@
 
 			<v-spacer></v-spacer>
 
-			<!-- TODO: add search -->
-			<v-btn icon>
-				<v-icon>mdi-plus</v-icon>
-			</v-btn>
+			<!-- SEARCH! -->
+			<v-menu v-model="searchMenu" :open-delay="0" :close-on-content-click="false">
+				<template v-slot:activator="{ props }">
+					<v-btn icon v-bind="props">
+						<v-icon>mdi-plus</v-icon>
+					</v-btn>
+				</template>
+				<v-card min-width="300" class="pa-4">
+					<v-row>
+						<v-col cols="12">
+							<Search @on-search="closeSearch()" />
+						</v-col>
+					</v-row>
+				</v-card>
+			</v-menu>
 
 			<!-- TODO: add sort -->
 
-			<v-menu v-model="menu" :open-delay="0" :close-on-content-click="false">
+			<!-- FILTER! -->
+			<v-menu v-model="filterMenu" :open-delay="0" :close-on-content-click="false">
 				<template v-slot:activator="{ props }">
 					<v-btn icon v-bind="props">
 						<v-icon>mdi-tune</v-icon>
@@ -36,7 +48,7 @@
 					<v-card-actions>
 						<v-row>
 							<v-col cols="12">
-								<v-btn rounded variant="outlined" @click="menu = false" width="100%">
+								<v-btn rounded variant="outlined" @click="filterMenu = false" width="100%">
 									Close Filter
 								</v-btn>
 							</v-col>
@@ -52,26 +64,26 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useFilterStore } from '@/store/filter'
-import { useCollectionStore } from '@/store/collection'
+import Search from '@/components/filter/Search.vue'
 import PersonalFilterMenu from '@/components/filter/PersonalFilterMenu.vue'
 import MediaFilterMenu from '@/components/filter/MediaFilterMenu.vue'
 
 const filter = useFilterStore()
-const collection = useCollectionStore()
 
-const searchModel = ref<any>(null) // TODO: what is this type? -- number, but can it be object?
-// const searchModel: any = null // TODO: what is this type?
-
-const menu = ref(false)
+const searchMenu = ref(false)
+const filterMenu = ref(false)
 const subMenuPersonal = ref(false)
 const subMenuMedia = ref(false)
-const search = ref('')
 
 const isUnfiltered = computed(() => {
 	return !filter.filterByWatched && !filter.filterByFavorite && !filter.filterByUpNext && !filter.filterToTv && !filter.filterToMovies
 })
+
+const closeSearch = () => {
+	searchMenu.value = false
+}
 
 const resetFilter = () => {
 	filter.resetFilter()
@@ -80,38 +92,6 @@ const resetFilter = () => {
 const surprise = () => {
 	window.alert('Surprise!')
 }
-
-// convert to computed get/set
-watch(() => search.value, (newValue) => {
-	// console.log('>> search updated ' + newValue);
-	collection.Search(newValue)
-})
-
-// convert to computed get/set
-watch(() => searchModel.value, (newValue) => {
-	// console.log('>> search model is ');
-	// console.log(newValue);
-
-	// TODO review this logic starting with truthiness of all these things
-	if (!!newValue) { // newValue is number
-		const result = collection.searchResults.find(s => s.movieDbId == newValue)
-
-		if (!!result?.title) {
-			collection.setSelectedSearchItem(result)
-		} else {
-			console.error(`Error finding search result for movieDbId ${newValue}`)
-			collection.clearSearchData()
-		}
-	}
-})
-
-// convert to computed get/set
-watch(() => collection.selectedSearch, (newValue) => {
-	// clear our local value when the store updates
-	if (!newValue?.title) {
-		searchModel.value = null
-	}
-})
 
 </script>
 

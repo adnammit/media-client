@@ -10,16 +10,6 @@
 			</v-list-item>
 		</template>
 
-		<!-- IF WE WANTED TO SHOW WHAT WE SELECTED: -->
-		<!-- <template v-slot:selection="{ attr, on, item, selected }">
-						<v-chip v-bind="attr" :model-value="selected" color="blue-grey" v-on="on">
-							<v-icon start>
-								mdi-magnify
-							</v-icon>
-							<span v-text="item.title"></span>
-						</v-chip>
-					</template> -->
-
 		<template v-slot:item="{ props, item }">
 			<!-- TODO display genre, maybe pic? -->
 			<v-list-item v-bind="props" :title="item.raw.title" :subtitle="item.raw.releaseYear">
@@ -32,25 +22,20 @@
 import { ref, watch } from 'vue'
 import { useCollectionStore } from '@/store/collection'
 
+const emit = defineEmits(['onSearch'])
+
 const collection = useCollectionStore()
 
-const searchModel = ref<any>(null) // TODO: what is this type? -- number, but can it be object?
-// const searchModel: any = null // TODO: what is this type?
-
+const searchModel = ref<number|undefined>(undefined)
 const search = ref('')
-// const search = ''
 
-// convert to computed get/set
 watch(() => search.value, (newValue) => {
-	// console.log('>> search updated ' + newValue);
 	collection.Search(newValue)
 })
 
-// convert to computed get/set
 watch(() => searchModel.value, (newValue) => {
-	// TODO review this logic starting with truthiness of all these things
-	if (!!newValue) { // newValue is number
 
+	if (!!newValue) {
 		const result = collection.searchResults.find(s => s.movieDbId == newValue)
 
 		if (!!result?.title) {
@@ -59,14 +44,14 @@ watch(() => searchModel.value, (newValue) => {
 			console.error(`Error finding search result for movieDbId ${newValue}`)
 			collection.clearSearchData()
 		}
+		emit('onSearch')
 	}
 })
 
-// convert to computed get/set
 watch(() => collection.selectedSearch, (newValue) => {
 	// clear our local value when the store updates
 	if (!newValue?.title) {
-		searchModel.value = null
+		searchModel.value = undefined
 	}
 })
 

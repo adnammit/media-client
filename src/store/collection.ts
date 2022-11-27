@@ -66,6 +66,8 @@ export const useCollectionStore = defineStore('collection', {
 					.finally(() => {
 						this.isSearching = false
 					})
+			} else {
+				this.searchResults = []
 			}
 		},
 
@@ -98,7 +100,6 @@ export const useCollectionStore = defineStore('collection', {
 		unloadCollection() {
 			this.collection = []
 		},
-
 
 		async addUserItem(userData: UserTitleData) {
 

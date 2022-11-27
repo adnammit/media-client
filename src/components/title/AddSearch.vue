@@ -236,6 +236,7 @@ const buttonSize = computed(() => {
 })
 
 const closeDialog = () => {
+	collection.clearSearchData()
 	emit('closeDialog')
 }
 
@@ -261,7 +262,7 @@ const reset = () => {
 
 watch(() => props.modelValue, (newValue) => {
 	if (!newValue) {
-		emit('closeDialog')
+		closeDialog()
 	} else {
 		reset()
 	}
