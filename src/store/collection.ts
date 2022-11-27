@@ -17,7 +17,7 @@ export type CollectionState = {
 	isSearching: boolean
 }
 
-export const useCollectionStore = defineStore('filter', {
+export const useCollectionStore = defineStore('collection', {
 
 	state: () => ({
 		searchResults: [],

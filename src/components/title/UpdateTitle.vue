@@ -47,13 +47,6 @@
 
 								<v-row justify="space-between">
 									<v-col>
-										<v-btn @click="toggleWatched()" rounded="pill" variant="tonal" class="pill-btn">
-											<template v-slot:default>
-												<v-icon v-if="watched" class="complete">mdi-check-bold</v-icon>
-												<span v-else>mark watched</span>
-											</template>
-										</v-btn>
-										<v-spacer></v-spacer>
 
 										<v-btn @click="toggleQueued()" rounded="pill" variant="tonal" class="pill-btn">
 											<template v-slot:default>
@@ -61,6 +54,16 @@
 												<span v-else>add to UpNext</span>
 											</template>
 										</v-btn>
+
+										<v-spacer></v-spacer>
+
+										<v-btn @click="toggleWatched()" rounded="pill" variant="tonal" class="pill-btn">
+											<template v-slot:default>
+												<v-icon v-if="watched" class="complete">mdi-check-bold</v-icon>
+												<span v-else>mark watched</span>
+											</template>
+										</v-btn>
+
 										<v-spacer></v-spacer>
 
 										<v-btn @click="toggleFavorite()" rounded="pill" variant="tonal"
@@ -95,7 +98,8 @@
 
 					<v-spacer v-if="!isVerySmallScreen"></v-spacer>
 
-					<v-btn @click="confirmDelete" :size="buttonSize" color="error" variant="flat" :disabled="isLoading">Delete
+					<v-btn @click="confirmDelete" :size="buttonSize" color="error" variant="flat" :disabled="isLoading">
+						Delete
 					</v-btn>
 
 					<v-spacer v-if="isVerySmallScreen"></v-spacer>
@@ -104,7 +108,8 @@
 
 					<v-spacer v-if="isVerySmallScreen"></v-spacer>
 
-					<v-btn @click.prevent="save()" :size="buttonSize" color="secondary" type="submit" variant="flat" :disabled="isLoading" :loading="isLoading">Save</v-btn>
+					<v-btn @click.prevent="save()" :size="buttonSize" color="secondary" type="submit" variant="flat"
+						:disabled="isLoading" :loading="isLoading">Save</v-btn>
 
 				</v-card-actions>
 			</v-card>
@@ -262,20 +267,6 @@ const closeAlertWithConfirm = async () => {
 	await collection.deleteUserItem(collection.selectedUserTitle.id)
 	closeDialog()
 }
-
-// const confirmDiscard = () => {
-// 	alert.value = true
-// }
-
-// const closeAlert = () => {
-// 	alert.value = false
-// }
-
-// const closeAlertWithConfirm = () => {
-// 	alert.value = false
-// 	collection.clearUserTitleData()
-// 	closeDialog()
-// }
 
 const save = async () => {
 

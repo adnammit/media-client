@@ -47,22 +47,6 @@
 
 			</v-menu>
 
-			<!-- <v-autocomplete v-model="searchModel" :items="filter.searchResults" :loading="filter.isSearching"
-				v-model:search="search" clearable hide-details item-title="title" item-value="movieDbId"
-				label="Add to your collection..." dense variant="underlined">
-				<template v-slot:no-data>
-					<v-list-item>
-						<v-list-item-title>
-							Search for movie and show titles
-						</v-list-item-title>
-					</v-list-item>
-				</template>
-
-				<template v-slot:item="{ props, item }">
-					<v-list-item v-bind="props" :title="item.raw.title" :subtitle="item.raw.releaseYear">
-					</v-list-item>
-				</template>
-			</v-autocomplete> -->
 		</v-toolbar>
 	</div>
 </template>

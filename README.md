@@ -46,7 +46,7 @@ npm run lint
 
 
 ## To-do
-* **next** mobile-friendly detail view
+* **start here** mobile filter funcs not found
 * finish writing out genre types
 * use the same component for SearchDetail and MediaDetail if possible
 * add more info to search so you can tell what you're looking at
@@ -77,6 +77,7 @@ npm run lint
 
 ## Done
 * mobile-friendly navBar
+* mobile-friendly detail view
 * scratch auth0 for simplicity's sake
 * on login/signup, show loading bc prod db is slow
 * login is case sensitive -- make it not so

@@ -34,19 +34,12 @@
 								</v-row>
 								<v-row>
 									<v-col align-self="center">
-										<Genre clearableSet v-bind:genres="collection.selectedSearch.genres" />
+										<GenreSet v-bind:genres="genres" />
 									</v-col>
 								</v-row>
 
 								<v-row justify="space-between">
 									<v-col>
-										<v-btn @click="toggleWatched()" rounded="pill" variant="tonal" class="pill-btn">
-											<template v-slot:default>
-												<v-icon v-if="watched" class="complete">mdi-check-bold</v-icon>
-												<span v-else>mark watched</span>
-											</template>
-										</v-btn>
-										<v-spacer></v-spacer>
 
 										<v-btn @click="toggleQueued()" rounded="pill" variant="tonal" class="pill-btn">
 											<template v-slot:default>
@@ -54,6 +47,16 @@
 												<span v-else>add to UpNext</span>
 											</template>
 										</v-btn>
+
+										<v-spacer></v-spacer>
+
+										<v-btn @click="toggleWatched()" rounded="pill" variant="tonal" class="pill-btn">
+											<template v-slot:default>
+												<v-icon v-if="watched" class="complete">mdi-check-bold</v-icon>
+												<span v-else>mark watched</span>
+											</template>
+										</v-btn>
+
 										<v-spacer></v-spacer>
 
 										<v-btn @click="toggleFavorite()" rounded="pill" variant="tonal"
@@ -77,7 +80,7 @@
 
 								<v-row>
 									<v-col align-self="center">
-										{{ collection.selectedSearch.summary }}
+										{{ summary }}
 									</v-col>
 								</v-row>
 							</v-col>
@@ -151,20 +154,32 @@ const toggleWatched = () => {
 	watched.value = !watched.value
 }
 
+const selectedSearch = computed(() => {
+	return collection.selectedSearch
+})
+
 const title = computed(() => {
-	return collection.selectedSearch.title
+	return selectedSearch.value.title
 })
 
 const mediaType = computed(() => {
-	return collection.selectedSearch.mediaType == MediaType.Movie ? 'Movie' : collection.selectedSearch.mediaType == MediaType.TV ? 'Television Show' : ''
+	return selectedSearch.value.mediaType == MediaType.Movie ? 'Movie' : selectedSearch.value.mediaType == MediaType.TV ? 'Television Show' : ''
+})
+
+const genres = computed(() => {
+	return selectedSearch.value.genres
+})
+
+const summary = computed(() => {
+	return selectedSearch.value.summary
 })
 
 const releaseYear = computed(() => {
-	return formatYear(collection.selectedSearch.releaseDate)
+	return formatYear(selectedSearch.value.releaseDate)
 })
 
 const popularRating = computed(() => {
-	return 'IMDB Rating ' + String(collection.selectedSearch.popularRating)
+	return 'IMDB Rating ' + String(selectedSearch.value.popularRating)
 })
 
 // // ALERT MODAL
@@ -176,11 +191,11 @@ const popularRating = computed(() => {
 const poster = ref(false)
 
 const showPoster = computed(() => {
-	return collection.selectedSearch.poster != null && collection.selectedSearch.poster != ''
+	return selectedSearch.value.poster != null && selectedSearch.value.poster != ''
 })
 
 const posterPath = computed(() => {
-	return `${import.meta.env.VITE_POSTER_BASE_PATH}${collection.selectedSearch.poster}`
+	return `${import.meta.env.VITE_POSTER_BASE_PATH}${selectedSearch.value.poster}`
 })
 
 const showPosterDetail = (): void => {
