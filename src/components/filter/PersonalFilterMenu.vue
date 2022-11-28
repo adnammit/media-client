@@ -4,8 +4,8 @@
 		<template v-slot:activator="{ props }">
 			<v-row>
 				<v-col cols="12">
-					<v-btn rounded v-bind="props" variant="text" width="100%">
-						Showing {{ selected }}
+					<v-btn :active="!isUnfiltered" rounded v-bind="props" variant="text" width="100%">
+						{{ selected }}
 					</v-btn>
 				</v-col>
 			</v-row>
@@ -77,7 +77,7 @@ const value = computed({
 })
 
 const selected = computed(() => {
-	return isUnfiltered.value ? 'All Your Picks'
+	return isUnfiltered.value ? 'Showing All Your Picks'
 		: filter.filterByFavorite ? 'Favorites'
 			: filter.filterByUpNext ? 'UpNext'
 				: filter.filterByWatched ? 'Unwatched'
