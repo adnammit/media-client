@@ -104,7 +104,6 @@ const filteredCollection = computed(() => {
 
 const selectTitleUpdate = (title: Title) => {
 	collection.setSelectedUserTitle(title)
-	updateTitleDialog.value = true
 }
 
 onBeforeMount(() => {
@@ -114,6 +113,12 @@ onBeforeMount(() => {
 watch(() => collection.selectedSearch, (newValue) => {
 	if (!!newValue?.title) {
 		addSearchDialog.value = true
+	}
+})
+
+watch(() => collection.selectedUserTitle, (newValue) => {
+	if (!!newValue?.title) {
+		updateTitleDialog.value = true
 	}
 })
 

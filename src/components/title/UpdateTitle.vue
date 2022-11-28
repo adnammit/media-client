@@ -300,6 +300,8 @@ const reset = () => {
 watch(() => props.modelValue, (newValue) => {
 	if (newValue) {
 		reset()
+	} else {
+		collection.clearUserTitleData()
 	}
 })
 

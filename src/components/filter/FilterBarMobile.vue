@@ -7,8 +7,7 @@
 
 			<FindMenu v-model="findMenu" />
 
-			<!-- TODO: add surprise -->
-			<v-icon>mdi-dice-5</v-icon>
+			<Random />
 
 			<v-spacer></v-spacer>
 
@@ -57,6 +56,7 @@ import { computed, ref } from 'vue'
 import { useFilterStore } from '@/store/filter'
 import SearchMenu from '@/components/filter/SearchMenu.vue'
 import FindMenu from '@/components/filter/FindMenu.vue'
+import Random from '@/components/filter/Random.vue'
 import Sort from '@/components/filter/Sort.vue'
 import PersonalFilterMenu from '@/components/filter/PersonalFilterMenu.vue'
 import MediaFilterMenu from '@/components/filter/MediaFilterMenu.vue'
@@ -76,10 +76,6 @@ const isUnfiltered = computed(() => {
 
 const resetFilter = () => {
 	filter.resetFilter()
-}
-
-const surprise = () => {
-	window.alert('Surprise!')
 }
 
 </script>

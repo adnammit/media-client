@@ -38,6 +38,12 @@ export const useCollectionStore = defineStore('collection', {
 			this.selectedUserTitle = val
 		},
 
+		setRandomUserTitle() {
+			const index = Math.floor(Math.random() * this.collection.length)
+			const title = this.collection[index]
+			this.selectedUserTitle = title
+		},
+
 		clearSearchResults() {
 			this.searchResults = []
 		},
