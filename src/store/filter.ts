@@ -93,6 +93,7 @@ export const useFilterStore = defineStore('filter', {
 			this.criteria.filterByUpNext = false
 			this.criteria.filterToMovies = false
 			this.criteria.filterToTv = false
+			this.resetGenre()
 		},
 	},
 	getters: {

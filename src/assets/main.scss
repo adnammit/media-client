@@ -32,6 +32,23 @@ a {
 	top: 40%;
 }
 
+// loader ideas from https://cssloaders.github.io/
+.spinner {
+	display: inline-block;
+	box-sizing: border-box;
+	animation: rotation 1.5s linear infinite;
+}
+
+@keyframes rotation {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
 .bump-animation:hover {
 	transform: scale(1.05);
 }

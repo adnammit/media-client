@@ -2,7 +2,7 @@
 	<v-menu v-model="value" :open-delay="0" :close-on-content-click="false">
 		<template v-slot:activator="{ props }">
 			<v-btn icon v-bind="props">
-				<v-icon>mdi-tune</v-icon>
+				<v-icon :color="!isUnfiltered ? `secondary` : ``">mdi-tune</v-icon>
 			</v-btn>
 		</template>
 

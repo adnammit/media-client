@@ -56,6 +56,9 @@ npm run lint
 * implement or remove poster preview
 * option to set your streaming services and highlight titles that are on them
 * error display
+* look for cool stuff to do with [this](https://next.vuetifyjs.com/en/components/overlays/#advanced)
+* maybe look into [this](https://www.flaticon.com/animated-icons-most-downloaded) to spice things up
+* all kinds of crazy animations [here](https://blog.logrocket.com/how-to-animate-svg-css-tutorial-examples/)
 * import/export option
 * check out [this api](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability) to supply streaming availability
 * when it's done-ish, pull to-do list from v1.0 and work on that
