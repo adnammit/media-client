@@ -7,7 +7,7 @@
 
 		<UserMenu :classes="buttonSpacingClasses" />
 
-		<v-btn icon="mdi-brightness-6" @click="toggleTheme" :class="buttonSpacingClasses"></v-btn>
+		<v-btn :icon="icon" @click="toggleTheme" :class="buttonSpacingClasses"></v-btn>
 
 	</v-app-bar>
 </template>
@@ -23,6 +23,10 @@ const { name } = useDisplay()
 
 const buttonSpacingClasses = computed(() => {
 	return name.value == 'xs' ? 'mx-0' : 'mx-3 px-3'
+})
+
+const icon = computed(() => {
+	return theme.global.current.value.dark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'
 })
 
 const toggleTheme = () => {

@@ -64,7 +64,6 @@ onMounted(() => {
 	window.setInterval(iconTraverse, 300)
 })
 
-
 </script>
 
 <style scoped lang="scss">

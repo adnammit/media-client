@@ -47,7 +47,8 @@ npm run lint
 
 ## To-do
 * make genre filter checkboxes/multiples?
-* go through genre filter and make sure you got'em all
+* get cast/writer/director data and make it searchable and sortable
+* go through genre filter and make sure you got'em all in your default seed list
 * use the same component for SearchDetail and MediaDetail if possible
 * add special random function to home page maybe
 * replace UpNext with user-defined lists
