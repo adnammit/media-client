@@ -19,21 +19,33 @@ export default class FilterCriteria {
 
 		let filtered: Title[] = []
 
+		// global search overrides anything
 		if (!!this.globalSearch) {
 			filtered = this.doGlobalSearch(list, this.globalSearch)
 		}
 		else {
 
 			// TODO: optimize this better
-			if (this.isAnyFilter()) {
+
+			// create new list of references that we'll shuffle around
+			filtered = list.map(l => l)
+
+			if (this.isPersonalFilter()) {
 				filtered = list
 					.filter(m => (this.filterByFavorite ? m.favorite : this.filterByWatched ? !m.watched : this.filterByUpNext ? m.queued : true))
-					.filter(i => (this.filterToMovies ? i.mediaType == MediaType.Movie : this.filterToTv ? i.mediaType == MediaType.TV : true))
-					.filter(g => g.genres.some(gg => this.filterGenre?.genres.includes(gg.name)))
-			} else {
-				filtered = list.map(l => l)
 			}
 
+			if (this.isMediaFilter()) {
+				filtered = filtered
+					.filter(i => (this.filterToMovies ? i.mediaType == MediaType.Movie : this.filterToTv ? i.mediaType == MediaType.TV : true))
+			}
+
+			if (this.isGenreFilter()) {
+				filtered = filtered
+					.filter(g => g.genres.some(gg => this.filterGenre?.genres.includes(gg.name)))
+			}
+
+			// once filtered, sort
 			switch (this.criteria) {
 				case SortCriteria.Title:
 					filtered.sort(this.sortByTitle)
@@ -53,15 +65,23 @@ export default class FilterCriteria {
 		return filtered
 	}
 
+	private isPersonalFilter(): boolean {
+		return this.filterByFavorite || this.filterByWatched || this.filterByUpNext
+	}
+
+	private isMediaFilter(): boolean {
+		return this.filterToMovies || this.filterToTv
+	}
+
+	private isGenreFilter(): boolean {
+		return !!this.filterGenre
+	}
+
 	private doGlobalSearch(list: Title[], search: string): Title[] {
 		return list.filter(x => Object.values(x)
 			.join(' ')
 			.toLowerCase()
 			.includes(search.toLowerCase()))
-	}
-
-	private isAnyFilter(): boolean {
-		return this.filterByFavorite || this.filterByWatched || this.filterByUpNext || this.filterToMovies || this.filterToTv || !!this.filterGenre
 	}
 
 	private getDirectionModifier(): number {
