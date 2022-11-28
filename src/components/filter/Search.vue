@@ -14,7 +14,7 @@
 			<v-row>
 				<v-col align-self="center">
 					<div class="search--list" v-bind="props">
-						<v-img :src="getPosterUrl(item.raw)" class="search--list-item rounded-lg mx-3" cover
+						<v-img :src="getPosterUrl(item.raw)" class="search__list-item rounded-lg mx-3" cover
 							:max-height="posterHeight" :max-width="posterHeight" :aspect-ratio="1">
 							<template v-slot:placeholder>
 								<v-row class="fill-height ma-0" align="center" justify="center">
@@ -23,9 +23,9 @@
 								</v-row>
 							</template>
 						</v-img>
-						<div class="search--list-item mr-2">
+						<div class="search__list-item mr-2">
 							{{ item.raw.title }}
-							<div class="search--list-item-date text-body-2">
+							<div class="search__list-item__date text-body-2">
 								{{ formatYear(item.raw.releaseDate) }}
 							</div>
 						</div>
@@ -93,14 +93,14 @@ watch(() => collection.selectedSearch, (newValue) => {
 	width: 100%;
 }
 
-.search--list-item {
+.search__list-item {
 	display: inline-block;
 	vertical-align: middle;
 	width: 100%;
 	padding: 0;
 }
 
-.search--list-item-date {
+.search__list-item__date {
 	display: block;
 	padding: 0;
 }

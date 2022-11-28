@@ -13,13 +13,13 @@
 				<v-card-text>
 					<v-container>
 						<v-row class="details--body">
-							<v-col cols="12" sm="6" v-if="showPoster" class="pa-0 ma-0">
+							<v-col cols="12" sm="6" v-if="showPoster" class="pa-3">
 
 								<!-- <div class="poster rounded" @click="showPosterDetail">
 									<img :src="posterPath" />
 								</div> -->
 
-								<v-img :src="posterPath" class="d-flex" contain @click="showPosterDetail"
+								<v-img :src="posterPath" class="d-flex rounded-lg" contain @click="showPosterDetail"
 									:max-height="posterHeight">
 									<template v-slot:placeholder>
 										<v-row class="fill-height ma-0" align="center" justify="center">
@@ -28,9 +28,9 @@
 										</v-row>
 									</template>
 								</v-img>
-
 							</v-col>
-							<v-col cols="12" sm="6" class="align-self-center">
+
+							<v-col cols="12" sm="6" class="align-self-center pa-3">
 								<v-row>
 									<v-col align-self="center"> {{ releaseYear }} • {{ popularRating }} </v-col>
 								</v-row>

@@ -39,9 +39,10 @@ export const useCollectionStore = defineStore('collection', {
 		},
 
 		setRandomUserTitle() {
-			const index = Math.floor(Math.random() * this.collection.length)
-			const title = this.collection[index]
-			this.selectedUserTitle = title
+			if (this.filteredCollection.length == 0) return
+
+			const index = Math.floor(Math.random() * this.filteredCollection.length)
+			this.selectedUserTitle = this.filteredCollection[index]
 		},
 
 		clearSearchResults() {
@@ -249,10 +250,13 @@ export const useCollectionStore = defineStore('collection', {
 		},
 	},
 	getters: {
-		// filteredCollection: (state: CollectionState) => {
-		// 	const filter = useFilterStore()
-		// 	return filter.criteria.SortAndFilterTitles(state.collection)
-		// },
+		filteredCollection: (state: CollectionState) => {
+			const filter = useFilterStore()
+			// hack to make sure filteredCollection is updated when direction changes
+			filter.criteria.direction
+			state.collection
+			return filter.criteria.SortAndFilterTitles(state.collection)
+		},
 	}
 })
 

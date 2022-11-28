@@ -98,6 +98,7 @@ npm run lint
 * implement Surprise!
 * finish writing out genre types
 * add genre filter
+* limit random to filteredCollection
 
 
 ## Type Support for `.vue` Imports in TS

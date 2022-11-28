@@ -58,13 +58,10 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watch, type Ref } from 'vue'
-import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store'
-import { useFilterStore } from '@/store/filter'
 import { useCollectionStore } from '@/store/collection'
 import type Title from '@/models/title'
 import PageLayout from '@/components/navigation/PageLayout.vue'
-import FilterBar from '@/components/filter/FilterBar.vue'
 import FilterBarMobile from '@/components/filter/FilterBarMobile.vue'
 import Loader from '@/components/Loader.vue'
 import CollectionItemDisplay from '@/components/title/CollectionItemDisplay.vue'
@@ -72,19 +69,12 @@ import AddSearch from '@/components/title/AddSearch.vue'
 import UpdateTitle from '@/components/title/UpdateTitle.vue'
 
 const store = useMainStore()
-const filter = useFilterStore()
 const collection = useCollectionStore()
-const { name } = useDisplay()
 
 const title = `My Collection`
 const subtitle = `Browse what's UpNext`
-const smallScreens = ['xs', 'sm']
 const addSearchDialog = ref(false)
 const updateTitleDialog = ref(false)
-
-const isMobile = computed(() => {
-	return smallScreens.includes(name.value)
-})
 
 const noData = computed(() => {
 	return collection.collection.length == 0
@@ -95,10 +85,7 @@ const noResults = computed(() => {
 })
 
 const filteredCollection = computed(() => {
-	// hack to make sure filteredCollection is updated when direction changes
-	filter.criteria.direction
-	collection.collection
-	return filter.criteria.SortAndFilterTitles(collection.collection)
+	return collection.filteredCollection
 })
 
 const selectTitleUpdate = (title: Title) => {

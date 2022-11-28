@@ -21,7 +21,7 @@
 				<v-row class="mx-4">
 					<v-col cols="12">
 						<v-btn :active="isSortedBy(item.criteria)" @click="setSort(item.criteria)" rounded
-							:text="!isSortedBy(item.criteria)" variant="text" :prepend-icon="getIcon(item)">
+							:text="!isSortedBy(item.criteria)" variant="text" :prepend-icon="getIcon(item)" width="100%">
 							{{ item.description }}
 						</v-btn>
 					</v-col>

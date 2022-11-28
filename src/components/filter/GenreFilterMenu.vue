@@ -15,7 +15,7 @@
 
 			<v-row class="mx-4">
 				<v-col cols="12">
-					<v-btn @click="clearGenreFilter()" rounded variant="text" :text="!isUnfiltered">
+					<v-btn @click="clearGenreFilter()" rounded variant="outlined" :text="!isUnfiltered">
 						Clear Genre Filters
 					</v-btn>
 				</v-col>
@@ -62,6 +62,8 @@ const value = computed({
 		emit('update:modelValue', val)
 	}
 })
+
+const maxHeight = `70vh`
 
 const selected = computed(() => {
 	return isUnfiltered.value ? 'Showing All Genres'

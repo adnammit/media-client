@@ -15,18 +15,8 @@
 
 			<v-row class="mx-4">
 				<v-col cols="12">
-					<v-btn @click="clearMediaFilters()" rounded variant="text" :text="!isUnfiltered">
-						Clear Media Filters
-					</v-btn>
-				</v-col>
-			</v-row>
-
-			<v-divider class="my-2"></v-divider>
-
-			<v-row class="mx-4">
-				<v-col cols="12">
 					<v-btn :active="filter.filterToMovies" @click="toggleMovies()" rounded
-						:text="!filter.filterToMovies" variant="text">
+						:text="!filter.filterToMovies" variant="text" width="100%">
 						Movies
 					</v-btn>
 				</v-col>
@@ -35,8 +25,18 @@
 			<v-row class="mx-4">
 				<v-col cols="12">
 					<v-btn :active="filter.filterToTv" @click="toggleTv()" rounded :text="!filter.filterToTv"
-						variant="text">
+						variant="text" width="100%">
 						TV
+					</v-btn>
+				</v-col>
+			</v-row>
+
+			<v-divider class="my-2"></v-divider>
+
+			<v-row class="mx-4">
+				<v-col cols="12">
+					<v-btn @click="clearMediaFilters()" rounded variant="outlined" :text="!isUnfiltered" width="100%">
+						Clear Media Filters
 					</v-btn>
 				</v-col>
 			</v-row>

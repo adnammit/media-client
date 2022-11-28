@@ -15,8 +15,27 @@
 
 			<v-row class="mx-4">
 				<v-col cols="12">
-					<v-btn @click="clearPersonalFilters()" rounded variant="text" :text="!isUnfiltered">
-						Clear Personal Filters
+					<v-btn :active="filter.filterByFavorite" @click="toggleFavorites()" rounded
+						:text="!filter.filterByFavorite" variant="text" width="100%">
+						Favorites
+					</v-btn>
+				</v-col>
+			</v-row>
+
+			<v-row class="mx-4">
+				<v-col cols="12">
+					<v-btn :active="filter.filterByWatched" @click="toggleWatched()" rounded
+						:text="!filter.filterByWatched" variant="text" width="100%">
+						Unwatched
+					</v-btn>
+				</v-col>
+			</v-row>
+
+			<v-row class="mx-4">
+				<v-col cols="12">
+					<v-btn :active="filter.filterByUpNext" @click="toggleUpNext()" rounded
+						:text="!filter.filterByUpNext" variant="text" width="100%">
+						Up Next
 					</v-btn>
 				</v-col>
 			</v-row>
@@ -25,28 +44,12 @@
 
 			<v-row class="mx-4">
 				<v-col cols="12">
-					<v-btn :active="filter.filterByFavorite" @click="toggleFavorites()" rounded :text="!filter.filterByFavorite"
-						variant="text">
-						Favorites
+					<v-btn @click="clearPersonalFilters()" rounded variant="outlined" :text="!isUnfiltered" :disabled="isUnfiltered">
+						Clear Personal Filters
 					</v-btn>
 				</v-col>
 			</v-row>
 
-			<v-row class="mx-4">
-				<v-col cols="12">
-					<v-btn :active="filter.filterByWatched" @click="toggleWatched()" rounded :text="!filter.filterByWatched" variant="text">
-						Unwatched
-					</v-btn>
-				</v-col>
-			</v-row>
-
-			<v-row class="mx-4">
-				<v-col cols="12">
-					<v-btn :active="filter.filterByUpNext" @click="toggleUpNext()" rounded :text="!filter.filterByUpNext" variant="text">
-						Up Next
-					</v-btn>
-				</v-col>
-			</v-row>
 
 		</v-card>
 	</v-menu>

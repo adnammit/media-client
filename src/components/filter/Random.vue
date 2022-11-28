@@ -1,5 +1,5 @@
 <template>
-	<v-btn icon @click="surprise">
+	<v-btn icon @click="surprise" :disabled="disabled">
 		<v-icon>mdi-dice-5</v-icon>
 		<v-tooltip activator="parent" location="top">Select a random item from your collection</v-tooltip>
 	</v-btn>
@@ -8,7 +8,7 @@
 		<v-btn variant="flat" text="">
 			<template v-slot:prepend>
 				<span class="spinner">
-				<v-icon>{{ icon }}</v-icon>
+					<v-icon>{{ icon }}</v-icon>
 				</span>
 
 				<span class="loader"></span>
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { useCollectionStore } from '@/store/collection'
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue'
 
 const collection = useCollectionStore()
 const showCountdown = ref(false)
@@ -37,6 +37,9 @@ const icons = [
 
 let iconIndex = 0
 const icon = ref(icons[0])
+const disabled = computed(() => {
+	return collection.filteredCollection.length == 0
+})
 
 const iconTraverse = () => {
 
@@ -52,11 +55,14 @@ const iconTraverse = () => {
 const surprise = async () => {
 
 	showCountdown.value = true
+
 	function timeout(ms: any) {
 		return new Promise(resolve => setTimeout(resolve, ms))
 	}
 	await timeout(2100)
+
 	showCountdown.value = false
+
 	collection.setRandomUserTitle()
 }
 
