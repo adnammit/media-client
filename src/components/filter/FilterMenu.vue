@@ -20,6 +20,7 @@
 
 			<PersonalFilterMenu v-model="subMenuPersonal" />
 			<MediaFilterMenu v-model="subMenuMedia" />
+			<GenreFilterMenu v-model="subMenuGenre" />
 
 			<v-divider class="my-2"></v-divider>
 
@@ -47,6 +48,7 @@ import { computed, ref } from 'vue'
 import { useFilterStore } from '@/store/filter'
 import PersonalFilterMenu from '@/components/filter/PersonalFilterMenu.vue'
 import MediaFilterMenu from '@/components/filter/MediaFilterMenu.vue'
+import GenreFilterMenu from '@/components/filter/GenreFilterMenu.vue'
 
 const filter = useFilterStore()
 
@@ -70,9 +72,10 @@ const value = computed({
 
 const subMenuPersonal = ref(false)
 const subMenuMedia = ref(false)
+const subMenuGenre = ref(false)
 
 const isUnfiltered = computed(() => {
-	return !filter.filterByWatched && !filter.filterByFavorite && !filter.filterByUpNext && !filter.filterToTv && !filter.filterToMovies
+	return !filter.filterByWatched && !filter.filterByFavorite && !filter.filterByUpNext && !filter.filterToTv && !filter.filterToMovies && !filter.genreFilter?.name
 })
 
 const resetFilter = () => {

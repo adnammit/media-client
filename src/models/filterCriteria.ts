@@ -1,4 +1,5 @@
 import { formatYear } from '@/helpers/format'
+import type { GenreItem } from '@/helpers/genre'
 import { MediaType, SortCriteria, SortDirection } from '@/models/enum'
 import type Title from '@/models/title'
 
@@ -10,6 +11,7 @@ export default class FilterCriteria {
 	// TODO replace these two with enum
 	public filterToMovies = false
 	public filterToTv = false
+	public filterGenre: GenreItem | undefined = undefined
 	public direction = SortDirection.Ascending
 	public criteria = SortCriteria.None
 
@@ -22,10 +24,12 @@ export default class FilterCriteria {
 		}
 		else {
 
+			// TODO: optimize this better
 			if (this.isAnyFilter()) {
 				filtered = list
 					.filter(m => (this.filterByFavorite ? m.favorite : this.filterByWatched ? !m.watched : this.filterByUpNext ? m.queued : true))
 					.filter(i => (this.filterToMovies ? i.mediaType == MediaType.Movie : this.filterToTv ? i.mediaType == MediaType.TV : true))
+					.filter(g => g.genres.some(gg => this.filterGenre?.genres.includes(gg.name)))
 			} else {
 				filtered = list.map(l => l)
 			}
@@ -57,7 +61,7 @@ export default class FilterCriteria {
 	}
 
 	private isAnyFilter(): boolean {
-		return this.filterByFavorite || this.filterByWatched || this.filterByUpNext || this.filterToMovies || this.filterToTv
+		return this.filterByFavorite || this.filterByWatched || this.filterByUpNext || this.filterToMovies || this.filterToTv || !!this.filterGenre
 	}
 
 	private getDirectionModifier(): number {

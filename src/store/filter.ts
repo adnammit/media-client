@@ -1,3 +1,4 @@
+import type { GenreItem } from '@/helpers/genre'
 import { SortDirection, type SortCriteria } from '@/models/enum'
 import FilterCriteria from '@/models/filterCriteria'
 import { acceptHMRUpdate, defineStore } from 'pinia'
@@ -45,6 +46,14 @@ export const useFilterStore = defineStore('filter', {
 			const val = !this.criteria.filterToTv
 			this.criteria.filterToTv = val
 			if (val && this.criteria.filterToMovies) this.criteria.filterToMovies = false
+		},
+
+		setGenre(val: GenreItem) {
+			this.criteria.filterGenre = val
+		},
+
+		resetGenre() {
+			this.criteria.filterGenre = undefined
 		},
 
 		setSortCriteria(val: SortCriteria) {
@@ -104,6 +113,9 @@ export const useFilterStore = defineStore('filter', {
 		},
 		globalSearch: (state: FilterState) => {
 			return state.criteria.globalSearch
+		},
+		genreFilter: (state: FilterState) => {
+			return state.criteria.filterGenre
 		},
 	},
 })

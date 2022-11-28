@@ -46,8 +46,8 @@ npm run lint
 
 
 ## To-do
-* finish writing out genre types
-* add genre filter
+* make genre filter checkboxes/multiples?
+* go through genre filter and make sure you got'em all
 * use the same component for SearchDetail and MediaDetail if possible
 * add special random function to home page maybe
 * replace UpNext with user-defined lists
@@ -92,6 +92,8 @@ npm run lint
 * add more info to search so you can tell what you're looking at
 * add find-in-collection
 * implement Surprise!
+* finish writing out genre types
+* add genre filter
 
 
 ## Type Support for `.vue` Imports in TS
