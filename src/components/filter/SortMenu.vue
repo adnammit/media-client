@@ -12,7 +12,7 @@
 					<v-col cols="12">
 						<v-btn :active="isSortedBy(item.criteria)" @click="setSort(item.criteria)" rounded
 							:text="!isSortedBy(item.criteria)" variant="text">
-							{{ getText(item.criteria) }}
+							{{ getText(item) }}
 						</v-btn>
 					</v-col>
 				</v-row>
@@ -50,12 +50,19 @@ const filter = useFilterStore()
 const items = [
 	{
 		criteria: SortCriteria.Title,
+		description: SortCriteria.Title.toString(),
 	},
 	{
 		criteria: SortCriteria.Year,
+		description: SortCriteria.Year.toString(),
 	},
 	{
-		criteria: SortCriteria.Rating,
+		criteria: SortCriteria.UserRating,
+		description: `Your Rating`,
+	},
+	{
+		criteria: SortCriteria.PopularRating,
+		description: `Popular Rating`,
 	},
 ]
 
@@ -63,8 +70,8 @@ const isSortedBy = (criteria: SortCriteria) => {
 	return filter.criteria.criteria == criteria
 }
 
-const getText = (criteria: SortCriteria) => {
-	return `${isSortedBy(criteria) ? 'Sorted' : 'Sort'} by ${criteria.toString()}`
+const getText = (item: any) => {
+	return `${isSortedBy(item.criteria) ? 'Sorted' : 'Sort'} by ${item.description}`
 }
 
 const setSort = (criteria: SortCriteria) => {

@@ -37,8 +37,11 @@ export default class FilterCriteria {
 				case SortCriteria.Year:
 					filtered.sort(this.sortByYear)
 					break
-				case SortCriteria.Rating:
-					filtered.sort(this.sortByRating)
+				case SortCriteria.UserRating:
+					filtered.sort(this.sortByUserRating)
+					break
+				case SortCriteria.PopularRating:
+					filtered.sort(this.sortByPopularRating)
 					break
 			}
 		}
@@ -85,9 +88,20 @@ export default class FilterCriteria {
 		return comparison * this.getDirectionModifier()
 	}
 
-	private sortByRating = (a: Title, b: Title): number => {
+	private sortByUserRating = (a: Title, b: Title): number => {
 		const ratingA = a.rating
 		const ratingB = b.rating
+
+		const comparison = (ratingA > ratingB) ? 1
+			: (ratingA < ratingB) ? -1
+				: 0
+
+		return comparison * this.getDirectionModifier()
+	}
+
+	private sortByPopularRating = (a: Title, b: Title): number => {
+		const ratingA = a.popularRating ?? 0
+		const ratingB = b.popularRating ?? 0
 
 		const comparison = (ratingA > ratingB) ? 1
 			: (ratingA < ratingB) ? -1

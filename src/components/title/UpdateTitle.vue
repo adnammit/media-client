@@ -202,7 +202,7 @@ const releaseYear = computed(() => {
 })
 
 const popularRating = computed(() => {
-	return 'IMDB Rating ' + String(userTitle.value.popularRating)
+	return 'IMDB Rating ' + String(userTitle.value.popularRating?.toFixed(2))
 })
 
 // ALERT MODAL

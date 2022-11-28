@@ -11,7 +11,7 @@
 
 			<v-spacer></v-spacer>
 
-			<Sort v-model="sortMenu" />
+			<SortMenu v-model="sortMenu" />
 
 			<!-- FILTER! -->
 			<v-menu v-model="filterMenu" :open-delay="0" :close-on-content-click="false">
@@ -57,7 +57,7 @@ import { useFilterStore } from '@/store/filter'
 import SearchMenu from '@/components/filter/SearchMenu.vue'
 import FindMenu from '@/components/filter/FindMenu.vue'
 import Random from '@/components/filter/Random.vue'
-import Sort from '@/components/filter/Sort.vue'
+import SortMenu from '@/components/filter/SortMenu.vue'
 import PersonalFilterMenu from '@/components/filter/PersonalFilterMenu.vue'
 import MediaFilterMenu from '@/components/filter/MediaFilterMenu.vue'
 

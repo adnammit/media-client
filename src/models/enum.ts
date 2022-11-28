@@ -11,11 +11,11 @@ export enum SortCriteria {
 	Favorite = 'Favorite',
 	Watched = 'Watched',
 	UpNext = 'UpNext',
-	Rating = 'Rating',
+	UserRating = 'UserRating',
+	PopularRating = 'PopularRating',
 }
 
 export enum SortDirection {
-	// None = 'None',
 	Ascending = 'Ascending',
 	Descending = 'Descending',
 }

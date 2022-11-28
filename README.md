@@ -46,10 +46,10 @@ npm run lint
 
 
 ## To-do
-* add genre sort
 * finish writing out genre types
+* add genre filter
 * use the same component for SearchDetail and MediaDetail if possible
-* surprise!
+* add special random function to home page maybe
 * replace UpNext with user-defined lists
 * add ability to make notes on your titles
 * look for `TODO` in comments
@@ -91,6 +91,7 @@ npm run lint
 * add some sort options
 * add more info to search so you can tell what you're looking at
 * add find-in-collection
+* implement Surprise!
 
 
 ## Type Support for `.vue` Imports in TS
