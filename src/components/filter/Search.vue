@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useCollectionStore } from '@/store/collection'
-import { formatYear } from '@/filters/format'
+import { formatYear } from '@/helpers/format'
 import type SearchResult from '@/models/searchResult'
 
 const emit = defineEmits(['onSearch'])

@@ -5,7 +5,6 @@ import { createPinia } from 'pinia'
 import { loadFonts } from '@/plugins/webfontloader'
 import FontAwesomeIcon from '@/plugins/font-awesome'
 import vuetify from '@/plugins/vuetify'
-import { formatYear } from '@/filters/format'
 import '@/assets/main.scss'
 
 loadFonts()
@@ -23,6 +22,8 @@ app.use(pinia)
 	.use(router)
 	.mount('#app')
 
-app.config.globalProperties.$filters = {
-	formatYear
-}
+// // this is what we're supposed to do now: https://v3-migration.vuejs.org/breaking-changes/filters.html
+// // but it's not very convenient
+// app.config.globalProperties.$filters = {
+// 	formatYear
+// }

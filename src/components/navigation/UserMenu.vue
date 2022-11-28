@@ -35,7 +35,7 @@ import { useMainStore } from '@/store'
 import LoginButton from '@/components/buttons/LoginButton.vue'
 import SignupButton from '@/components/buttons/SignupButton.vue'
 import vibrates from '@/assets/vibrates.png'
-import ImgUtil from '@/filters/img-util'
+import ImgUtil from '@/helpers/img-util'
 import { computed } from 'vue'
 
 const store = useMainStore()

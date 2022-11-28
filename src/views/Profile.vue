@@ -65,7 +65,7 @@ import { ref } from 'vue'
 import { useMainStore } from '@/store'
 import PageLayout from '@/components/navigation/PageLayout.vue'
 import vibrates from '@/assets/vibrates.png'
-import ImgUtil from '@/filters/img-util'
+import ImgUtil from '@/helpers/img-util'
 
 const store = useMainStore()
 const form = ref<any>(null) // TODO: why you no type??

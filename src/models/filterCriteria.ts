@@ -1,4 +1,4 @@
-import { formatYear } from '@/filters/format'
+import { formatYear } from '@/helpers/format'
 import { MediaType, SortCriteria, SortDirection } from '@/models/enum'
 import type Title from '@/models/title'
 

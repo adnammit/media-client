@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { formatYear } from '@/filters/format'
+import { formatYear } from '@/helpers/format'
 import Title from '@/models/title'
 
 const props = defineProps({
