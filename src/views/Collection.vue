@@ -1,8 +1,7 @@
 <template>
 	<PageLayout>
 
-		<FilterBarMobile v-if="isMobile" />
-		<FilterBar v-else />
+		<FilterBarMobile />
 
 		<div class="text-h2 mt-6">
 			{{ title }}
