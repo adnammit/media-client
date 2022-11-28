@@ -59,6 +59,14 @@ export const useFilterStore = defineStore('filter', {
 			}
 		},
 
+		setGlobalSearch(val: string) {
+			this.criteria.globalSearch = val
+		},
+
+		resetGlobalSearch() {
+			this.criteria.globalSearch = ''
+		},
+
 		resetPersonalFilters() {
 			this.criteria.filterByFavorite = false
 			this.criteria.filterByWatched = false
@@ -93,6 +101,9 @@ export const useFilterStore = defineStore('filter', {
 		},
 		filterToTv: (state: FilterState) => {
 			return state.criteria.filterToTv
+		},
+		globalSearch: (state: FilterState) => {
+			return state.criteria.globalSearch
 		},
 	},
 })

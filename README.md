@@ -46,10 +46,9 @@ npm run lint
 
 
 ## To-do
-* add genre sort and find-in-collection
+* add genre sort
 * finish writing out genre types
 * use the same component for SearchDetail and MediaDetail if possible
-* add more info to search so you can tell what you're looking at
 * surprise!
 * replace UpNext with user-defined lists
 * add ability to make notes on your titles
@@ -90,6 +89,9 @@ npm run lint
 * wrap service stuff in try/catch -- cors errors etc are not getting caught
 * clean up loading in modals -- lock them once an action is submitted
 * add some sort options
+* add more info to search so you can tell what you're looking at
+* add find-in-collection
+
 
 ## Type Support for `.vue` Imports in TS
 If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:

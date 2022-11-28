@@ -3,6 +3,7 @@ import { MediaType, SortCriteria, SortDirection } from '@/models/enum'
 import type Title from '@/models/title'
 
 export default class FilterCriteria {
+	public globalSearch = ''
 	public filterByFavorite = false
 	public filterByWatched = false
 	public filterByUpNext = false
@@ -14,29 +15,42 @@ export default class FilterCriteria {
 
 	public SortAndFilterTitles(list: Title[]) {
 
-		let filtered: Title[]
+		let filtered: Title[] = []
 
-		if (this.isAnyFilter()) {
-			filtered = list
-				.filter(m => (this.filterByFavorite ? m.favorite : this.filterByWatched ? !m.watched : this.filterByUpNext ? m.queued : true))
-				.filter(i => (this.filterToMovies ? i.mediaType == MediaType.Movie : this.filterToTv ? i.mediaType == MediaType.TV : true))
-		} else {
-			filtered = list.map(l => l)
+		if (!!this.globalSearch) {
+			filtered = this.doGlobalSearch(list, this.globalSearch)
 		}
+		else {
 
-		switch (this.criteria) {
-			case SortCriteria.Title:
-				filtered.sort(this.sortByTitle)
-				break
-			case SortCriteria.Year:
-				filtered.sort(this.sortByYear)
-				break
-			case SortCriteria.Rating:
-				filtered.sort(this.sortByRating)
-				break
+			if (this.isAnyFilter()) {
+				filtered = list
+					.filter(m => (this.filterByFavorite ? m.favorite : this.filterByWatched ? !m.watched : this.filterByUpNext ? m.queued : true))
+					.filter(i => (this.filterToMovies ? i.mediaType == MediaType.Movie : this.filterToTv ? i.mediaType == MediaType.TV : true))
+			} else {
+				filtered = list.map(l => l)
+			}
+
+			switch (this.criteria) {
+				case SortCriteria.Title:
+					filtered.sort(this.sortByTitle)
+					break
+				case SortCriteria.Year:
+					filtered.sort(this.sortByYear)
+					break
+				case SortCriteria.Rating:
+					filtered.sort(this.sortByRating)
+					break
+			}
 		}
 
 		return filtered
+	}
+
+	private doGlobalSearch(list: Title[], search: string): Title[] {
+		return list.filter(x => Object.values(x)
+			.join(' ')
+			.toLowerCase()
+			.includes(search.toLowerCase()))
 	}
 
 	private isAnyFilter(): boolean {

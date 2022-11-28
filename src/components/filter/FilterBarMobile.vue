@@ -3,9 +3,14 @@
 
 		<v-toolbar border>
 
-			<v-spacer></v-spacer>
-
 			<SearchMenu v-model="searchMenu" />
+
+			<FindMenu v-model="findMenu" />
+
+			<!-- TODO: add surprise -->
+			<v-icon>mdi-dice-5</v-icon>
+
+			<v-spacer></v-spacer>
 
 			<Sort v-model="sortMenu" />
 
@@ -29,8 +34,6 @@
 					<PersonalFilterMenu v-model="subMenuPersonal" />
 					<MediaFilterMenu v-model="subMenuMedia" />
 
-					<!-- TODO: add search in collection -->
-
 					<v-card-actions>
 						<v-row>
 							<v-col cols="12">
@@ -53,6 +56,7 @@
 import { computed, ref } from 'vue'
 import { useFilterStore } from '@/store/filter'
 import SearchMenu from '@/components/filter/SearchMenu.vue'
+import FindMenu from '@/components/filter/FindMenu.vue'
 import Sort from '@/components/filter/Sort.vue'
 import PersonalFilterMenu from '@/components/filter/PersonalFilterMenu.vue'
 import MediaFilterMenu from '@/components/filter/MediaFilterMenu.vue'
@@ -60,6 +64,7 @@ import MediaFilterMenu from '@/components/filter/MediaFilterMenu.vue'
 const filter = useFilterStore()
 
 const searchMenu = ref(false)
+const findMenu = ref(false)
 const sortMenu = ref(false)
 const filterMenu = ref(false)
 const subMenuPersonal = ref(false)
