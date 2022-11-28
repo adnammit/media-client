@@ -7,12 +7,22 @@
 		</template>
 		<v-card min-width="300" class="pa-4">
 
+			<v-row class="mx-4">
+				<v-col cols="12">
+					<div class="text-button">
+						Sort by:
+					</div>
+				</v-col>
+			</v-row>
+
+			<v-divider class="my-2"></v-divider>
+
 			<template v-for="item in items">
 				<v-row class="mx-4">
 					<v-col cols="12">
 						<v-btn :active="isSortedBy(item.criteria)" @click="setSort(item.criteria)" rounded
-							:text="!isSortedBy(item.criteria)" variant="text">
-							{{ getText(item) }}
+							:text="!isSortedBy(item.criteria)" variant="text" :prepend-icon="getIcon(item)">
+							{{ item.description }}
 						</v-btn>
 					</v-col>
 				</v-row>
@@ -25,7 +35,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useFilterStore } from '@/store/filter'
-import { SortCriteria } from '@/models/enum'
+import { SortCriteria, SortDirection } from '@/models/enum'
 
 const props = defineProps({
 	modelValue: {
@@ -70,8 +80,11 @@ const isSortedBy = (criteria: SortCriteria) => {
 	return filter.criteria.criteria == criteria
 }
 
-const getText = (item: any) => {
-	return `${isSortedBy(item.criteria) ? 'Sorted' : 'Sort'} by ${item.description}`
+const getIcon = (item: any) => {
+	if (isSortedBy(item.criteria)) {
+		return filter.criteria.direction == SortDirection.Ascending ? 'mdi-arrow-up' : 'mdi-arrow-down'
+	}
+	else { return ''}
 }
 
 const setSort = (criteria: SortCriteria) => {
