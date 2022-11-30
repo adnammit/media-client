@@ -1,7 +1,7 @@
 <template>
 	<v-btn icon @click="surprise" :disabled="disabled">
 		<v-icon>mdi-dice-5</v-icon>
-		<v-tooltip activator="parent" location="top">Select a random item from your collection</v-tooltip>
+		<v-tooltip activator="parent" location="top">Can't decide what to watch? Let us pick</v-tooltip>
 	</v-btn>
 
 	<v-overlay :model-value="showCountdown" scrim="#666" class="align-center justify-center">

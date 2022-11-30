@@ -26,7 +26,12 @@
 
 			<v-card-actions>
 				<v-row>
-					<v-col cols="6">
+					<v-col cols="12">
+						<v-btn rounded variant="outlined" class="px-4" :disabled="isUnfiltered" @click="resetFilter()"
+							:text="!isUnfiltered" width="100%">
+							{{ `${isUnfiltered ? 'Showing All' : 'Show All'}` }}</v-btn>
+					</v-col>
+					<!-- <v-col cols="6">
 						<v-btn rounded variant="outlined" class="px-4" @click="$emit('update:modelValue', false)">
 							Close Filter
 						</v-btn>
@@ -35,7 +40,7 @@
 						<v-btn rounded variant="outlined" class="px-4" :disabled="isUnfiltered" @click="resetFilter()"
 							:text="!isUnfiltered">
 							{{ `${isUnfiltered ? 'Showing All' : 'Show All'}` }}</v-btn>
-					</v-col>
+					</v-col> -->
 				</v-row>
 			</v-card-actions>
 		</v-card>
