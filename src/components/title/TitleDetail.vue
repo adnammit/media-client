@@ -31,6 +31,7 @@
 							</v-col>
 
 							<v-col cols="12" sm="6" class="align-self-center pa-3">
+
 								<v-row>
 									<v-col align-self="center"> {{ releaseYear }} • {{ popularRating }} </v-col>
 								</v-row>
@@ -95,10 +96,20 @@
 					</v-container>
 				</v-card-text>
 				<v-card-actions :class="dialogActionClasses">
+					<v-container class="d-block">
+
+						<v-row v-if="hasStreamingInfo">
+							<v-col align-self="center" cols="12">
+								<Streaming :infos="streamingInfo" />
+							</v-col>
+						</v-row>
+
+					</v-container>
 
 					<v-spacer v-if="!isVerySmallScreen"></v-spacer>
 
-					<v-btn v-if="isDeleteEnabled" @click="confirmDelete" :size="buttonSize" color="error" variant="flat" :disabled="isLoading">
+					<v-btn v-if="isDeleteEnabled" @click="confirmDelete" :size="buttonSize" color="error" variant="flat"
+						:disabled="isLoading">
 						Delete
 					</v-btn>
 
@@ -111,6 +122,8 @@
 					<v-btn @click.prevent="save()" :size="buttonSize" color="secondary" type="submit" variant="flat"
 						:disabled="isLoading" :loading="isLoading">Save</v-btn>
 
+
+
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -122,16 +135,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, type Ref } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store/'
 import TitleBase from '@/models/titleBase'
 import type UserTitleData from '@/dto/userTitleData'
+import type StreamingInfo from '@/models/streamingInfo'
 import { MediaType } from '@/models/enum'
 import { formatYear } from '@/helpers/format'
+import Streaming from '@/components/title/Streaming.vue'
 import GenreSet from '@/components/title/GenreSet.vue'
 import SimpleAlert from '@/components/SimpleAlert.vue'
 import Poster from '@/components/title/Poster.vue'
+import StreamingAvailabilityApi from '@/services/StreamingAvailabilityApi'
 
 const props = defineProps({
 	modelValue: {
@@ -148,7 +164,7 @@ const props = defineProps({
 	}
 })
 
-const emit = defineEmits(['update:modelValue', 'saveTitleData', 'deleteTitle','clearSelectionData'])
+const emit = defineEmits(['update:modelValue', 'saveTitleData', 'deleteTitle', 'clearSelectionData'])
 
 const value = computed({
 	get() {
@@ -167,6 +183,13 @@ const queued = ref(false)
 const favorite = ref(false)
 const watched = ref(false)
 const rating = ref(0)
+
+// STREAMING INFO
+const streamingInfo: Ref<StreamingInfo[]> = ref([])
+
+const hasStreamingInfo = computed(() => {
+	return streamingInfo.value.length > 0
+})
 
 const isLoading = computed(() => {
 	return store.isLoading
@@ -298,6 +321,20 @@ const reset = () => {
 	watched.value = props.title.watched
 	rating.value = props.title.rating
 }
+
+watch(() => props.title, (newValue) => {
+	if (!!newValue?.title) {
+		StreamingAvailabilityApi.getStreamingInfo(newValue.movieDbId, newValue.mediaType)
+			.then(res => {
+				streamingInfo.value = res
+			})
+			.catch(error => {
+				console.error(error?.message ?? `encountered unexpected error fetching streaming info`)
+			})
+	} else {
+		streamingInfo.value = []
+	}
+})
 
 watch(() => props.modelValue, (newValue) => {
 	if (newValue) {

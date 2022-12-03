@@ -2,8 +2,7 @@ import axios from 'axios'
 import ApiBase from '@/services/ApiBase'
 import { MediaType } from '@/models/enum'
 import { streamingProviders } from '@/helpers/streamers'
-import type StreamingProvider from '@/models/streamingProvider'
-import type StreamingInfo from '@/models/streamingProvider'
+import type StreamingInfo from '@/models/streamingInfo'
 
 const url = `${import.meta.env.VITE_STREAMING_AVAILABILITY_URL}`
 const key: string = import.meta.env.VITE_STREAMING_AVAILABILITY_KEY
@@ -22,7 +21,7 @@ class StreamingAvailabilityApi extends ApiBase {
 		super()
 	}
 
-	public async getStreamingInfo(id: number, mediaType: MediaType): Promise<StreamingProvider[]> {
+	public async getStreamingInfo(id: number, mediaType: MediaType): Promise<StreamingInfo[]> {
 
 		if (mediaType == MediaType.Unknown) {
 			throw new Error(`Title id ${id} has unknown media type`)
@@ -33,8 +32,7 @@ class StreamingAvailabilityApi extends ApiBase {
 		// TODO: expand to other countries/languages
 		return requestMgr.get('get/basic', { params: { tmdb_id: parsedId, country: 'us', output_language: 'en' } })
 			.then(res => {
-				const data = this.parseStreamingInfo(res.data?.streamingInfo)
-				return data
+				return this.parseStreamingInfo(res.data?.streamingInfo)
 			})
 			.catch(error => {
 				this.logError(error)
@@ -53,11 +51,12 @@ class StreamingAvailabilityApi extends ApiBase {
 				const streamer = streamingProviders.find(s => key == s.provider.toString())
 				if (!!streamer) {
 
+					const localeData = value['us']
 					const info = {
 						provider: streamer,
-						link: value.link,
-						added: value.added, // TODO: this is an int -- how to parse this?
-						leaving: value.leaving // TODO: this is an int -- how to parse this?
+						link: localeData.link,
+						added: localeData.added, // TODO: this is an int -- how to parse this?
+						leaving: localeData.leaving // TODO: this is an int -- how to parse this?
 					} as StreamingInfo
 
 					infos.push(info)
