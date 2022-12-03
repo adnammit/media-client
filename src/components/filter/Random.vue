@@ -10,8 +10,6 @@
 				<span class="spinner">
 					<v-icon>{{ icon }}</v-icon>
 				</span>
-
-				<span class="loader"></span>
 			</template>
 			Cooking up your random selection...
 		</v-btn>

@@ -3,7 +3,13 @@
 		<v-dialog v-model="value" scrollable class="modal-contents" :class="dialogClasses" :width="width"
 			:height="height">
 			<v-card class="item-details">
-				<v-card-title class="text-h4 mt-7 mx-6">{{ title }}</v-card-title>
+
+				<v-tooltip :text="`titleId ${title.id}`" location="top" open-delay="500">
+					<template v-slot:activator="{ props }">
+						<v-card-title v-bind="props" class="text-h4 mt-7 mx-6">{{ title.title }}</v-card-title>
+					</template>
+				</v-tooltip>
+
 				<v-card-text>
 					<v-container>
 						<v-row class="details--body">
@@ -90,9 +96,17 @@
 				</v-card-text>
 				<v-card-actions :class="dialogActionClasses">
 
-					<v-spacer></v-spacer>
+					<v-spacer v-if="!isVerySmallScreen"></v-spacer>
+
+					<v-btn v-if="isDeleteEnabled" @click="confirmDelete" :size="buttonSize" color="error" variant="flat" :disabled="isLoading">
+						Delete
+					</v-btn>
+
+					<v-spacer v-if="isVerySmallScreen"></v-spacer>
 
 					<v-btn @click="closeDialog" :size="buttonSize" :disabled="isLoading">Cancel</v-btn>
+
+					<v-spacer v-if="isVerySmallScreen"></v-spacer>
 
 					<v-btn @click.prevent="save()" :size="buttonSize" color="secondary" type="submit" variant="flat"
 						:disabled="isLoading" :loading="isLoading">Save</v-btn>
@@ -101,8 +115,8 @@
 			</v-card>
 		</v-dialog>
 
-		<!-- <SimpleAlert v-model="alert" :titleText="alertTitle" :messageText="alertMessage"
-			@confirm-alert="closeAlertWithConfirm()" @cancel-alert="closeAlert()" /> -->
+		<SimpleAlert v-model="alert" :titleText="alertTitle" :messageText="alertMessage" :cancelText="cancelText"
+			@confirm-alert="closeAlertWithConfirm()" @cancel-alert="closeAlert()" />
 		<!-- <Poster v-model="poster" :path="posterPath" /> -->
 	</v-row>
 </template>
@@ -111,7 +125,7 @@
 import { ref, computed, watch } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store/'
-import { useCollectionStore } from '@/store/collection'
+import TitleBase from '@/models/titleBase'
 import type UserTitleData from '@/dto/userTitleData'
 import { MediaType } from '@/models/enum'
 import { formatYear } from '@/helpers/format'
@@ -124,9 +138,17 @@ const props = defineProps({
 		type: Boolean,
 		required: true
 	},
+	title: {
+		type: TitleBase,
+		required: true
+	},
+	isDeleteEnabled: {
+		type: Boolean,
+		default: false
+	}
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'saveTitleData', 'deleteTitle','clearSelectionData'])
 
 const value = computed({
 	get() {
@@ -138,7 +160,6 @@ const value = computed({
 })
 
 const store = useMainStore()
-const collection = useCollectionStore()
 const { name } = useDisplay()
 
 // USER INPUT - TODO combine as reactive obj if they're not treated separately
@@ -163,48 +184,44 @@ const toggleWatched = () => {
 	watched.value = !watched.value
 }
 
-const selectedSearch = computed(() => {
-	return collection.selectedSearch
-})
-
-const title = computed(() => {
-	return selectedSearch.value.title
-})
-
 const mediaType = computed(() => {
-	return selectedSearch.value.mediaType == MediaType.Movie ? 'Movie' : selectedSearch.value.mediaType == MediaType.TV ? 'Television Show' : ''
+	return props.title.mediaType == MediaType.Movie ? 'Movie' : props.title.mediaType == MediaType.TV ? 'Television Show' : ''
 })
 
 const genres = computed(() => {
-	return selectedSearch.value.genres
+	return props.title.genres
 })
 
 const summary = computed(() => {
-	return selectedSearch.value.summary
+	return props.title.summary
 })
 
 const releaseYear = computed(() => {
-	return formatYear(selectedSearch.value.releaseDate)
+	return formatYear(props.title.releaseDate)
 })
 
 const popularRating = computed(() => {
-	return 'IMDB Rating ' + String(selectedSearch.value.popularRating?.toFixed(2))
+	return 'IMDB Rating ' + String(props.title.popularRating?.toFixed(2))
 })
 
-// // ALERT MODAL
-// const alert = ref(false)
-// const alertTitle = `Confirm Cancel`
-// const alertMessage = `Are you sure you want to discard your changes?`
+// ALERT MODAL
+const alert = ref(false)
+const alertTitle = `Confirm`
+const cancelText = `Nevermind`
+
+const alertMessage = computed(() => {
+	return `Are you sure you want to delete ${props.title.title}?`
+})
 
 // POSTER MODAL
 const poster = ref(false)
 
 const showPoster = computed(() => {
-	return selectedSearch.value.poster != null && selectedSearch.value.poster != ''
+	return props.title.poster != null && props.title.poster != ''
 })
 
 const posterPath = computed(() => {
-	return `${import.meta.env.VITE_POSTER_BASE_PATH}${selectedSearch.value.poster}`
+	return `${import.meta.env.VITE_POSTER_BASE_PATH}${props.title.poster}`
 })
 
 const showPosterDetail = (): void => {
@@ -248,6 +265,20 @@ const closeDialog = () => {
 	emit('update:modelValue', false)
 }
 
+const confirmDelete = () => {
+	alert.value = true
+}
+
+const closeAlert = () => {
+	alert.value = false
+}
+
+const closeAlertWithConfirm = async () => {
+	alert.value = false
+	emit('deleteTitle', props.title.id)
+	closeDialog()
+}
+
 const save = async () => {
 
 	const userData = {
@@ -257,22 +288,22 @@ const save = async () => {
 		rating: rating.value,
 	} as UserTitleData
 
-	await collection.addUserItem(userData)
+	emit('saveTitleData', userData, props.title.id)
 	closeDialog()
 }
 
 const reset = () => {
-	queued.value = false
-	favorite.value = false
-	watched.value = false
-	rating.value = 0
+	queued.value = props.title.queued
+	favorite.value = props.title.favorite
+	watched.value = props.title.watched
+	rating.value = props.title.rating
 }
 
 watch(() => props.modelValue, (newValue) => {
 	if (newValue) {
 		reset()
 	} else {
-		collection.clearSearchData()
+		emit('clearSelectionData')
 	}
 })
 

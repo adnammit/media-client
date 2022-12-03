@@ -66,7 +66,6 @@ npm run lint
 ## Dev To-do
 * get cast/writer/director data and make it searchable and sortable
 * go through genre filter and make sure you got'em all in your default seed list
-* use the same component for SearchDetail and MediaDetail if possible
 * add special random function to home page maybe
 * replace UpNext with user-defined lists
 * add ability to make notes on your titles
@@ -80,7 +79,6 @@ npm run lint
 		* rating is out of 100 maybe, not out of 10, and is slightly different...?
 		* tv has way more props in movieDb response
 * option to set your streaming services and highlight titles that are on them
-* error display
 * look for cool stuff to do with [this](https://next.vuetifyjs.com/en/components/overlays/#advanced)
 * maybe look into [this](https://www.flaticon.com/animated-icons-most-downloaded) to spice things up
 * all kinds of crazy animations [here](https://blog.logrocket.com/how-to-animate-svg-css-tutorial-examples/)
@@ -121,6 +119,8 @@ npm run lint
 * finish writing out genre types
 * add genre filter
 * limit random to filteredCollection
+* use the same component for SearchDetail and MediaDetail if possible
+* error display
 
 
 ## Type Support for `.vue` Imports in TS

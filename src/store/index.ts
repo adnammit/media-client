@@ -54,6 +54,8 @@ export const useMainStore = defineStore('main', {
 		fullName: (state: RootState): string => `${state.user?.firstName} ${state.user?.lastName}` ?? '',
 		email: (state: RootState): string => state.user?.email ?? '',
 		isAuthenticated: (state: RootState): boolean => (!!state.user?.username),
+		isErrored: (state: RootState): boolean => (state.error?.isError),
+		errorMessage: (state: RootState): string => (state.error?.message ?? ''),
 	}
 })
 

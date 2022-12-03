@@ -3,27 +3,26 @@ import type MovieDto from '@/dto/movieDbMovieDto'
 import type TvDto from '@/dto/movieDbTvDto'
 import { MediaType } from '@/models/enum'
 import type Genre from '@/models/genre'
-import type StreamingProvider from '@/models/streamingProvider'
+import type TitleBase from '@/models/titleBase'
 
-export default class Title {
+export default class Title implements TitleBase {
 	public title = ''
 	public id = 0 // Title pk in our db
 	public movieDbId = 0 // id from movieDbApi
 	public imdbId = '' // imdb_id from movieDbApi
 	public mediaType = MediaType.Unknown
 	public genres: Genre[] = []
+	public releaseDate = new Date()
 	public popularRating?: number
 	public poster = ''
+	public summary = ''
 	public homepage = ''
 	public tagline = ''
-	public summary = ''
 	public originalLanguage = ''
 	public rating = 0
 	public watched = false
 	public favorite = false
 	public queued = false
-	public releaseDate = new Date()
-	public streamers: StreamingProvider[] = []
 
 	constructor() { }
 
@@ -47,11 +46,6 @@ export default class Title {
 
 		this.title = this.instanceOfMovie(titleDto) ? titleDto.title : titleDto.name
 		this.releaseDate = this.instanceOfMovie(titleDto) ? new Date(titleDto.release_date) : new Date(titleDto.first_air_date)
-	}
-
-	AddStreamers(streamers: StreamingProvider[])
-	{
-		this.streamers = streamers
 	}
 
 	// // actually this doesn't work, not enough properties overlap, we have to fetch a movie/tvDto anyway
