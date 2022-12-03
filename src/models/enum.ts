@@ -4,6 +4,21 @@ export enum MediaType {
 	TV = 'tv'
 }
 
+// ["all4", "apple", "britbox", "crave", "curiosity", "disney", "hbo", "hotstar", "hulu", "iplayer", "mubi", "netflix", "now", "paramount", "peacock", "prime", "showtime", "stan", "starz", "zee5"]
+export enum StreamingProviderType {
+	Unknown = 'unknown',
+	AppleTv = 'apple',
+	AmazonPrime = 'prime',
+	Disney = 'disney',
+	HBO = 'hbo',
+	Hulu = 'hulu',
+	Netflix = 'netflix',
+	Paramount = 'paramount',
+	Peacock = 'peacock',
+	Showtime = 'showtime',
+	Starz = 'starz',
+}
+
 export enum SortCriteria {
 	None = 'None',
 	Title = 'Title',

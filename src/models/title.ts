@@ -1,10 +1,9 @@
 import type UserTitleDto from '@/dto/userTitleDto'
 import type MovieDto from '@/dto/movieDbMovieDto'
 import type TvDto from '@/dto/movieDbTvDto'
-import type SearchDto from '@/dto/searchDto'
 import { MediaType } from '@/models/enum'
 import type Genre from '@/models/genre'
-import type SearchResult from './searchResult'
+import type StreamingProvider from '@/models/streamingProvider'
 
 export default class Title {
 	public title = ''
@@ -24,6 +23,7 @@ export default class Title {
 	public favorite = false
 	public queued = false
 	public releaseDate = new Date()
+	public streamers: StreamingProvider[] = []
 
 	constructor() { }
 
@@ -47,6 +47,11 @@ export default class Title {
 
 		this.title = this.instanceOfMovie(titleDto) ? titleDto.title : titleDto.name
 		this.releaseDate = this.instanceOfMovie(titleDto) ? new Date(titleDto.release_date) : new Date(titleDto.first_air_date)
+	}
+
+	AddStreamers(streamers: StreamingProvider[])
+	{
+		this.streamers = streamers
 	}
 
 	// // actually this doesn't work, not enough properties overlap, we have to fetch a movie/tvDto anyway

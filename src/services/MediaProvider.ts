@@ -5,11 +5,11 @@ import type { MediaType } from '@/models/enum'
 import type UserTitleDto from '@/dto/userTitleDto'
 import type AddUserTitleRequest from '@/models/dto/addUserTitleRequest'
 import Title from '@/models/title'
+import type UserTitleData from '@/models/dto/userTitleData'
 import type IMediaService from '@/services/IMediaService'
 import MediaService from '@/services/MediaService'
 import MockMediaService from '@/services/MockMediaService'
 import MovieDbApi from '@/services/MovieDbApi'
-import type UserTitleData from '@/models/dto/userTitleData'
 
 class MediaProvider {
 	private service: IMediaService
@@ -37,7 +37,7 @@ class MediaProvider {
 	private async populateTitleData(userData: UserTitleDto[]): Promise<Title[]> {
 		let titles: Title[] = []
 
-		var promises = userData.map((userItem) => {
+		const promises = userData.map((userItem) => {
 			const id = +userItem.moviedbid
 			return MovieDbApi.getTitle(id, userItem.mediatype as MediaType)
 				.then((res) => {
