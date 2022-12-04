@@ -12,6 +12,7 @@
 	letter-spacing: 1px;
 }
 
+// TEXT STYLES
 a {
 	@include hypertext()
 }
@@ -20,11 +21,14 @@ a {
 	letter-spacing: 0.1em !important;
 }
 
-.subtitle-emphasis {
-	letter-spacing: 0.2em;
-	font-weight: 600;
+.text-overline-lg {
+	font-size: 1rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-weight: 500;
 }
 
+// COMPONENT STYLES
 .loader {
 	height: 80vh;
 	margin: 0;
@@ -32,6 +36,7 @@ a {
 	top: 40%;
 }
 
+// ANIMATIONS
 // loader ideas from https://cssloaders.github.io/
 .spinner {
 	display: inline-block;
@@ -66,15 +71,6 @@ a {
 	color: $jaffa;
 }
 
-// // global button colors
-// .save {
-// 	color: $curious-blue;
-// }
-
-// .remove {
-// 	color: $cinnabar;
-// }
-
 // global btn styles
 .v-card__actions .v-btn {
 	margin: auto 5px;
@@ -95,7 +91,6 @@ div.text-color--contrast {
 // change other colors depending on light/dark theme
 .v-theme--light {
 
-	span:not(.v-alert__underlay),
 	div:not(.v-alert__content):not(.v-alert__prepend):not(.v-overlay__content),
 	a .v-icon,
 	strong {
@@ -109,8 +104,7 @@ div.text-color--contrast {
 		&.bg-primary,
 		&.bg-secondary,
 		&.bg-info,
-		&.bg-warning,
-		&.bg-error {
+		&.bg-warning {
 
 			.v-btn__content,
 			i.v-icon.v-icon {
@@ -140,8 +134,7 @@ div.text-color--contrast {
 		&.bg-primary,
 		&.bg-secondary,
 		&.bg-info,
-		&.bg-warning,
-		&.bg-error {
+		&.bg-warning {
 
 			.v-btn__content,
 			i.v-icon.v-icon {

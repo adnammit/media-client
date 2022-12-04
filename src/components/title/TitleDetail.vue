@@ -1,12 +1,14 @@
 <template>
 	<v-row justify="center">
 		<v-dialog v-model="value" scrollable class="modal-contents" :class="dialogClasses" :width="width"
-			:height="height">
+			:height="height" :fullscreen="isVerySmallScreen">
 			<v-card class="item-details">
+
+
 
 				<v-tooltip :text="`titleId ${title.id}`" location="top" open-delay="500">
 					<template v-slot:activator="{ props }">
-						<v-card-title v-bind="props" class="text-h4 mt-7 mx-6">{{ title.title }}</v-card-title>
+						<v-card-title v-bind="props" :class="titleClasses">{{ title.title }}</v-card-title>
 					</template>
 				</v-tooltip>
 
@@ -14,10 +16,6 @@
 					<v-container>
 						<v-row class="details--body">
 							<v-col cols="12" sm="6" v-if="showPoster" class="pa-3">
-
-								<!-- <div class="poster rounded" @click="showPosterDetail">
-									<img :src="posterPath" />
-								</div> -->
 
 								<v-img :src="posterPath" class="d-flex rounded-lg" contain @click="showPosterDetail"
 									:max-height="posterHeight">
@@ -81,8 +79,8 @@
 
 								<v-row>
 									<v-col align-self="center">
-										<!-- TODO yellow stars -->
-										<v-rating v-model="rating" hover clearable density="comfortable"></v-rating>
+										<v-rating v-model="rating" hover clearable density="comfortable"
+											active-color="yellow-accent-4"></v-rating>
 									</v-col>
 								</v-row>
 
@@ -95,8 +93,10 @@
 						</v-row>
 					</v-container>
 				</v-card-text>
+
+
 				<v-card-actions :class="dialogActionClasses">
-					<v-container class="d-block">
+					<v-container>
 
 						<v-row v-if="hasStreamingInfo">
 							<v-col align-self="center" cols="12">
@@ -122,8 +122,6 @@
 					<v-btn @click.prevent="save()" :size="buttonSize" color="secondary" type="submit" variant="flat"
 						:disabled="isLoading" :loading="isLoading">Save</v-btn>
 
-
-
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -135,10 +133,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, type Ref } from 'vue'
+import { ref, computed, watch, type Ref, type PropType } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store/'
-import TitleBase from '@/models/titleBase'
+import type TitleBase from '@/models/titleBase'
 import type UserTitleData from '@/dto/userTitleData'
 import type StreamingInfo from '@/models/streamingInfo'
 import { MediaType } from '@/models/enum'
@@ -155,7 +153,7 @@ const props = defineProps({
 		required: true
 	},
 	title: {
-		type: TitleBase,
+		type: Object as PropType<TitleBase>,
 		required: true
 	},
 	isDeleteEnabled: {
@@ -265,11 +263,11 @@ const isVerySmallScreen = computed(() => {
 })
 
 const width = computed(() => {
-	return isSmallScreen.value ? '98%' : '60vw'
+	return isSmallScreen.value ? '' : '60vw'
 })
 
 const height = computed(() => {
-	return isSmallScreen.value ? '95vh' : '70vh'
+	return isSmallScreen.value ? '' : '70vh'
 })
 
 const dialogClasses = computed(() => {
@@ -278,6 +276,10 @@ const dialogClasses = computed(() => {
 
 const dialogActionClasses = computed(() => {
 	return isVerySmallScreen.value ? 'px-2 py-5' : 'pa-5'
+})
+
+const titleClasses = computed(() => {
+	return isVerySmallScreen.value ? 'text-overline-lg mt-2 mx-4' : 'text-h5 mt-7 mx-6'
 })
 
 const buttonSize = computed(() => {

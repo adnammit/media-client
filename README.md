@@ -64,6 +64,9 @@ npm run lint
 
 
 ## Dev To-do
+* show rating/favorite/watched icons on collection cards
+* improve streaming info display -- make it mobile friendly
+* we currently load/show streaming data only when an item is selected -- there's a limit of 10 requests per second so if we wanted to show this info at the collection level, we'd need to do some ghetto async loading in the background
 * get cast/writer/director data and make it searchable and sortable
 * go through genre filter and make sure you got'em all in your default seed list
 * add special random function to home page maybe
@@ -73,11 +76,10 @@ npm run lint
 * implement or remove poster preview
 * do real authentication
 * import/export option
-* check out [this api](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability) to supply streaming availability
-	- this uses MovieDB under the hood and exposes many of the same props so we could potentially use this instead. some missing/differences:
-		* fewer genres
-		* rating is out of 100 maybe, not out of 10, and is slightly different...?
-		* tv has way more props in movieDb response
+* StreamingAvailabilityApi uses MovieDB under the hood and exposes many of the same props so we could potentially use this instead. some missing/differences:
+	* fewer genres
+	* rating is out of 100 maybe, not out of 10, and is slightly different...?
+	* tv has way more props in movieDb response
 * option to set your streaming services and highlight titles that are on them
 * look for cool stuff to do with [this](https://next.vuetifyjs.com/en/components/overlays/#advanced)
 * maybe look into [this](https://www.flaticon.com/animated-icons-most-downloaded) to spice things up
@@ -121,6 +123,7 @@ npm run lint
 * limit random to filteredCollection
 * use the same component for SearchDetail and MediaDetail if possible
 * error display
+* check out [this api](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability) to supply streaming availability
 
 
 ## Type Support for `.vue` Imports in TS
