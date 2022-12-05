@@ -1,6 +1,6 @@
 <template>
 	<v-autocomplete v-model="searchModel" :items="collection.searchResults" :loading="collection.isSearching"
-		v-model:search="search" clearable hide-details item-title="title" item-value="movieDbId"
+		v-model:search="search" clearable hide-details autofocus item-title="title" item-value="movieDbId"
 		label="Add to your collection..." dense variant="underlined" class="search-bar pr-4">
 		<template v-slot:no-data>
 			<v-list-item>

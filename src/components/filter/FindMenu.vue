@@ -8,7 +8,7 @@
 		<v-card min-width="300" class="pa-4">
 			<v-row>
 				<v-col cols="12">
-					<v-text-field v-model="search" label="Search your collection" variant="outlined"></v-text-field>
+					<v-text-field v-model="search" label="Search your collection" variant="outlined" autofocus></v-text-field>
 				</v-col>
 			</v-row>
 			<v-card-actions>
@@ -63,6 +63,7 @@ const isSearchActive = computed(() => {
 
 const clearSearch = () => {
 	search.value = ''
+	emit('update:modelValue', false)
 }
 
 </script>

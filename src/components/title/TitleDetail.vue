@@ -2,7 +2,7 @@
 	<v-row justify="center">
 		<v-dialog v-model="value" scrollable class="modal-contents" :class="dialogClasses" :width="width"
 			:height="height" :fullscreen="isSmallScreen">
-			<v-card class="item-details">
+			<v-card>
 
 				<!-- <v-tooltip :text="`titleId ${title.id}`" location="top" open-delay="500">
 					<template v-slot:activator="{ props }">

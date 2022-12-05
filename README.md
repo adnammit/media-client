@@ -54,18 +54,18 @@ npm run lint
 * rate your items, mark them as watched, favorite, or queue them to watch next
 * sort, filter and search within your collection
 * pick a random item from your collection (or filtered collection)
+* display info about which platforms a given title is available on
 
 ### Future Features
 * custom user-defined lists
 * notes field
-* display info about which platforms a given title is available on
 * export data to csv/json -- you always own your data even if you hate UpNext and quit using it
 * mass select/delete
+* filter collection by streaming availability
 
 
 ## Dev To-do
 * show rating/favorite/watched icons on collection cards
-* improve streaming info display -- make it mobile friendly
 * we currently load/show streaming data only when an item is selected -- there's a limit of 10 requests per second so if we wanted to show this info at the collection level, we'd need to do some ghetto async loading in the background
 * get cast/writer/director data and make it searchable and sortable
 * go through genre filter and make sure you got'em all in your default seed list
@@ -73,7 +73,6 @@ npm run lint
 * replace UpNext with user-defined lists
 * add ability to make notes on your titles
 * look for `TODO` in comments
-* implement or remove poster preview
 * do real authentication
 * import/export option
 * StreamingAvailabilityApi uses MovieDB under the hood and exposes many of the same props so we could potentially use this instead. some missing/differences:
@@ -124,6 +123,8 @@ npm run lint
 * use the same component for SearchDetail and MediaDetail if possible
 * error display
 * check out [this api](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability) to supply streaming availability
+* improve streaming info display -- make it mobile friendly
+* implement or remove poster preview
 
 
 ## Type Support for `.vue` Imports in TS
