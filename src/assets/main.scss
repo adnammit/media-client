@@ -120,7 +120,7 @@ div.text-color--contrast {
 
 .v-theme--dark {
 
-	div:not(.v-alert__content):not(.v-alert__prepend),
+	div:not(.v-alert__content):not(.v-alert__prepend):not(.v-overlay__content),
 	a .v-icon,
 	strong {
 		color: $silver

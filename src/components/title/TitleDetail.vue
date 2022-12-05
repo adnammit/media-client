@@ -1,20 +1,12 @@
 <template>
 	<v-row justify="center">
-		<v-dialog v-model="value" scrollable class="modal-contents" :class="dialogClasses" :width="width"
-			:height="height" :fullscreen="isSmallScreen">
+		<v-dialog v-model="value" scrollable class="modal-contents" :class="dialogClasses" :fullscreen="isVerySmallScreen" :max-width="maxWidth">
 			<v-card>
-
-				<!-- <v-tooltip :text="`titleId ${title.id}`" location="top" open-delay="500">
-					<template v-slot:activator="{ props }">
-						<v-card-title v-bind="props" :class="titleClasses">{{ title.title }}</v-card-title>
-					</template>
-				</v-tooltip> -->
-
 				<v-card-text class="pa-0">
 					<v-container class="pa-3">
-						<v-row>
 
-							<v-img :src="posterPath" class="text-white" cover @click="showPosterDetail">
+						<v-row>
+							<v-img :src="posterPath" class="text-white" :cover="posterCover" :height="posterHeight">
 								<template v-slot:placeholder>
 									<!-- TODO default image for titles with no poster/put in collection view too -->
 									<!-- <v-row class="fill-height ma-0" align="center" justify="center">
@@ -23,9 +15,9 @@
 										</v-row> -->
 								</template>
 
-								<div class="h-100 w-100" :style="`background-color:${overlayColor}`">
-
-									<v-toolbar theme="light" height="80" :color="overlaySubColor">
+								<div class="h-100 w-100" :style="`background-color:${overlayBgColor}`">
+									<!-- top content -->
+									<v-toolbar theme="light" height="80" :color="overlayBgSubColor">
 										<v-toolbar-title :class="titleClasses">
 											{{ title.title }}
 											<v-tooltip activator="parent" :text="`titleId ${title.id}`" location="top"
@@ -35,15 +27,13 @@
 												{{ mediaType }} • {{ releaseYear }} • {{ popularRating }}
 											</div>
 										</v-toolbar-title>
-
-
 										<template v-slot:append>
 											<v-btn icon="mdi-close" @click="(value = false)"></v-btn>
 										</template>
 									</v-toolbar>
 
 									<!-- bottom content -->
-									<div class="poster-overlay__bottom" :style="`background-color:${overlaySubColor}`">
+									<div class="poster-overlay__bottom w-100" :style="`background-color:${overlayBgSubColor}`">
 
 										<div class="d-inline">
 											<v-container>
@@ -83,73 +73,14 @@
 								</div>
 
 							</v-img>
-							<!--
-							<v-col cols="12" sm="6" v-if="showPoster" class="pa-3">
-								<v-img :src="posterPath" class="d-flex rounded-lg" contain @click="showPosterDetail"
-									:max-height="posterHeight">
-									<template v-slot:placeholder>
-										<v-row class="fill-height ma-0" align="center" justify="center">
-											<v-progress-circular indeterminate color="grey lighten-5">
-											</v-progress-circular>
-										</v-row>
-									</template>
-								</v-img>
-							</v-col> -->
 
-							<v-col cols="12" sm="6" class="align-self-center pa-3">
+						</v-row>
+						<v-row>
 
-								<!-- <v-row>
-									<v-col align-self="center" class="text-overline">{{ mediaType }} • {{ releaseYear }}
-										• {{ popularRating }} </v-col>
-								</v-row> -->
-
-								<!-- <v-row>
-									<v-col align-self="center">
-										<GenreSet v-bind:genres="genres" />
-									</v-col>
-								</v-row> -->
-
-								<!-- <v-row justify="space-between">
-									<v-col>
-
-										<v-btn @click="toggleQueued()" rounded="pill" variant="tonal">
-											<template v-slot:default>
-												<v-icon v-if="queued" class="queued">mdi-fire</v-icon>
-												<span v-else>add to UpNext</span>
-											</template>
-										</v-btn>
-
-										<v-spacer></v-spacer>
-
-										<v-btn @click="toggleWatched()" rounded="pill" variant="tonal">
-											<template v-slot:default>
-												<v-icon v-if="watched" class="complete">mdi-check-bold</v-icon>
-												<span v-else>mark watched</span>
-											</template>
-										</v-btn>
-
-										<v-spacer></v-spacer>
-
-										<v-btn @click="toggleFavorite()" rounded="pill" variant="tonal">
-											<template v-slot:default>
-												<v-icon v-if="favorite" class="favorite">mdi-star-circle</v-icon>
-												<span v-else>add favorite</span>
-											</template>
-										</v-btn>
-
-
-									</v-col>
-								</v-row> -->
-
-								<!-- <v-row>
-									<v-col align-self="center">
-										<v-rating v-model="rating" hover clearable density="comfortable"
-											active-color="yellow-accent-4"></v-rating>
-									</v-col>
-								</v-row> -->
+							<v-col cols="12" class="align-self-center pa-3">
 
 								<v-row>
-									<v-col align-self="center" class="text-body-2">
+									<v-col align-self="center" class="text-body-2 pt-8">
 										{{ summary }}
 									</v-col>
 								</v-row>
@@ -165,12 +96,10 @@
 					</v-container>
 				</v-card-text>
 
-
 				<v-card-actions>
 
 					<div class="d-inline-flex flex-wrap w-100">
 
-						<!-- <div class="flex-wrap px-2 py-3 mt-0"> -->
 						<div class="flex-wrap px-2 py-3" :class="actionTopRowClass">
 							<Streaming v-if="hasStreamingInfo" :infos="streamingInfo" :buttonSize="buttonSize" />
 						</div>
@@ -190,54 +119,6 @@
 						</div>
 					</div>
 
-
-					<!--
-					<v-container>
-
-						<v-row v-if="hasStreamingInfo">
-							<v-col align-self="center" cols="12" lg="6">
-								<Streaming :infos="streamingInfo" />
-							</v-col>
-						</v-row>
-
-						<v-row>
-							<v-col cols="12" lg="6">
-								<div style="margin-left: auto; margin-right: 0; display: flex;">
-
-									<v-spacer></v-spacer>
-									<v-btn v-if="isDeleteEnabled" @click="confirmDelete" :size="buttonSize"
-										color="error" variant="flat" :disabled="isLoading">
-										Delete
-									</v-btn>
-
-
-									<v-btn @click="closeDialog" :size="buttonSize" :disabled="isLoading">Cancel</v-btn>
-
-
-									<v-btn @click.prevent="save()" :size="buttonSize" color="secondary" type="submit"
-										variant="flat" :disabled="isLoading" :loading="isLoading">Save</v-btn>
-								</div>
-
-							</v-col>
-						</v-row>
-					</v-container> -->
-
-					<!-- <v-spacer v-if="!isVerySmallScreen"></v-spacer>
-
-					<v-btn v-if="isDeleteEnabled" @click="confirmDelete" :size="buttonSize" color="error" variant="flat"
-						:disabled="isLoading">
-						Delete
-					</v-btn>
-
-					<v-spacer v-if="isVerySmallScreen"></v-spacer>
-
-					<v-btn @click="closeDialog" :size="buttonSize" :disabled="isLoading">Cancel</v-btn>
-
-					<v-spacer v-if="isVerySmallScreen"></v-spacer>
-
-					<v-btn @click.prevent="save()" :size="buttonSize" color="secondary" type="submit" variant="flat"
-						:disabled="isLoading" :loading="isLoading">Save</v-btn> -->
-
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -249,6 +130,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, type Ref, type PropType } from 'vue'
+import { useTheme } from 'vuetify'
 import { useDisplay } from 'vuetify'
 import { useMainStore } from '@/store/'
 import type TitleBase from '@/models/titleBase'
@@ -289,6 +171,11 @@ const value = computed({
 
 const store = useMainStore()
 const { name } = useDisplay()
+const theme = useTheme()
+
+const isThemeDark = computed(() => {
+	return theme.global.current.value.dark
+})
 
 // USER INPUT - TODO combine as reactive obj if they're not treated separately
 const queued = ref(false)
@@ -348,23 +235,17 @@ const alertMessage = computed(() => {
 	return `Are you sure you want to delete ${props.title.title}?`
 })
 
-// POSTER MODAL
-const poster = ref(false)
-
-const showPoster = computed(() => {
-	return props.title.poster != null && props.title.poster != ''
-})
-
+// POSTER
 const posterPath = computed(() => {
 	return `${import.meta.env.VITE_POSTER_BASE_PATH}${props.title.poster}`
 })
 
-const showPosterDetail = (): void => {
-	poster.value = true
-}
+const posterCover = computed(() => {
+	return isSmallScreen.value
+})
 
 const posterHeight = computed(() => {
-	return isVerySmallScreen.value ? '' : '40vh'
+	return isSmallScreen.value ? '' : '900'
 })
 
 // DIALOG MANAGEMENT
@@ -376,8 +257,8 @@ const isVerySmallScreen = computed(() => {
 	return name.value == 'xs'
 })
 
-const width = computed(() => {
-	return isSmallScreen.value ? '' : '60vw'
+const maxWidth = computed(() => {
+	return isSmallScreen.value ? '' : '800'
 })
 
 const height = computed(() => {
@@ -388,16 +269,12 @@ const dialogClasses = computed(() => {
 	return isSmallScreen.value ? 'pa-0 ma-0' : 'pa-10'
 })
 
-// const dialogActionClasses = computed(() => {
-// 	return isVerySmallScreen.value ? 'px-2 py-5' : 'pa-5'
-// })
-
-const overlayColor = computed(() => {
-	return 'rgba(255, 255, 255, 0.2)'
+const overlayBgColor = computed(() => {
+	return isThemeDark.value ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)'
 })
 
-const overlaySubColor = computed(() => {
-	return 'rgba(255, 255, 255, 0.8)'
+const overlayBgSubColor = computed(() => {
+	return isThemeDark.value ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.6)'
 })
 
 const titleClasses = computed(() => {
@@ -419,7 +296,6 @@ const buttonSize = computed(() => {
 const smallButtonSize = computed(() => {
 	return isVerySmallScreen.value ? 'x-small' : 'small'
 })
-
 
 const closeDialog = () => {
 	emit('update:modelValue', false)
@@ -488,18 +364,8 @@ watch(() => props.modelValue, (newValue) => {
 @import '@/assets/main';
 @import '@/assets/modal';
 
-// .poster-overlay {
-// 	background-color: rgba(255, 255, 255, 0.6);
-
-// 	&:hover {
-// 		background-color: rgba(255, 255, 255, 0.8);
-// 	}
-// }
-
 .poster-overlay__bottom {
 	position: absolute;
 	bottom: 0;
-	width: 100%;
-	// background-color: rgba(255, 255, 255, 0.6);
 }
 </style>
