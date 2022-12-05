@@ -2,14 +2,6 @@
 
 // general modals
 .modal-contents .v-card {
-	// padding: 35px 28px;
-	// margin: 35px 28px;
-
-	.scroll-area {
-		height: 600px;
-		overflow-y: auto;
-		overflow-x: hidden;
-	}
 
 	.v-card-actions .v-btn:not(.v-btn--size-small) {
 		width: 100px;
@@ -18,26 +10,5 @@
 
 	.v-card-actions .v-btn.v-btn--size-small {
 		width: 75px;
-	}
-}
-
-// edit title views
-.item-details {
-	.v-card__subtitle {
-		letter-spacing: 1px;
-	}
-
-	.v-card__text {
-		height: 60vh;
-		padding: 10px 30px;
-
-		.row.details--body {
-			padding: 10px 30px;
-		}
-	}
-
-	.poster {
-		max-height: 40vh;
-		display: flex;
 	}
 }

@@ -4,7 +4,7 @@
 	</div>
 	<div class="genre-set align-center d-inline">
 		<template v-for="item in infos">
-			<v-btn @click="click(item.link)" rounded="pill" variant="tonal" class="px-4">
+			<v-btn @click="click(item.link)" rounded="pill" variant="tonal" class="px-4" :size="buttonSize">
 				{{ item.provider.name }}
 			</v-btn>
 		</template>
@@ -19,6 +19,10 @@ const props = defineProps({
 		type: Array<StreamingInfo>,
 		required: true
 	},
+	buttonSize: {
+		type: String,
+		default: 'default'
+	}
 })
 
 const click = (url: string) => {
