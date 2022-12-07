@@ -1,6 +1,8 @@
 import type UserTitleDto from '@/dto/userTitleDto'
 import type UserTitleData from '@/dto/userTitleData'
-import type AddUserTitleRequest from '@/models/dto/addUserTitleRequest'
+import type MediaList from '@/models/mediaList'
+import type AddUserTitleRequest from '@/dto/addUserTitleRequest'
+import type AddUserListRequest from '@/dto/addUserListRequest'
 import type { IUser, IUserInput } from '@/models/user'
 
 export default interface IMediaService {
@@ -10,4 +12,6 @@ export default interface IMediaService {
 	addUserTitle(req: AddUserTitleRequest): Promise<boolean>
 	updateUserTitle(userId: number, titleId: number, req: UserTitleData): Promise<boolean>
 	deleteUserTitle(userId: number, titleId: number): Promise<boolean>
+	getUserLists(userId: number): Promise<MediaList[]>
+	addUserList(req: AddUserListRequest): Promise<boolean>
 }

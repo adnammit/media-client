@@ -1,8 +1,8 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useFilterStore } from '@/store/filter'
 import { useMainStore } from '@/store/index'
-import { MediaType } from '@/models/enum'
 import Title from '@/models/title'
+import MediaList from '@/models/mediaList'
 import SearchResult from '@/models/searchResult'
 import type UserTitleData from '@/dto/userTitleData'
 import type AddUserTitleRequest from '@/dto/addUserTitleRequest'
@@ -12,8 +12,10 @@ import MediaProvider from '@/services/MediaProvider'
 export type CollectionState = {
 	searchResults: SearchResult[],
 	collection: Title[],
+	lists: MediaList[],
 	selectedSearch: SearchResult,
 	selectedUserTitle: Title,
+	selectedList: MediaList,
 	isSearching: boolean
 }
 
@@ -22,9 +24,10 @@ export const useCollectionStore = defineStore('collection', {
 	state: () => ({
 		searchResults: [],
 		collection: [],
+		lists: [],
 		selectedSearch: new SearchResult(),
 		selectedUserTitle: new Title(),
-		selectedItem: new SearchResult(),
+		selectedList: new MediaList(),
 		isSearching: false
 	} as CollectionState),
 
@@ -36,6 +39,10 @@ export const useCollectionStore = defineStore('collection', {
 
 		setSelectedUserTitle(val: Title) {
 			this.selectedUserTitle = val
+		},
+
+		setSelectedList(val: MediaList) {
+			this.selectedList = val
 		},
 
 		setRandomUserTitle() {
@@ -56,6 +63,10 @@ export const useCollectionStore = defineStore('collection', {
 
 		clearUserTitleData() {
 			this.selectedUserTitle = new Title()
+		},
+
+		clearSelectedList() {
+			this.selectedList = new MediaList()
 		},
 
 		async Search(search: string) {
@@ -95,14 +106,29 @@ export const useCollectionStore = defineStore('collection', {
 			// }
 			// await timeout(5000)
 
-			MediaProvider.getUserTitles(userId ?? 0)
-				.then((res: Title[]) => {
-					this.collection = res
-				})
-				.catch((e: any) => {
-					console.error(e)
-					store.setIsErrored(true, 'Error fetching user collection')
-				})
+			const promises = [
+
+				MediaProvider.getUserTitles(userId ?? 0)
+					.then((res: Title[]) => {
+						this.collection = res
+					})
+					.catch((e: any) => {
+						console.error(e)
+						store.setIsErrored(true, 'Error fetching user collection')
+					}),
+
+				MediaProvider.getUserLists(userId ?? 0)
+					.then((res: MediaList[]) => {
+						this.lists = res
+						console.log(res);
+					})
+					.catch((e: any) => {
+						console.error(e)
+						store.setIsErrored(true, 'Error fetching user lists')
+					})
+			]
+
+			await Promise.all(promises)
 				.finally(() => {
 					store.setIsLoading(false)
 				})
@@ -110,6 +136,7 @@ export const useCollectionStore = defineStore('collection', {
 
 		unloadCollection() {
 			this.collection = []
+			this.lists = []
 		},
 
 		async addUserItem(userData: UserTitleData) {

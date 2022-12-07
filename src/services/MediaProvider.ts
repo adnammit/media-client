@@ -4,7 +4,9 @@ import type { IUser, IUserInput } from '@/models/user'
 import type { MediaType } from '@/models/enum'
 import type UserTitleDto from '@/dto/userTitleDto'
 import type AddUserTitleRequest from '@/models/dto/addUserTitleRequest'
+import type AddUserListRequest from '@/dto/addUserListRequest'
 import Title from '@/models/title'
+import type MediaList from '@/models/mediaList'
 import type UserTitleData from '@/models/dto/userTitleData'
 import type IMediaService from '@/services/IMediaService'
 import MediaService from '@/services/MediaService'
@@ -51,7 +53,6 @@ class MediaProvider {
 		return titles
 	}
 
-
 	public async addSearch(request: AddUserTitleRequest): Promise<boolean> {
 		return this.service.addUserTitle(request)
 	}
@@ -62,6 +63,14 @@ class MediaProvider {
 
 	public deleteUserItem(userId: number, titleId: number): Promise<boolean> {
 		return this.service.deleteUserTitle(userId, titleId)
+	}
+
+	public async getUserLists(userId: number): Promise<MediaList[]> {
+		return this.service.getUserLists(userId)
+	}
+
+	public async addUserList(req: AddUserListRequest): Promise<boolean> {
+		return this.service.addUserList(req)
 	}
 }
 

@@ -2,9 +2,11 @@ import axios from 'axios'
 import User, { type IUserInput, type IUser } from '@/models/user'
 import type UserTitleData from '@/dto/userTitleData'
 import type UserTitleDto from '@/dto/userTitleDto'
+import type MediaList from '@/models/mediaList'
 import type IMediaService from '@/services/IMediaService'
 import ApiBase from '@/services/ApiBase'
-import type AddUserTitleRequest from '@/models/dto/addUserTitleRequest'
+import type AddUserTitleRequest from '@/dto/addUserTitleRequest'
+import type AddUserListRequest from '@/dto/addUserListRequest'
 
 const requestMgr = axios.create({
 	baseURL: `${import.meta.env.VITE_API_SERVER_URL}/api/v1/`,
@@ -70,6 +72,7 @@ class MediaService extends ApiBase implements IMediaService {
 			.put('users/' + req.userId + '/titles', req)
 			.then(res => {
 				return res.status === 201
+				// TODO this response is 200 if the title already existed
 			})
 			.catch(error => {
 				this.logError(error)
@@ -95,6 +98,31 @@ class MediaService extends ApiBase implements IMediaService {
 			.delete('users/' + userId + '/titles/' + titleId)
 			.then(res => {
 				return res.status === 200
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
+	}
+
+	public async getUserLists(userId: number): Promise <MediaList[]> {
+
+		return requestMgr.get('users/' + userId + '/lists')
+			.then(res => {
+				return res.data.data as MediaList[]
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
+	}
+
+	public async addUserList(req: AddUserListRequest): Promise<boolean> {
+
+		return requestMgr
+			.put('users/' + req.userId + '/lists', req)
+			.then(res => {
+				return res.status === 201
 			})
 			.catch(error => {
 				this.logError(error)

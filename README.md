@@ -49,7 +49,7 @@ npm run lint
 ## Feature List
 
 ### Implemented Features
-* search movies and television shows available on IMDB
+* search movies and television shows available on IMDB/The Movie DB
 * add searched items to your collection
 * rate your items, mark them as watched, favorite, or queue them to watch next
 * sort, filter and search within your collection
@@ -65,6 +65,8 @@ npm run lint
 
 
 ## Dev To-do
+* sticky filter bar
+* do real authentication
 * show rating/favorite/watched icons on collection cards
 * we currently load/show streaming data only when an item is selected -- there's a limit of 10 requests per second so if we wanted to show this info at the collection level, we'd need to do some ghetto async loading in the background
 * get cast/writer/director data and make it searchable and sortable
@@ -73,13 +75,17 @@ npm run lint
 * replace UpNext with user-defined lists
 * add ability to make notes on your titles
 * look for `TODO` in comments
-* do real authentication
 * import/export option
 * StreamingAvailabilityApi uses MovieDB under the hood and exposes many of the same props so we could potentially use this instead. some missing/differences:
 	* fewer genres
 	* rating is out of 100 maybe, not out of 10, and is slightly different...?
 	* tv has way more props in movieDb response
 * option to set your streaming services and highlight titles that are on them
+* other api integration options:
+	- add [uNoGS](https://rapidapi.com/unogs/api/unogs) to query whether or not a movie is available on netflix
+    - or try [Watch Here](https://rapidapi.com/devroldy/api/watch-here/details) -- get all the streaming things at once! -- would have to pay for this one
+	- add [bechdel test api integration](https://bechdeltest.com/api/v1/doc)
+* wow yr build takes one million years... see if you can delete some unused packages or something
 * look for cool stuff to do with [this](https://next.vuetifyjs.com/en/components/overlays/#advanced)
 * maybe look into [this](https://www.flaticon.com/animated-icons-most-downloaded) to spice things up
 * all kinds of crazy animations [here](https://blog.logrocket.com/how-to-animate-svg-css-tutorial-examples/)
