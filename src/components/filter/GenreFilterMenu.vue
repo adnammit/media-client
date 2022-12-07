@@ -23,17 +23,18 @@
 
 			<v-divider class="my-2"></v-divider>
 
-			<template v-for="item in genres">
-				<v-row class="mx-4">
-					<v-col cols="12">
-						<v-btn :active="isFilteredBy(item)" @click="setGenreFilter(item)" rounded
-							:text="!isFilteredBy(item)" variant="text">
-							{{ item.name }}
-						</v-btn>
-					</v-col>
-				</v-row>
-			</template>
-
+			<div class="menu__scroll">
+				<template v-for="item in genres">
+					<v-row class="mx-4">
+						<v-col cols="12">
+							<v-btn :active="isFilteredBy(item)" @click="setGenreFilter(item)" rounded
+								:text="!isFilteredBy(item)" variant="text">
+								{{ item.name }}
+							</v-btn>
+						</v-col>
+					</v-row>
+				</template>
+			</div>
 		</v-card>
 	</v-menu>
 </template>

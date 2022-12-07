@@ -284,6 +284,9 @@ export const useCollectionStore = defineStore('collection', {
 			state.collection
 			return filter.criteria.SortAndFilterTitles(state.collection)
 		},
+		listItems: (state: CollectionState) => {
+			return !!state.selectedList?.name ? state.collection.filter(c => state.selectedList.titleIds.some(t => t == c.id)) : [] as Title[]
+		},
 	}
 })
 

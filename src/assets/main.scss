@@ -36,6 +36,11 @@ a {
 	top: 40%;
 }
 
+.menu__scroll {
+	overflow-y: scroll;
+	max-height: 300px;
+}
+
 // ANIMATIONS
 // loader ideas from https://cssloaders.github.io/
 .spinner {
@@ -59,6 +64,14 @@ a {
 }
 
 // THE COLORS, DUKE!
+.hidden {
+	opacity: 0;
+}
+
+.shown {
+	opacity: 1 !important;
+}
+
 .favorite {
 	color: $supernova;
 }

@@ -5,7 +5,9 @@
 
 		<Overlay v-model="errorModel" :text="errorMessage" icon="mdi-alert-circle-outline" color="error" />
 
-		<CollectionView />
+		<ListView v-if="showList" />
+
+		<CollectionView v-else/>
 
 		<TitleDetail v-model="updateTitleDialog"
 			:title="collection.selectedUserTitle"
@@ -31,6 +33,7 @@ import PageLayout from '@/components/navigation/PageLayout.vue'
 import FilterBarMobile from '@/components/filter/FilterBarMobile.vue'
 import Overlay from '@/components/Overlay.vue'
 import CollectionView from '@/components/CollectionView.vue'
+import ListView from '@/components/ListView.vue'
 import TitleDetail from '@/components/title/TitleDetail.vue'
 
 const store = useMainStore()
@@ -41,6 +44,10 @@ const updateTitleDialog = ref(false)
 
 const errorMessage = computed(() => {
 	return !!store.errorMessage ? store.errorMessage : `Error`
+})
+
+const showList = computed(() => {
+	return !!collection.selectedList?.name
 })
 
 const errorModel = computed({
