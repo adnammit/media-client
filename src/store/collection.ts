@@ -318,8 +318,6 @@ export const useCollectionStore = defineStore('collection', {
 
 		async updateUserList(data: UserListData, listId: number) {
 
-			console.log('>> saving! ' + JSON.stringify(data));
-
 			const store = useMainStore()
 			const userId = store.userId
 
@@ -340,7 +338,9 @@ export const useCollectionStore = defineStore('collection', {
 				MediaProvider.updateUserList(request)
 					.then((res: boolean) => {
 						if (res) {
-							this.loadCollection()
+							this.loadCollection().then(() => {
+								this.setSelectedList(this.lists.find(l => l.listId == listId) as MediaList)
+							})
 						} else {
 							throw Error('Error updating new list')
 						}
@@ -380,7 +380,7 @@ export const useCollectionStore = defineStore('collection', {
 						store.setIsErrored(true, `Error deleting list`)
 					})
 					.finally(() => {
-						// this.clearSelectedList()
+						this.clearSelectedList()
 						store.setIsLoading(false)
 					})
 			}

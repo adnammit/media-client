@@ -70,8 +70,8 @@ const props = defineProps({
 	}
 })
 
-const emit = defineEmits(['update:modelValue', 'saveData'])
-// const emit = defineEmits(['update:modelValue', 'saveData', 'clearData'])
+const emit = defineEmits(['update:modelValue', 'save', 'delete'])
+// const emit = defineEmits(['update:modelValue', 'save', 'clearData'])
 
 const value = computed({
 	get() {
@@ -136,7 +136,7 @@ const closeAlert = () => {
 
 const closeAlertWithConfirm = async () => {
 	alert.value = false
-	// TODO delete list with props.list.listId
+	emit('delete', props.list.listId)
 	closeDialog()
 }
 
@@ -147,9 +147,7 @@ const save = async () => {
 		description: description.value,
 	} as UserListData
 
-	console.log('>> saving with ' + JSON.stringify(data));
-
-	emit('saveData', data, props.list.listId)
+	emit('save', data, props.list.listId)
 	closeDialog()
 }
 

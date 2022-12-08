@@ -65,14 +65,17 @@ npm run lint
 
 
 ## Dev To-do
+* add user-defined lists:
+	- view lists in side menu? what does mobile look like?
+	- UX for adding to/editing a list
 * sticky filter bar
+* improve TitleDetail view
 * do real authentication
 * show rating/favorite/watched icons on collection cards
 * we currently load/show streaming data only when an item is selected -- there's a limit of 10 requests per second so if we wanted to show this info at the collection level, we'd need to do some ghetto async loading in the background
 * get cast/writer/director data and make it searchable and sortable
 * go through genre filter and make sure you got'em all in your default seed list
 * add special random function to home page maybe
-* replace UpNext with user-defined lists
 * add ability to make notes on your titles
 * look for `TODO` in comments
 * import/export option

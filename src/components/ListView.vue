@@ -38,9 +38,11 @@
 		</v-row>
 	</v-container>
 
-	<ListDetail v-model="listDetailDialog" :list="collection.selectedList" :is-delete-enabled="true"
-		@save-data="(data, id) => collection.updateUserList(data, id)" />
-		<!-- @clear-data="collection.clearSelectedList()" /> -->
+	<ListDetail v-model="listDetailDialog"
+		:list="collection.selectedList"
+		:is-delete-enabled="true"
+		@delete="(id) => collection.deleteUserList(id)"
+		@save="(data, id) => collection.updateUserList(data, id)" />
 
 	<!-- TODO: show remaining collection items so you can add more -->
 
@@ -54,6 +56,7 @@ import type Title from '@/models/title'
 import Loader from '@/components/Loader.vue'
 import CollectionItemDisplay from '@/components/title/CollectionItemDisplay.vue'
 import ListDetail from '@/components/title/ListDetail.vue'
+import type UserListData from '@/models/dto/userListData'
 
 const store = useMainStore()
 const collection = useCollectionStore()
