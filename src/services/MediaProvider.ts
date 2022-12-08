@@ -2,12 +2,13 @@
 // gets our app data from the mediaService depending on whether we're testing/mocking or not
 import type { IUser, IUserInput } from '@/models/user'
 import type { MediaType } from '@/models/enum'
-import type UserTitleDto from '@/dto/userTitleDto'
-import type AddUserTitleRequest from '@/models/dto/addUserTitleRequest'
+import type AddUserTitleRequest from '@/dto/addUserTitleRequest'
 import type AddUserListRequest from '@/dto/addUserListRequest'
+import type UpdateUserListRequest from '@/dto/updateUserListRequest'
 import Title from '@/models/title'
 import type MediaList from '@/models/mediaList'
-import type UserTitleData from '@/models/dto/userTitleData'
+import type UserTitleDto from '@/dto/userTitleDto'
+import type UserTitleData from '@/dto/userTitleData'
 import type IMediaService from '@/services/IMediaService'
 import MediaService from '@/services/MediaService'
 import MockMediaService from '@/services/MockMediaService'
@@ -71,6 +72,22 @@ class MediaProvider {
 
 	public async addUserList(req: AddUserListRequest): Promise<boolean> {
 		return this.service.addUserList(req)
+	}
+
+	public async updateUserList(req: UpdateUserListRequest): Promise<boolean> {
+		return this.service.updateUserList(req)
+	}
+
+	public async deleteUserList(listId: number): Promise<boolean> {
+		return this.service.deleteUserList(listId)
+	}
+
+	public async addUserListItem(listId: number, titleId: number): Promise<boolean> {
+		return this.service.addUserListItem(listId, titleId)
+	}
+
+	public async deleteUserListItem(listId: number, titleId: number): Promise<boolean> {
+		return this.service.deleteUserListItem(listId, titleId)
 	}
 }
 

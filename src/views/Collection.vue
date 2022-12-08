@@ -7,20 +7,22 @@
 
 		<ListView v-if="showList" />
 
-		<CollectionView v-else/>
+		<CollectionView v-else />
 
-		<TitleDetail v-model="updateTitleDialog"
-			:title="collection.selectedUserTitle"
-			:is-delete-enabled="true"
+		<TitleDetail v-model="updateTitleDialog" :title="collection.selectedUserTitle" :is-delete-enabled="true"
 			@save-title-data="(data, id) => collection.updateUserItem(id, data)"
 			@delete-title="(id) => collection.deleteUserItem(id)"
 			@clear-selection-data="collection.clearUserTitleData()" />
 
-		<TitleDetail v-model="addSearchDialog"
-			:title="collection.selectedSearch"
-			:is-delete-enabled="false"
+		<TitleDetail v-model="addSearchDialog" :title="collection.selectedSearch" :is-delete-enabled="false"
 			@save-title-data="(data) => collection.addUserItem(data)"
 			@clear-selection-data="collection.clearSearchData()" />
+
+			<!-- ADD NEW LIST -->
+		<!-- <ListDetail v-model="listDetailDialog" :list="collection.selectedList" :is-delete-enabled="true"
+			@save-title-data="(data, id) => collection.updateUserItem(id, data)"
+			@delete-title="(id) => collection.deleteUserItem(id)"
+			@clear-selection-data="collection.clearUserTitleData()" /> -->
 
 	</PageLayout>
 </template>
@@ -35,12 +37,14 @@ import Overlay from '@/components/Overlay.vue'
 import CollectionView from '@/components/CollectionView.vue'
 import ListView from '@/components/ListView.vue'
 import TitleDetail from '@/components/title/TitleDetail.vue'
+import ListDetail from '@/components/title/ListDetail.vue'
 
 const store = useMainStore()
 const collection = useCollectionStore()
 
 const addSearchDialog = ref(false)
 const updateTitleDialog = ref(false)
+const listDetailDialog = ref(false)
 
 const errorMessage = computed(() => {
 	return !!store.errorMessage ? store.errorMessage : `Error`

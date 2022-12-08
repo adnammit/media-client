@@ -2,12 +2,9 @@
 
 	<v-hover>
 		<template v-slot:default="{ isHovering, props }">
-
 			<div v-bind="props" class="text-h2 mt-6">
 				{{ title }}
-				<v-btn icon @click="editList" variant="text"
-					class="hidden"
-					:class="{ 'shown': isHovering }">
+				<v-btn icon @click="editList" variant="text" class="hidden" :class="{ 'shown': isHovering }">
 					<v-icon>mdi-pencil</v-icon>
 				</v-btn>
 			</div>
@@ -41,20 +38,27 @@
 		</v-row>
 	</v-container>
 
+	<ListDetail v-model="listDetailDialog" :list="collection.selectedList" :is-delete-enabled="true"
+		@save-data="(data, id) => collection.updateUserList(data, id)" />
+		<!-- @clear-data="collection.clearSelectedList()" /> -->
+
 	<!-- TODO: show remaining collection items so you can add more -->
 
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useMainStore } from '@/store'
 import { useCollectionStore } from '@/store/collection'
 import type Title from '@/models/title'
 import Loader from '@/components/Loader.vue'
 import CollectionItemDisplay from '@/components/title/CollectionItemDisplay.vue'
+import ListDetail from '@/components/title/ListDetail.vue'
 
 const store = useMainStore()
 const collection = useCollectionStore()
+
+const listDetailDialog = ref(false)
 
 const title = computed(() => {
 	return collection.selectedList.name
@@ -78,6 +82,7 @@ const selectTitleUpdate = (title: Title) => {
 }
 
 const editList = () => {
+	listDetailDialog.value = true
 	// TODO open list modal -- use same for 'add list'
 	// collection.setSelectedUserTitle(title)
 }

@@ -7,6 +7,7 @@ import type IMediaService from '@/services/IMediaService'
 import ApiBase from '@/services/ApiBase'
 import type AddUserTitleRequest from '@/dto/addUserTitleRequest'
 import type AddUserListRequest from '@/dto/addUserListRequest'
+import type UpdateUserListRequest from '@/dto/updateUserListRequest'
 
 const requestMgr = axios.create({
 	baseURL: `${import.meta.env.VITE_API_SERVER_URL}/api/v1/`,
@@ -123,6 +124,54 @@ class MediaService extends ApiBase implements IMediaService {
 			.put('users/' + req.userId + '/lists', req)
 			.then(res => {
 				return res.status === 201
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
+	}
+
+	public async updateUserList(req: UpdateUserListRequest): Promise<boolean> {
+		return requestMgr
+			.put('lists/' + req.listId, req)
+			.then(res => {
+				return res.status === 200
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
+	}
+
+	public async deleteUserList(listId: number): Promise<boolean> {
+		return requestMgr
+			.delete('lists/' + listId)
+			.then(res => {
+				return res.status === 200
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
+	}
+
+	public async addUserListItem(listId: number, titleId: number): Promise<boolean> {
+		return requestMgr
+			.put('lists/' + listId + '/titles/' + titleId)
+			.then(res => {
+				return res.status === 200
+			})
+			.catch(error => {
+				this.logError(error)
+				throw error
+			})
+	}
+
+	public async deleteUserListItem(listId: number, titleId: number): Promise<boolean> {
+		return requestMgr
+			.delete('lists/' + listId + '/titles/' + titleId)
+			.then(res => {
+				return res.status === 200
 			})
 			.catch(error => {
 				this.logError(error)

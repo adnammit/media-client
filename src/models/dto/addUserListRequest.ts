@@ -1,5 +1,5 @@
-export default interface AddUserListRequest {
-	userId: number,
-	name: string,
-	description?: string,
+import type UserListData from '@/dto/userListData'
+
+export default interface AddUserListRequest extends UserListData {
+	userId: number
 }

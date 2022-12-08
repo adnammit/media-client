@@ -3,6 +3,7 @@ import type UserTitleData from '@/dto/userTitleData'
 import type MediaList from '@/models/mediaList'
 import type AddUserTitleRequest from '@/dto/addUserTitleRequest'
 import type AddUserListRequest from '@/dto/addUserListRequest'
+import type UpdateUserListRequest from '@/dto/updateUserListRequest'
 import User, { type IUserInput, type IUser } from '@/models/user'
 import type IMediaService from '@/services/IMediaService'
 
@@ -40,6 +41,22 @@ class MockMediaService implements IMediaService {
 	}
 
 	public async addUserList(req: AddUserListRequest): Promise<boolean> {
+		return true
+	}
+
+	public async updateUserList(req: UpdateUserListRequest): Promise<boolean> {
+		return true
+	}
+
+	public async deleteUserList(listId: number): Promise<boolean> {
+		return true
+	}
+
+	public async addUserListItem(listId: number, titleId: number): Promise<boolean> {
+		return true
+	}
+
+	public async deleteUserListItem(listId: number, titleId: number): Promise<boolean> {
 		return true
 	}
 }

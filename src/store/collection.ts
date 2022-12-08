@@ -6,6 +6,9 @@ import MediaList from '@/models/mediaList'
 import SearchResult from '@/models/searchResult'
 import type UserTitleData from '@/dto/userTitleData'
 import type AddUserTitleRequest from '@/dto/addUserTitleRequest'
+import type AddUserListRequest from '@/dto/addUserListRequest'
+import type UpdateUserListRequest from '@/dto/updateUserListRequest'
+import type UserListData from '@/dto/userListData'
 import MovieDbApi from '@/services/MovieDbApi'
 import MediaProvider from '@/services/MediaProvider'
 
@@ -144,7 +147,7 @@ export const useCollectionStore = defineStore('collection', {
 			const store = useMainStore()
 			const userId = store.userId
 
-			if (userId < 0) {
+			if (userId <= 0) {
 				console.error(`Could not create user item for unknown user`)
 				store.setIsErrored(true, `Error adding item to collection`)
 			} else {
@@ -205,7 +208,7 @@ export const useCollectionStore = defineStore('collection', {
 			const store = useMainStore()
 			const userId = store.userId
 
-			if (userId < 0 || titleId < 0) {
+			if (userId <= 0 || titleId <= 0) {
 
 				console.error(`Could not create user item for unknown ${!!userId && !!titleId ? 'user and title' : !!userId ? 'user' : 'title'}`)
 				store.setIsErrored(true, `Error adding item to collection`)
@@ -243,7 +246,7 @@ export const useCollectionStore = defineStore('collection', {
 			const store = useMainStore()
 			const userId = store.userId
 
-			if (userId < 0 || titleId < 0) {
+			if (userId <= 0 || titleId <= 0) {
 
 				console.error(`Could not create user item for unknown ${!!userId && !!titleId ? 'user and title' : !!userId ? 'user' : 'title'}`)
 				store.setIsErrored(true, `Error adding item to collection`)
@@ -275,6 +278,114 @@ export const useCollectionStore = defineStore('collection', {
 					})
 			}
 		},
+
+		async addUserList(data: UserListData) {
+
+			const store = useMainStore()
+			const userId = store.userId
+
+			if (userId <= 0) {
+				console.error(`Could not create list for unknown user`)
+				store.setIsErrored(true, `Error adding list`)
+			} else {
+
+				store.setIsLoading(true)
+
+				const request = {
+					userId: userId,
+					name: data.name,
+					description: data.description
+				} as AddUserListRequest
+
+				MediaProvider.addUserList(request)
+					.then((res: boolean) => {
+						if (res) {
+							this.loadCollection()
+						} else {
+							throw Error('Error creating new list')
+						}
+					})
+					.catch((e: any) => {
+						console.log(e)
+						store.setIsErrored(true, `Error creating list`)
+					})
+					.finally(() => {
+						// this.clearSearchData()
+						store.setIsLoading(false)
+					})
+			}
+		},
+
+		async updateUserList(data: UserListData, listId: number) {
+
+			console.log('>> saving! ' + JSON.stringify(data));
+
+			const store = useMainStore()
+			const userId = store.userId
+
+			if (userId <= 0 || listId <= 0) {
+				console.error(`Could not update list for unknown ${!!userId && !!listId ? 'user and list' : !!userId ? 'user' : 'list'}`)
+				store.setIsErrored(true, `Error updating list`)
+			} else {
+
+				store.setIsLoading(true)
+
+				const request = {
+					userId: userId,
+					listId: listId,
+					name: data.name,
+					description: data.description
+				} as UpdateUserListRequest
+
+				MediaProvider.updateUserList(request)
+					.then((res: boolean) => {
+						if (res) {
+							this.loadCollection()
+						} else {
+							throw Error('Error updating new list')
+						}
+					})
+					.catch((e: any) => {
+						console.log(e)
+						store.setIsErrored(true, `Error updating list`)
+					})
+					.finally(() => {
+						// this.clearSelectedList()
+						store.setIsLoading(false)
+					})
+			}
+		},
+
+		async deleteUserList(listId: number) {
+
+			const store = useMainStore()
+
+			if (listId <= 0) {
+				console.error(`Could not delete unknown list`)
+				store.setIsErrored(true, `Error updating list`)
+			} else {
+
+				store.setIsLoading(true)
+
+				MediaProvider.deleteUserList(listId)
+					.then((res: boolean) => {
+						if (res) {
+							this.loadCollection()
+						} else {
+							throw Error('Error deleting list')
+						}
+					})
+					.catch((e: any) => {
+						console.log(e)
+						store.setIsErrored(true, `Error deleting list`)
+					})
+					.finally(() => {
+						// this.clearSelectedList()
+						store.setIsLoading(false)
+					})
+			}
+		},
+
 	},
 	getters: {
 		filteredCollection: (state: CollectionState) => {
