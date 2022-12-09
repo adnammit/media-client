@@ -2,7 +2,7 @@
 	<PageLayout>
 		<v-container fluid class="pa-0 px-2 mx-0">
 
-			<FilterBarMobile />
+			<FilterBar />
 
 			<v-container fluid class="filter-bar__spacer">
 
@@ -39,7 +39,7 @@ import { computed, onBeforeMount, ref, watch } from 'vue'
 import { useMainStore } from '@/store'
 import { useCollectionStore } from '@/store/collection'
 import PageLayout from '@/components/navigation/PageLayout.vue'
-import FilterBarMobile from '@/components/filter/FilterBarMobile.vue'
+import FilterBar from '@/components/filter/FilterBar.vue'
 import Overlay from '@/components/Overlay.vue'
 import CollectionView from '@/components/CollectionView.vue'
 import ListView from '@/components/ListView.vue'
