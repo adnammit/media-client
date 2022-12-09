@@ -45,11 +45,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useCollectionStore } from '@/store/collection'
 import type MediaList from '@/models/mediaList'
+import ListDetail from '@/components/title/ListDetail.vue'
 
 const collection = useCollectionStore()
+
+const listDetailDialog = ref(false)
 
 const props = defineProps({
 	modelValue: {
@@ -88,6 +91,7 @@ const selectList = (list: MediaList) => {
 }
 
 const addList = () => {
+	listDetailDialog.value = true
 	// TODO
 	// search.value = ''
 	// emit('update:modelValue', false)

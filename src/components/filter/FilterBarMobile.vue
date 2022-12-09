@@ -1,7 +1,7 @@
 <template>
-	<div class="container-fluid filter-bar ma-0 py-0 px-2">
+	<div class="container-fluid">
 
-		<v-toolbar border>
+		<v-toolbar class="px-0 mx-0 filter-bar" density="compact">
 
 			<SearchMenu v-model="searchMenu" />
 
@@ -42,6 +42,9 @@ const filterMenu = ref(false)
 @import '@/assets/colors';
 
 .filter-bar {
-	width: 100%;
+	width: 100vw;
+	position: fixed;
+	z-index: 1;
+	background-color: aqua;
 }
 </style>

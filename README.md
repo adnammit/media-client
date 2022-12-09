@@ -67,7 +67,9 @@ npm run lint
 ## Dev To-do
 * add user-defined lists:
 	- view lists in side menu? what does mobile look like?
+		* check out navigation-drawer: consider a rail for add, find, list and random, with a full drawer for lists
 	- UX for adding to/editing a list
+* update random to pull from selected list if you're viewing a list
 * sticky filter bar
 * improve TitleDetail view
 * do real authentication

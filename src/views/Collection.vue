@@ -1,29 +1,36 @@
 <template>
 	<PageLayout>
+		<v-container fluid class="pa-0 px-2 mx-0">
 
-		<FilterBarMobile />
+			<FilterBarMobile />
 
-		<Overlay v-model="errorModel" :text="errorMessage" icon="mdi-alert-circle-outline" color="error" />
+			<v-container fluid class="filter-bar__spacer">
 
-		<ListView v-if="showList" />
+				<Overlay v-model="errorModel" :text="errorMessage" icon="mdi-alert-circle-outline" color="error" />
 
-		<CollectionView v-else />
+				<!-- can we merge listView and collection? -->
 
-		<TitleDetail v-model="updateTitleDialog" :title="collection.selectedUserTitle" :is-delete-enabled="true"
-			@save-title-data="(data, id) => collection.updateUserItem(id, data)"
-			@delete-title="(id) => collection.deleteUserItem(id)"
-			@clear-selection-data="collection.clearUserTitleData()" />
+				<ListView v-if="showList" />
 
-		<TitleDetail v-model="addSearchDialog" :title="collection.selectedSearch" :is-delete-enabled="false"
-			@save-title-data="(data) => collection.addUserItem(data)"
-			@clear-selection-data="collection.clearSearchData()" />
+				<CollectionView v-else />
 
-			<!-- ADD NEW LIST -->
-		<!-- <ListDetail v-model="listDetailDialog" :list="collection.selectedList" :is-delete-enabled="true"
+				<TitleDetail v-model="updateTitleDialog" :title="collection.selectedUserTitle" :is-delete-enabled="true"
+					@save-title-data="(data, id) => collection.updateUserItem(id, data)"
+					@delete-title="(id) => collection.deleteUserItem(id)"
+					@clear-selection-data="collection.clearUserTitleData()" />
+
+				<TitleDetail v-model="addSearchDialog" :title="collection.selectedSearch" :is-delete-enabled="false"
+					@save-title-data="(data) => collection.addUserItem(data)"
+					@clear-selection-data="collection.clearSearchData()" />
+
+				<!-- ADD NEW LIST -->
+				<!-- <ListDetail v-model="listDetailDialog" :list="collection.selectedList" :is-delete-enabled="true"
 			@save-title-data="(data, id) => collection.updateUserItem(id, data)"
 			@delete-title="(id) => collection.deleteUserItem(id)"
 			@clear-selection-data="collection.clearUserTitleData()" /> -->
 
+			</v-container>
+		</v-container>
 	</PageLayout>
 </template>
 
@@ -82,3 +89,11 @@ watch(() => collection.selectedUserTitle, (newValue) => {
 })
 
 </script>
+
+<style scoped lang="scss">
+@import '@/assets/colors';
+
+.filter-bar__spacer {
+	margin-top: 45px;
+}
+</style>
