@@ -4,7 +4,7 @@
 		<v-icon :color="isSearchActive ? `secondary` : ``">mdi-magnify</v-icon>
 	</v-btn>
 
-	<NavigationDrawer v-model="value" :buttons="buttons">
+	<NavigationDrawer v-model="value" :title="`Find`" :buttons="buttons">
 		<template v-slot:content>
 			<v-text-field v-model="search" label="Search your collection" variant="outlined" autofocus></v-text-field>
 		</template>

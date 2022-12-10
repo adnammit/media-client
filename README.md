@@ -65,18 +65,13 @@ npm run lint
 
 
 ## Dev To-do
-* replace v-menus with temporary navigation drawers
-	- should filter/sort open on right side?
-	- dynamic button text for filters doesn't work
-	- temporary doesn't work for the nav-drawer, or only works once?
-* implement "add list"
+* reasess how we show items in "collection" -- make a more generic concept like "filteredItems" that could be either collection or list contents that is further filtered down?
+	- consider merging ListView and CollectionView
+	- once that's fixed, random should pull from whatever is currently being viewed
+* implement "add list" - what is UX for adding/editing a list?
+* embed search results in the nav drawer, not a popup
 * make edit-list icon visible always for mobile
-* add user-defined lists:
-	- view lists in side menu? what does mobile look like?
-		* check out navigation-drawer: consider a rail for add, find, list and random, with a full drawer for lists
-	- UX for adding to/editing a list
-* update random to pull from selected list if you're viewing a list
-* sticky filter bar
+* add ability to make notes on your titles
 * improve TitleDetail view
 * do real authentication
 * show rating/favorite/watched icons on collection cards
@@ -84,7 +79,6 @@ npm run lint
 * get cast/writer/director data and make it searchable and sortable
 * go through genre filter and make sure you got'em all in your default seed list
 * add special random function to home page maybe
-* add ability to make notes on your titles
 * look for `TODO` in comments
 * import/export option
 * StreamingAvailabilityApi uses MovieDB under the hood and exposes many of the same props so we could potentially use this instead. some missing/differences:
@@ -142,6 +136,12 @@ npm run lint
 * check out [this api](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability) to supply streaming availability
 * improve streaming info display -- make it mobile friendly
 * implement or remove poster preview
+* add user-defined lists
+* replace v-menus with temporary navigation drawers
+	- should filter/sort open on right side?
+	- dynamic button text for filters doesn't work
+	- temporary doesn't work for the nav-drawer, or only works once?
+* sticky filter bar
 
 
 ## Type Support for `.vue` Imports in TS

@@ -5,7 +5,7 @@
 
 			<v-row>
 				<v-col cols="auto" class="vertical-center">
-					<div class="text-button">
+					<div class="text-overline-lg">
 						{{ title }}
 					</div>
 				</v-col>

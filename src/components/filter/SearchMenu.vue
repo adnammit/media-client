@@ -4,7 +4,7 @@
 		<v-icon>mdi-plus</v-icon>
 	</v-btn>
 
-	<NavigationDrawer v-model="value">
+	<NavigationDrawer v-model="value" :title="`Search to Add`">
 		<template v-slot:content>
 			<Search @on-search="$emit('update:modelValue', false)" />
 		</template>

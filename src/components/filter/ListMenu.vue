@@ -5,7 +5,8 @@
 		<v-tooltip activator="parent" location="top">Your Lists</v-tooltip>
 	</v-btn>
 
-	<NavigationDrawer v-model="value" :buttons="buttons">
+	<NavigationDrawer v-model="value" :title="`Your Lists`" :buttons="buttons">
+		<!-- TODO might need to move v-if down? -->
 		<template v-slot:content v-if="hasLists">
 			<div class="menu__scroll">
 				<template v-for="item in collection.lists">

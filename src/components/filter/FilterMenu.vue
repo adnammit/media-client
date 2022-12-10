@@ -4,7 +4,7 @@
 		<v-icon :color="!isUnfiltered ? `secondary` : ``">mdi-tune</v-icon>
 	</v-btn>
 
-	<NavigationDrawer v-model="value" :title="`Filter by:`" :buttons="buttons" :location="`end`">
+	<NavigationDrawer v-model="value" :title="`Filter Options`" :buttons="buttons" :location="`end`">
 		<template v-slot:content>
 			<PersonalFilterMenu v-model="subMenuPersonal" />
 			<MediaFilterMenu v-model="subMenuMedia" />

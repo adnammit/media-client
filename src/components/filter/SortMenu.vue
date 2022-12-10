@@ -4,7 +4,7 @@
 		<v-icon>mdi-swap-vertical</v-icon>
 	</v-btn>
 
-	<NavigationDrawer v-model="value" :title="`Sort by:`" :location="`end`">
+	<NavigationDrawer v-model="value" :title="`Sort Options`" :location="`end`">
 		<template v-slot:content>
 			<template v-for="item in items">
 				<v-row class="mx-4">
