@@ -1,6 +1,7 @@
 <template>
 	<v-row justify="center">
-		<v-dialog v-model="value" scrollable class="modal-contents" :class="dialogClasses" :fullscreen="isVerySmallScreen" :max-width="maxWidth">
+		<v-dialog v-model="value" scrollable class="modal-contents" :class="dialogClasses"
+			:fullscreen="isVerySmallScreen" :max-width="maxWidth">
 			<v-card>
 				<v-card-text class="pa-0">
 					<v-container class="pa-3">
@@ -28,12 +29,13 @@
 											</div>
 										</v-toolbar-title>
 										<template v-slot:append>
-											<v-btn icon="mdi-close" @click="(value = false)"></v-btn>
+											<v-btn icon="mdi-close" @click="(value = false)" variant="text"></v-btn>
 										</template>
 									</v-toolbar>
 
 									<!-- bottom content -->
-									<div class="poster-overlay__bottom w-100" :style="`background-color:${overlayBgSubColor}`">
+									<div class="poster-overlay__bottom w-100"
+										:style="`background-color:${overlayBgSubColor}`">
 
 										<div class="d-inline">
 											<v-container>
@@ -50,18 +52,24 @@
 														<v-btn @click="toggleQueued()" icon variant="plain"
 															:size="buttonSize">
 															<v-icon :class="queued ? 'queued' : ''">mdi-fire</v-icon>
+															<v-tooltip activator="parent" text="Queue to watch next"
+																location="top" open-delay="500"></v-tooltip>
 														</v-btn>
 
 														<v-btn @click="toggleWatched()" icon variant="plain"
 															:size="buttonSize">
 															<v-icon
 																:class="watched ? 'complete' : ''">mdi-check-bold</v-icon>
+															<v-tooltip activator="parent" text="Mark Watched"
+																location="top" open-delay="500"></v-tooltip>
 														</v-btn>
 
 														<v-btn @click="toggleFavorite()" icon variant="plain"
 															:size="buttonSize">
 															<v-icon
 																:class="favorite ? 'favorite' : ''">mdi-star</v-icon>
+															<v-tooltip activator="parent" text="Add to Favorites"
+																location="top" open-delay="500"></v-tooltip>
 														</v-btn>
 
 													</v-col>
