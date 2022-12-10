@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer v-model="value" temporary class="filter-bar__spacer" width="300" :id="id" :location="location">
+	<v-navigation-drawer v-model="value" temporary class="filter-bar__spacer" :width="width" :id="id" :location="location">
 
 		<v-card class="pa-4 h-100">
 
@@ -45,7 +45,10 @@
 <script setup lang="ts">
 import { onMounted, type PropType } from 'vue'
 import { computed } from 'vue'
+import { useDisplay } from 'vuetify'
 import type { Button } from '@/models/button'
+
+const { name } = useDisplay()
 
 const props = defineProps({
 	modelValue: {
@@ -82,6 +85,14 @@ const value = computed({
 
 const hasActions = computed(() => {
 	return !!props.buttons && props.buttons.length > 0
+})
+
+const isVerySmallScreen = computed(() => {
+	return name.value == 'xs'
+})
+
+const width = computed(() => {
+	return isVerySmallScreen.value ? '300' : '500'
 })
 
 // 'temporary' attribute doesn't seem to work so here is a listener to close the nav drawer via brute force

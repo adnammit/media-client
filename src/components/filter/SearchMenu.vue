@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import { useCollectionStore } from '@/store/collection'
-import Search from '@/components/filter/Search.vue'
+import Search from '@/components/filter/SearchV2.vue'
 import NavigationDrawer from '@/components/filter/NavigationDrawer.vue'
 
 const collection = useCollectionStore()

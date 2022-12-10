@@ -1,14 +1,17 @@
 <template>
-	<v-autocomplete v-model="searchModel" :items="collection.searchResults" :loading="collection.isSearching"
-		v-model:search="search" clearable hide-details autofocus item-title="title" item-value="movieDbId"
-		label="Add to your collection..." dense variant="underlined" class="search-bar pr-4">
-		<template v-slot:no-data>
-			<v-list-item>
-				<v-list-item-title>
-					Search for movie and show titles
-				</v-list-item-title>
-			</v-list-item>
-		</template>
+	<v-autocomplete
+			v-model="searchModel"
+			v-model:search="search"
+			:items="collection.searchResults"
+			item-value="movieDbId"
+			item-title="title"
+			hide-no-data
+			:loading="collection.isSearching"
+			clearable hide-details autofocus dense
+			label="Add to your collection..."
+			variant="underlined"
+			class="search-bar pr-4"
+			>
 
 		<template v-slot:item="{ props, item }">
 			<v-row>

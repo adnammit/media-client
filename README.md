@@ -65,11 +65,12 @@ npm run lint
 
 
 ## Dev To-do
-* reasess how we show items in "collection" -- make a more generic concept like "filteredItems" that could be either collection or list contents that is further filtered down?
+* reassess how we show items in "collection" -- make a more generic concept like "filteredItems" that could be either collection or list contents that is further filtered down?
 	- consider merging ListView and CollectionView
 	- once that's fixed, random should pull from whatever is currently being viewed
 * implement "add list" - what is UX for adding/editing a list?
 * embed search results in the nav drawer, not a popup
+* handle what happens when you search and try to add something that's already in your collection -- show toast?
 * make edit-list icon visible always for mobile
 * add ability to make notes on your titles
 * improve TitleDetail view
