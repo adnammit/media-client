@@ -1,5 +1,21 @@
 <template>
-	<v-menu v-model="value" :open-delay="0" :close-on-content-click="false">
+
+
+	<v-btn icon @click.stop="value = !value">
+		<v-icon :color="!isUnfiltered ? `secondary` : ``">mdi-tune</v-icon>
+	</v-btn>
+
+	<NavigationDrawer v-model="value" :title="`Filter by:`" :buttons="buttons">
+		<template v-slot:content>
+			<PersonalFilterMenu v-model="subMenuPersonal" />
+			<MediaFilterMenu v-model="subMenuMedia" />
+			<GenreFilterMenu v-model="subMenuGenre" />
+		</template>
+	</NavigationDrawer>
+
+
+
+	<!-- <v-menu v-model="value" :open-delay="0" :close-on-content-click="false">
 		<template v-slot:activator="{ props }">
 			<v-btn icon v-bind="props">
 				<v-icon :color="!isUnfiltered ? `secondary` : ``">mdi-tune</v-icon>
@@ -31,29 +47,21 @@
 							:text="!isUnfiltered" width="100%">
 							{{ `${isUnfiltered ? 'Showing All' : 'Show All'}` }}</v-btn>
 					</v-col>
-					<!-- <v-col cols="6">
-						<v-btn rounded variant="outlined" class="px-4" @click="$emit('update:modelValue', false)">
-							Close Filter
-						</v-btn>
-					</v-col>
-					<v-col cols="6">
-						<v-btn rounded variant="outlined" class="px-4" :disabled="isUnfiltered" @click="resetFilter()"
-							:text="!isUnfiltered">
-							{{ `${isUnfiltered ? 'Showing All' : 'Show All'}` }}</v-btn>
-					</v-col> -->
 				</v-row>
 			</v-card-actions>
 		</v-card>
 
-	</v-menu>
+	</v-menu> -->
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useFilterStore } from '@/store/filter'
+import type { Button } from '@/models/button'
 import PersonalFilterMenu from '@/components/filter/PersonalFilterMenu.vue'
 import MediaFilterMenu from '@/components/filter/MediaFilterMenu.vue'
 import GenreFilterMenu from '@/components/filter/GenreFilterMenu.vue'
+import NavigationDrawer from '@/components/filter/NavigationDrawer.vue'
 
 const filter = useFilterStore()
 
@@ -74,6 +82,15 @@ const value = computed({
 		emit('update:modelValue', val)
 	}
 })
+
+const buttons: Button[] = [
+	{
+		text: () => { return `${isUnfiltered ? 'Showing All' : 'Show All'}` },
+		onClick: () => { resetFilter() },
+		isDisabled: () => { return isUnfiltered.value },
+		prependIcon: undefined
+	},
+]
 
 const subMenuPersonal = ref(false)
 const subMenuMedia = ref(false)

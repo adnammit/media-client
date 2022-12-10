@@ -44,14 +44,14 @@ import Overlay from '@/components/Overlay.vue'
 import CollectionView from '@/components/CollectionView.vue'
 import ListView from '@/components/ListView.vue'
 import TitleDetail from '@/components/title/TitleDetail.vue'
-import ListDetail from '@/components/title/ListDetail.vue'
+// import ListDetail from '@/components/title/ListDetail.vue'
 
 const store = useMainStore()
 const collection = useCollectionStore()
 
 const addSearchDialog = ref(false)
 const updateTitleDialog = ref(false)
-const listDetailDialog = ref(false)
+// const listDetailDialog = ref(false)
 
 const errorMessage = computed(() => {
 	return !!store.errorMessage ? store.errorMessage : `Error`
@@ -91,9 +91,5 @@ watch(() => collection.selectedUserTitle, (newValue) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/colors';
-
-.filter-bar__spacer {
-	margin-top: 45px;
-}
+@import '@/assets/main.scss';
 </style>

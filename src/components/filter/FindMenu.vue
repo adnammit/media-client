@@ -1,32 +1,22 @@
 <template>
-	<v-menu v-model="value" :open-delay="0" :close-on-content-click="false">
-		<template v-slot:activator="{ props }">
-			<v-btn icon v-bind="props">
-				<v-icon :color="isSearchActive ? `secondary` : ``">mdi-magnify</v-icon>
-			</v-btn>
+
+	<v-btn icon @click.stop="value = !value">
+		<v-icon :color="isSearchActive ? `secondary` : ``">mdi-magnify</v-icon>
+	</v-btn>
+
+	<NavigationDrawer v-model="value" :buttons="buttons">
+		<template v-slot:content>
+			<v-text-field v-model="search" label="Search your collection" variant="outlined" autofocus></v-text-field>
 		</template>
-		<v-card min-width="300" class="pa-4">
-			<v-row>
-				<v-col cols="12">
-					<v-text-field v-model="search" label="Search your collection" variant="outlined" autofocus></v-text-field>
-				</v-col>
-			</v-row>
-			<v-card-actions>
-				<v-row>
-					<v-col cols="12">
-						<v-btn rounded variant="outlined" @click="clearSearch" width="100%" :disabled="!isSearchActive">
-							Clear Search
-						</v-btn>
-					</v-col>
-				</v-row>
-			</v-card-actions>
-		</v-card>
-	</v-menu>
+	</NavigationDrawer>
+
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useFilterStore } from '@/store/filter'
+import type { Button } from '@/models/button'
+import NavigationDrawer from '@/components/filter/NavigationDrawer.vue'
 
 const filter = useFilterStore()
 
@@ -48,11 +38,20 @@ const value = computed({
 	}
 })
 
+const buttons: Button[] = [
+	{
+		text: `Clear Search`,
+		onClick: () => { clearSearch() },
+		isDisabled: () => { return !isSearchActive },
+		prependIcon: undefined
+	},
+]
+
 const search = computed({
 	get() {
 		return filter.globalSearch
 	},
-	set(val: Boolean) {
+	set(val: String) {
 		filter.setGlobalSearch(val)
 	}
 })

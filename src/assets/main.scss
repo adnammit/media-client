@@ -41,6 +41,11 @@ a {
 	max-height: 300px;
 }
 
+// add space at the top of items so they aren't covered by the filter bar
+.filter-bar__spacer {
+	margin-top: 48px;
+}
+
 // ANIMATIONS
 // loader ideas from https://cssloaders.github.io/
 .spinner {

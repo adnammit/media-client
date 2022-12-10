@@ -123,7 +123,6 @@ export const useCollectionStore = defineStore('collection', {
 				MediaProvider.getUserLists(userId ?? 0)
 					.then((res: MediaList[]) => {
 						this.lists = res
-						console.log(res);
 					})
 					.catch((e: any) => {
 						console.error(e)

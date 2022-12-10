@@ -65,6 +65,11 @@ npm run lint
 
 
 ## Dev To-do
+* replace v-menus with temporary navigation drawers
+	- should filter/sort open on right side?
+	- dynamic button text for filters doesn't work
+	- temporary doesn't work for the nav-drawer, or only works once?
+* make edit-list icon visible always for mobile
 * add user-defined lists:
 	- view lists in side menu? what does mobile look like?
 		* check out navigation-drawer: consider a rail for add, find, list and random, with a full drawer for lists
