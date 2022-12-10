@@ -69,6 +69,7 @@ npm run lint
 	- should filter/sort open on right side?
 	- dynamic button text for filters doesn't work
 	- temporary doesn't work for the nav-drawer, or only works once?
+* implement "add list"
 * make edit-list icon visible always for mobile
 * add user-defined lists:
 	- view lists in side menu? what does mobile look like?

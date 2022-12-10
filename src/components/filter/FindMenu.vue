@@ -1,6 +1,6 @@
 <template>
 
-	<v-btn icon @click.stop="value = !value">
+	<v-btn icon @click.stop="value = !value" variant="text">
 		<v-icon :color="isSearchActive ? `secondary` : ``">mdi-magnify</v-icon>
 	</v-btn>
 
@@ -42,7 +42,7 @@ const buttons: Button[] = [
 	{
 		text: `Clear Search`,
 		onClick: () => { clearSearch() },
-		isDisabled: () => { return !isSearchActive },
+		isDisabled: () => { return !isSearchActive.value },
 		prependIcon: undefined
 	},
 ]

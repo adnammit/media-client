@@ -1,5 +1,5 @@
 <template>
-	<v-btn icon @click="surprise" :disabled="disabled">
+	<v-btn icon @click="surprise" :disabled="disabled" variant="text">
 		<v-icon>mdi-dice-5</v-icon>
 		<v-tooltip activator="parent" location="top">Can't decide what to watch? Let us pick</v-tooltip>
 	</v-btn>

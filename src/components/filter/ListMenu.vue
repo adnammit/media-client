@@ -1,6 +1,6 @@
 <template>
 
-	<v-btn icon @click.stop="value = !value">
+	<v-btn icon @click.stop="value = !value" variant="text">
 		<v-icon :color="isAnyListSelected ? `secondary` : ``">mdi-playlist-star</v-icon>
 		<v-tooltip activator="parent" location="top">Your Lists</v-tooltip>
 	</v-btn>
@@ -19,7 +19,6 @@
 					</v-row>
 				</template>
 			</div>
-			<v-divider class="my-2"></v-divider>
 		</template>
 	</NavigationDrawer>
 
@@ -64,15 +63,9 @@ const buttons: Button[] = [
 	{
 		text: `Clear Selection`,
 		onClick: () => { clearSelection() },
-		isDisabled: () => { return !isAnyListSelected },
+		isDisabled: () => { return !isAnyListSelected.value },
 		prependIcon: undefined
 	},
-	// {
-	// 	text: ``,
-	// 	onClick: () => { },
-	// 	isDisabled: () => { return false },
-	// 	prependIcon: undefined
-	// },
 ]
 
 // TODO test no lists

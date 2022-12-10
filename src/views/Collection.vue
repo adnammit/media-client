@@ -1,6 +1,6 @@
 <template>
 	<PageLayout>
-		<v-container fluid class="pa-0 px-2 mx-0">
+		<v-container fluid class="pa-0 mx-0">
 
 			<FilterBar />
 
@@ -8,7 +8,7 @@
 
 				<Overlay v-model="errorModel" :text="errorMessage" icon="mdi-alert-circle-outline" color="error" />
 
-				<!-- can we merge listView and collection? -->
+				<!-- TODO can we merge listView and collection? -->
 
 				<ListView v-if="showList" />
 

@@ -1,6 +1,6 @@
 <template>
 
-	<v-btn icon @click.stop="value = !value">
+	<v-btn icon @click.stop="value = !value" variant="text">
 		<v-icon>mdi-plus</v-icon>
 	</v-btn>
 

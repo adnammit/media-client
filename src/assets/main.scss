@@ -41,6 +41,12 @@ a {
 	max-height: 300px;
 }
 
+.vertical-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 // add space at the top of items so they aren't covered by the filter bar
 .filter-bar__spacer {
 	margin-top: 48px;
@@ -134,6 +140,10 @@ div.text-color--contrast {
 	.v-main.main-body {
 		background-color: $gallery;
 	}
+
+	.filter-bar {
+		background-color: $alabaster;
+	}
 }
 
 .v-theme--dark {
@@ -161,6 +171,10 @@ div.text-color--contrast {
 	}
 
 	.v-main.main-body {
+		background-color: $cod-gray;
+	}
+
+	.filter-bar {
 		background-color: $cod-gray;
 	}
 }

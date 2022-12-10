@@ -1,10 +1,10 @@
 <template>
 
-	<v-btn icon @click.stop="value = !value">
+	<v-btn icon @click.stop="value = !value" variant="text">
 		<v-icon>mdi-swap-vertical</v-icon>
 	</v-btn>
 
-	<NavigationDrawer v-model="value" :title="`Sort by:`">
+	<NavigationDrawer v-model="value" :title="`Sort by:`" :location="`end`">
 		<template v-slot:content>
 			<template v-for="item in items">
 				<v-row class="mx-4">

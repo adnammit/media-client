@@ -1,42 +1,36 @@
 <template>
-	<v-navigation-drawer v-model="value" temporary class="filter-bar__spacer" width="300">
+	<v-navigation-drawer v-model="value" temporary class="filter-bar__spacer" width="300" :id="id" :location="location">
 
 		<v-card class="pa-4 h-100">
 
-			<!-- hack because temporary on the nav drawer isn't working -->
-			<v-btn icon @click="value = false">
-				<v-icon>mdi-close</v-icon>
-			</v-btn>
-
-			<template v-if="!!props.title">
-				<v-row>
-					<v-col cols="12">
-						<div class="text-button">
-							{{ title }}
-						</div>
-					</v-col>
-				</v-row>
-
-				<v-divider class="my-2"></v-divider>
-
-			</template>
-
-			<!-- render content -->
 			<v-row>
-				<v-col cols="12">
-					<slot name="content">
-						hello
-					</slot>
+				<v-col cols="auto" class="vertical-center">
+					<div class="text-button">
+						{{ title }}
+					</div>
+				</v-col>
+				<v-spacer></v-spacer>
+				<v-col cols="auto">
+					<v-btn icon @click="value = false" variant="flat">
+						<v-icon>mdi-close</v-icon>
+					</v-btn>
 				</v-col>
 			</v-row>
 
-			<!-- if actions, render actions -->
+			<v-row>
+				<v-col cols="12">
+					<slot name="content"></slot>
+				</v-col>
+			</v-row>
+
 			<template v-if="hasActions">
+				<v-divider class="my-4"></v-divider>
 				<v-card-actions v-for="button in props.buttons">
 					<v-row>
 						<v-col cols="12">
-							<v-btn rounded variant="outlined" @click="button.onClick" width="100%" :disabled="button.isDisabled()" :prepend-icon="button.prependIcon">
-								{{ getButtonText(button.text) }}
+							<v-btn rounded variant="outlined" @click="button.onClick" width="100%"
+								:disabled="button.isDisabled()" :prepend-icon="button.prependIcon">
+								{{ button.text }}
 							</v-btn>
 						</v-col>
 					</v-row>
@@ -49,10 +43,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useSlots } from 'vue'
+import { onMounted, type PropType } from 'vue'
+import { computed } from 'vue'
 import type { Button } from '@/models/button'
-
-const slots = useSlots()
 
 const props = defineProps({
 	modelValue: {
@@ -66,11 +59,17 @@ const props = defineProps({
 	buttons: {
 		type: Array<Button>,
 		default: undefined
+	},
+	location: {
+		type: String as PropType<'end' | 'start' | 'left' | 'bottom' | 'right'>,
+		default: 'start'
 	}
-
 })
 
 const emit = defineEmits(['update:modelValue'])
+
+// TODO can't find a plugin for unique component ids that supports ts/vue3 so we'll just get away with this for now...
+const id = Math.ceil(Math.random() * 1000000)
 
 const value = computed({
 	get() {
@@ -85,13 +84,14 @@ const hasActions = computed(() => {
 	return !!props.buttons && props.buttons.length > 0
 })
 
-const getButtonText = (text: string | (() => string) ) => {
-	// TODO: this doesn't update dynamically
-	if (typeof(text) == 'string') {
-		return text
-	}
-	return text()
-}
+// 'temporary' attribute doesn't seem to work so here is a listener to close the nav drawer via brute force
+onMounted(() => {
+	const navigation = document.getElementById(id.toString())
+	document.addEventListener('mouseup', function (e) {
+		if (navigation?.contains(e.target as HTMLElement)) return
+		value.value = false
+	});
+})
 
 </script>
 
