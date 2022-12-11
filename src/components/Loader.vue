@@ -1,7 +1,7 @@
 <template>
-	<div class="loader">
+	<v-container class="my-0 pa-0 text-center loader">
 		<v-progress-circular indeterminate :size="125"></v-progress-circular>
-	</div>
+	</v-container>
 </template>
 
 <script setup lang="ts">
