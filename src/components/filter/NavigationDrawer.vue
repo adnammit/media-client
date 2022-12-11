@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer v-model="value" temporary class="filter-bar__spacer" :width="width" :id="id" :location="location">
+	<v-navigation-drawer v-model="value" class="filter-bar__spacer" scrim :width="width" :id="id" :location="location">
 
 		<v-card class="pa-4 h-100">
 

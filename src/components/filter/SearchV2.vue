@@ -48,6 +48,12 @@ const emit = defineEmits(['onSearch'])
 
 const collection = useCollectionStore()
 
+const props = defineProps({
+	container: {
+		type: Boolean
+	},
+})
+
 const searchModel = ref<number | undefined>(undefined)
 const search = ref('')
 const posterHeight = `30px`
@@ -58,6 +64,10 @@ const getPosterUrl = (item: SearchResult) => {
 
 watch(() => search.value, (newValue) => {
 	collection.Search(newValue)
+})
+
+watch(() => props.container, (newValue) => {
+	if (newValue) search.value = ''
 })
 
 watch(() => searchModel.value, (newValue) => {

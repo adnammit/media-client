@@ -6,7 +6,7 @@
 
 	<NavigationDrawer v-model="value" :title="`Search to Add`">
 		<template v-slot:content>
-			<Search @on-search="$emit('update:modelValue', false)" />
+			<Search @on-search="$emit('update:modelValue', false)" :container="value"/>
 		</template>
 	</NavigationDrawer>
 
