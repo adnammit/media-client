@@ -46,6 +46,18 @@ class MovieDbApi extends ApiBase {
 		requestMgr.get('genre/tv/list')
 			.then(res => {
 				this.tvGenres = res.data.genres.map((g: any) => new Genre(g))
+
+
+
+				if (json.data.results) {
+					json.data.results.forEach((result: any) => {
+						const userProperties = new Map();
+						this.userProperties[result.key] = result.value;
+					})
+				}
+
+
+
 			})
 			.catch(error => {
 				this.logError(error)
