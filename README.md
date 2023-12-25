@@ -2,6 +2,17 @@
 
 Client that sits on the Media Service and Media Database. Uses Vue3, Vite, Pinia, Vuetify 3, TS and Auth0
 
+## Configuration
+For local development, you will need to provide a `.env` file in the root of the project with the following variables. For deployment, you will need to configure these variables
+```sh
+VITE_API_SERVER_URL=
+VITE_POSTER_BASE_PATH=https://image.tmdb.org/t/p/w600_and_h900_bestv2/
+VITE_STREAMING_AVAILABILITY_URL=https://streaming-availability.p.rapidapi.com/
+VITE_STREAMING_AVAILABILITY_KEY=
+VITE_MOVIE_DB_URL=https://api.themoviedb.org/3/
+VITE_MOVIE_DB_TOKEN=
+```
+
 ## Quickstart
 
 ```sh
@@ -27,16 +38,13 @@ npm run lint
 * [Vite Configuration Reference](https://vitejs.dev/config/)
 * [Static deployment using Vite](https://vitejs.dev/guide/static-deploy.html)
 * [Render Deployment](https://dashboard.render.com/)
-	- you can connect your github repo to Render and it will automatically deploy when new commits are pushed. neat!
-	- [important notes about deploying Vue apps using redirects for proper router behavior](https://render.com/docs/deploy-vue-js)
-	- see this app in action at [https://vue3-boilerplate.onrender.com/](https://vue3-boilerplate.onrender.com/)
+	* you can connect your github repo to Render and it will automatically deploy when new commits are pushed. neat!
+	* [important notes about deploying Vue apps using redirects for proper router behavior](https://render.com/docs/deploy-vue-js)
+	* see this app in action at [https://media-client.onrender.com//](https://media-client.onrender.com/)
 * [Vuetify 3 beta](https://next.vuetifyjs.com/en/)
 * [Material Design Icons](https://materialdesignicons.com/)
 * [lint](https://eslint.org/)
 * For Vue3 it is recommended to disable Vetur and use VSCode extensions [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) and [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
-* [adding Auth0 to an existing Vue3 app](https://developer.auth0.com/resources/guides/spa/vue/basic-authentication)
-* [Vue app with express backend and Auth0](https://auth0.com/blog/how-to-make-secure-http-requests-with-vue-and-express/)
-* [guide to Auth0 in Vue3](https://developer.auth0.com/resources/code-samples/full-stack/hello-world/basic-access-control/spa/vue-javascript-with-composition-api/express-typescript)
 * [TheMovieDB API documentation](https://developers.themoviedb.org/3/getting-started/introduction)
 
 
@@ -66,8 +74,8 @@ npm run lint
 
 ## Dev To-do
 * reassess how we show items in "collection" -- make a more generic concept like "filteredItems" that could be either collection or list contents that is further filtered down?
-	- consider merging ListView and CollectionView
-	- once that's fixed, random should pull from whatever is currently being viewed
+	* consider merging ListView and CollectionView
+	* once that's fixed, random should pull from whatever is currently being viewed
 * implement "add list" - what is UX for adding/editing a list?
 * embed search results in the nav drawer, not a popup
 * handle what happens when you search and try to add something that's already in your collection -- show toast?
@@ -88,9 +96,9 @@ npm run lint
 	* tv has way more props in movieDb response
 * option to set your streaming services and highlight titles that are on them
 * other api integration options:
-	- add [uNoGS](https://rapidapi.com/unogs/api/unogs) to query whether or not a movie is available on netflix
-    - or try [Watch Here](https://rapidapi.com/devroldy/api/watch-here/details) -- get all the streaming things at once! -- would have to pay for this one
-	- add [bechdel test api integration](https://bechdeltest.com/api/v1/doc)
+	* add [uNoGS](https://rapidapi.com/unogs/api/unogs) to query whether or not a movie is available on netflix
+	* or try [Watch Here](https://rapidapi.com/devroldy/api/watch-here/details) -- get all the streaming things at once! -- would have to pay for this one
+	* add [bechdel test api integration](https://bechdeltest.com/api/v1/doc)
 * wow yr build takes one million years... see if you can delete some unused packages or something
 * look for cool stuff to do with [this](https://next.vuetifyjs.com/en/components/overlays/#advanced)
 * maybe look into [this](https://www.flaticon.com/animated-icons-most-downloaded) to spice things up
@@ -139,9 +147,9 @@ npm run lint
 * implement or remove poster preview
 * add user-defined lists
 * replace v-menus with temporary navigation drawers
-	- should filter/sort open on right side?
-	- dynamic button text for filters doesn't work
-	- temporary doesn't work for the nav-drawer, or only works once?
+	* should filter/sort open on right side?
+	* dynamic button text for filters doesn't work
+	* temporary doesn't work for the nav-drawer, or only works once?
 * sticky filter bar
 
 

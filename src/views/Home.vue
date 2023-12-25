@@ -45,7 +45,7 @@ const homeItems = [
 	},
 	{
 		title: 'How is UpNext?',
-		text: ['UpNext is a personal portfolio project, not a Real Thing, but feel free to check it out! More features will be coming soon.', 'Read more about UpNext below.'],
+		text: ['UpNext is a personal portfolio project, not a Real Thing, but feel free to check it out! More features will be coming soon.', 'Click to read more about UpNext.'],
 		icon: 'mdi-help-circle',
 		color: 'secondary',
 		route: '/about'
